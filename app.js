@@ -2,9 +2,9 @@ const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 let channels=[],hls=null,watchId=null,currentSpeed=0,speedLimit=null,onlineSpeedLimitEnabled=false,lastRoadPoint=null,lastSpeedLimitFetch=0,lastAlertAt=0,audioCtx=null;
 const OVERSPEED_MARGIN=3;
 const STARTER_VIDEOS=[
+ {id:'aiI8Z4HHHt0',title:'VTV24 · Tin tức',channel:'VTV24',thumbnail:'https://i.ytimg.com/vi/aiI8Z4HHHt0/mqdefault.jpg',category:'Tin tức'},
  {id:'_ybtyOVLcnU',title:'VTV Thể Thao · Video nổi bật',channel:'VTV Thể Thao',thumbnail:'https://i.ytimg.com/vi/_ybtyOVLcnU/mqdefault.jpg',category:'Thể thao'},
  {id:'VQQRckXRlzw',title:'VTV Thể Thao · Tin thể thao',channel:'VTV Thể Thao',thumbnail:'https://i.ytimg.com/vi/VQQRckXRlzw/mqdefault.jpg',category:'Thể thao'},
- {id:'aiI8Z4HHHt0',title:'VTV24 · Tin tức',channel:'VTV24',thumbnail:'https://i.ytimg.com/vi/aiI8Z4HHHt0/mqdefault.jpg',category:'Tin tức'},
  {id:'lC1gu4-wFV4',title:'Mầm Chồi Lá · Nhạc thiếu nhi',channel:'POPS Kids',thumbnail:'https://i.ytimg.com/vi/lC1gu4-wFV4/mqdefault.jpg',category:'Thiếu nhi'},
  {id:'Y98l-jj1DKM',title:'Liên khúc thiếu nhi sôi động',channel:'POPS Kids Music',thumbnail:'https://i.ytimg.com/vi/Y98l-jj1DKM/mqdefault.jpg',category:'Thiếu nhi'}
 ];
@@ -54,7 +54,7 @@ $('[data-yt-section]').forEach(b=>b.onclick=()=>{
 
 async function searchYouTube(q){
  const ep=window.APTV_CONFIG?.youtubeSearchApiUrl;$('#searchStatus').classList.remove('hidden');$('#searchStatus').textContent='Đang tìm “'+q+'”...';
- if(!ep){$('#searchStatus').innerHTML='Chưa bật tìm kiếm toàn YouTube. <a class="inline-yt" href="https://www.youtube.com/results?search_query='+encodeURIComponent(q)+'" target="_blank" rel="noopener">Mở tìm kiếm trên YouTube ↗</a>';const matched=STARTER_VIDEOS.filter(v=>q.includes('Thiếu nhi')?v.category==='Thiếu nhi':q.includes('Tin tức')?v.category==='Tin tức':q.includes('Thể thao')?v.category==='Thể thao':true);renderVideos(matched.length?matched:STARTER_VIDEOS);return}
+ if(!ep){$('#searchStatus').innerHTML='Chưa bật tìm kiếm toàn YouTube. <a class="inline-yt" href="https://www.youtube.com/results?search_query='+encodeURIComponent(q)+'" target="_blank" rel="noopener">Mở tìm kiếm trên YouTube ↗</a>';const cat=q.includes('Thiếu nhi')?'Thiếu nhi':q.includes('Tin tức')?'Tin tức':q.includes('Thể thao')?'Thể thao':q.includes('Nhạc')?'Nhạc':q.includes('Du lịch')?'Du lịch':null;const matched=cat?STARTER_VIDEOS.filter(v=>v.category===cat):STARTER_VIDEOS;renderVideos(matched.length?matched:STARTER_VIDEOS);return}
  try{const u=new URL(ep);u.searchParams.set('q',q);const r=await fetch(u,{cache:'no-store'}),d=await r.json();if(!r.ok)throw 0;renderVideos(d.items||[]);$('#searchStatus').textContent=(d.items||[]).length+' kết quả cho “'+q+'”'}catch(e){$('#searchStatus').textContent='Không lấy được kết quả YouTube.'}
 }
 function renderVideos(items){const root=$('#ytResults');root.classList.remove('hidden');root.innerHTML='';items.forEach(v=>{const b=document.createElement('button');b.className='video-card focusable';b.innerHTML='<img src="'+esc(v.thumbnail||('https://i.ytimg.com/vi/'+v.id+'/mqdefault.jpg'))+'"><b>'+esc(v.title||'Video')+'</b><small>'+esc(v.channel||'YouTube')+'</small>';b.onclick=()=>playYouTube(v);root.appendChild(b)})}
