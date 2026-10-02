@@ -1,34 +1,22 @@
-<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080d15"><title>APTV Car Dashboard</title><link rel="stylesheet" href="styles.css"></head>
-<body><div class="car-shell">
-<header class="car-top"><div class="logo">A</div><div><small>APTV CAR</small><h1 id="pageTitle">Giải trí</h1></div><div class="top-spacer"></div><button class="top-btn focusable" id="gpsQuick">GPS</button><button class="top-btn focusable" id="fitButton">Fit 100%</button></header>
-<div class="car-layout">
-<aside class="rail">
-<button class="rail-btn focusable active" data-page="dashboard">▦<span>Dashboard</span></button>
-<button class="rail-btn focusable" data-page="cartube">⌂<span>Trang chủ</span></button>
-<button class="rail-btn focusable" data-query="Nhạc Việt Nam mới">♫<span>Nhạc</span></button>
-<button class="rail-btn focusable" data-query="Tin tức Việt Nam mới nhất">◉<span>Tin tức</span></button>
-<button class="rail-btn focusable" data-query="Thể thao Việt Nam hôm nay">⚽<span>Thể thao</span></button>
-<button class="rail-btn focusable" data-query="Thiếu nhi tiếng Việt">★<span>Thiếu nhi</span></button>
-<button class="rail-btn focusable" data-query="Du lịch Việt Nam">⌖<span>Du lịch</span></button>
-<button class="rail-btn focusable" data-page="history">↶<span>Đã xem</span></button>
-</aside>
-<main class="content">
-<section id="dashboardPage" class="page">
-<div class="hero-grid">
-<button class="hero-card youtube focusable" data-page="cartube"><span class="card-kicker">VIDEO · TÌM KIẾM · GIẢI TRÍ</span><div class="hero-icon">▶</div><strong>CarTube</strong><i>→</i></button>
-<button class="hero-card tv focusable" data-page="tv"><span class="card-kicker">TRUYỀN HÌNH</span><div class="hero-icon">▣</div><strong>TV / IPTV</strong><i>→</i></button>
-<button class="hero-card map focusable" data-page="gps"><span class="card-kicker">BẢN ĐỒ · GPS · TỐC ĐỘ</span><div class="hero-icon">⌖</div><strong>GPS Drive</strong><i>→</i></button>
-<a class="hero-card app focusable" href="https://www.google.com/maps" target="_blank" rel="noopener"><span class="card-kicker">ỨNG DỤNG</span><div class="hero-icon">◈</div><strong>Google Maps</strong><i>↗</i></a>
-</div></section>
-<section id="cartubePage" class="page hidden">
-<div class="searchbar"><span>▶</span><input id="ytSearch" class="focusable" placeholder="Tìm YouTube hoặc dán liên kết"><button id="ytSearchBtn" class="focusable">Tìm</button></div>
-<div id="searchStatus" class="status-card">Tìm video bằng thanh tìm kiếm hoặc chọn danh mục bên trái.</div>
-<div id="ytResults" class="video-grid"></div>
-<div id="manualYoutube" class="manual-box"><h2>YouTube vừa màn hình xe</h2><p>Khi chưa cấu hình YouTube API, anh vẫn có thể dán link video để phát ngay.</p><button id="pastePlay" class="focusable">Dán link / ID video</button></div>
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#071126"><title>APTV Car</title><link rel="stylesheet" href="styles.css"></head><body>
+<div class="shell">
+<header class="top"><div class="brand">APTV <b>CAR</b></div><div class="top-center">✦ APTV DRIVE</div><nav><button class="nav focusable active" data-mode="youtube">▶ YouTube</button><button class="nav focusable" data-mode="tv">▣ TV</button><button class="nav focusable" data-mode="apps">◈ Apps</button></nav></header>
+<main class="workspace">
+<section class="left">
+<div id="youtubeMode">
+<div class="section-head"><b>▶ YouTube</b><button class="small focusable" id="videoFullscreen">Toàn màn hình</button></div>
+<div class="search"><input id="ytSearch" class="focusable" placeholder="Tìm bài hát, video, kênh..."><button id="ytSearchBtn" class="focusable">Tìm</button></div>
+<div class="chips"><button class="chip focusable" data-query="Nhạc Việt Nam mới">Âm nhạc</button><button class="chip focusable" data-query="Nhạc thư giãn">Thư giãn</button><button class="chip focusable" data-query="Video khám phá Việt Nam">Khám phá</button><button class="chip focusable" id="recentBtn">Gần đây</button></div>
+<div id="searchStatus" class="status">Chọn danh mục hoặc tìm video.</div><div id="ytResults" class="results"></div>
+<div id="playerWrap" class="player hidden"><iframe id="youtubeFrame" title="YouTube" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe><button id="closePlayer" class="close-player focusable">← Kết quả</button></div>
+</div>
+<div id="tvMode" class="hidden"><div class="section-head"><b>▣ TV / IPTV</b></div><div id="channelList" class="channels"></div><video id="tvPlayer" controls playsinline></video></div>
+<div id="appsMode" class="hidden"><div class="section-head"><b>◈ Apps</b></div><div class="apps"><a class="app focusable" href="https://www.google.com/maps" target="_blank">⌖<b>Google Maps</b></a><a class="app focusable" href="https://www.youtube.com" target="_blank">▶<b>YouTube gốc</b></a><button class="app focusable" id="gpsApp">◎<b>GPS Drive</b></button></div></div>
 </section>
-<section id="playerPage" class="page hidden"><div class="player-head"><button id="backToResults" class="top-btn focusable">← Danh sách</button><b id="nowPlaying">Đang phát</b></div><div class="video-stage"><iframe id="youtubeFrame" title="YouTube" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></section>
-<section id="tvPage" class="page hidden"><h2>TV / IPTV</h2><div id="channelList" class="channel-list"></div><div class="tv-player-wrap"><video id="tvPlayer" controls playsinline></video><div id="tvMessage" class="player-message hidden"></div></div></section>
-<section id="gpsPage" class="page hidden"><div class="gps-grid"><div class="gps-card"><div class="speed-ring" id="speedRing"><div id="speedValue" class="speed-value">0</div><div>km/h</div></div><button id="gpsButton" class="wide-btn focusable">Bật GPS</button></div><div class="gps-card"><div class="limit-sign" id="limitSign"><span id="speedLimitValue">--</span></div><h2 id="speedLimitText">Chưa có giới hạn</h2><p id="speedLimitSource">Chưa kết nối nguồn bản đồ</p><div id="overspeedBanner" class="overspeed-banner hidden">⚠ VƯỢT TỐC <b id="overspeedAmount">0</b> km/h</div><button id="speedLimitOnlineButton" class="wide-btn focusable">Bật giới hạn tốc độ trực tuyến</button><div class="gps-meta"><span>GPS: <b id="gpsText">Chưa bật</b></span><span>Độ chính xác: <b id="accuracyText">--</b></span><span id="limitStateText">Chưa xác định</span></div></div></div></section>
-<section id="historyPage" class="page hidden"><h2>Video đã xem</h2><div id="historyResults" class="video-grid"></div><div id="emptyHistory" class="status-card">Chưa có video nào trong lịch sử.</div></section>
-</main></div></div>
-<script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script><script src="app.js"></script></body></html>
+<aside class="right">
+<section class="widget playlist"><div class="widget-head"><b>Playlist YouTube</b><button class="tiny focusable" id="clearHistory">Xóa</button></div><div id="playlist"></div></section>
+<section class="widget weather"><div><small>THỜI TIẾT</small><strong id="clock">--:--</strong></div><div class="weather-row"><span id="weatherIcon">☀️</span><b id="temperature">--°C</b><em id="weatherText">Bật GPS để cập nhật</em></div></section>
+<section class="widget drive"><div class="widget-head"><b>CHUYẾN ĐI · GPS</b><span id="gpsState">●</span></div><div class="drive-row"><div class="speed-ring" id="speedRing"><strong id="speedValue">0</strong><small>km/h</small></div><div class="limit-wrap"><div class="limit-sign" id="limitSign"><span id="speedLimitValue">--</span></div><small>GIỚI HẠN</small></div></div><div id="overspeedBanner" class="overspeed hidden">⚠ VƯỢT <b id="overspeedAmount">0</b> km/h</div><div class="gps-info"><span id="gpsText">GPS chưa bật</span><span id="accuracyText">--</span><span id="speedLimitSource">Chưa có dữ liệu đường</span><span id="limitStateText"></span></div><div class="drive-actions"><button id="gpsButton" class="small focusable">Bật GPS</button><button id="speedLimitOnlineButton" class="small focusable">Giới hạn online</button></div></section>
+</aside></main>
+<footer><button id="swapBtn" class="foot focusable">⇄ Đổi bên</button><button id="utilityBtn" class="foot focusable">▦ Tiện ích</button><button id="fitButton" class="foot focusable">⛶ Fit 100%</button></footer>
+</div><script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script><script src="app.js"></script></body></html>
