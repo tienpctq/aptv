@@ -2,11 +2,13 @@ const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 let channels=[],hls=null,watchId=null,currentSpeed=0,speedLimit=null,onlineSpeedLimitEnabled=false,lastRoadPoint=null,lastSpeedLimitFetch=0,lastAlertAt=0,audioCtx=null;
 const OVERSPEED_MARGIN=3;
 const STARTER_VIDEOS=[
- {id:'aiI8Z4HHHt0',title:'VTV24 · Tin tức',channel:'VTV24',thumbnail:'https://i.ytimg.com/vi/aiI8Z4HHHt0/mqdefault.jpg',category:'Tin tức'},
- {id:'_ybtyOVLcnU',title:'VTV Thể Thao · Video nổi bật',channel:'VTV Thể Thao',thumbnail:'https://i.ytimg.com/vi/_ybtyOVLcnU/mqdefault.jpg',category:'Thể thao'},
- {id:'VQQRckXRlzw',title:'VTV Thể Thao · Tin thể thao',channel:'VTV Thể Thao',thumbnail:'https://i.ytimg.com/vi/VQQRckXRlzw/mqdefault.jpg',category:'Thể thao'},
+ {id:'aiI8Z4HHHt0',title:'Tin tức VTV24',channel:'VTV24',thumbnail:'https://i.ytimg.com/vi/aiI8Z4HHHt0/mqdefault.jpg',category:'Tin tức'},
+ {id:'_ybtyOVLcnU',title:'Video thể thao nổi bật',channel:'VTV Thể Thao',thumbnail:'https://i.ytimg.com/vi/_ybtyOVLcnU/mqdefault.jpg',category:'Thể thao'},
+ {id:'VQQRckXRlzw',title:'Tin thể thao',channel:'VTV Thể Thao',thumbnail:'https://i.ytimg.com/vi/VQQRckXRlzw/mqdefault.jpg',category:'Thể thao'},
  {id:'lC1gu4-wFV4',title:'Mầm Chồi Lá · Nhạc thiếu nhi',channel:'POPS Kids',thumbnail:'https://i.ytimg.com/vi/lC1gu4-wFV4/mqdefault.jpg',category:'Thiếu nhi'},
- {id:'Y98l-jj1DKM',title:'Liên khúc thiếu nhi sôi động',channel:'POPS Kids Music',thumbnail:'https://i.ytimg.com/vi/Y98l-jj1DKM/mqdefault.jpg',category:'Thiếu nhi'}
+ {id:'Y98l-jj1DKM',title:'Liên khúc thiếu nhi sôi động',channel:'POPS Kids Music',thumbnail:'https://i.ytimg.com/vi/Y98l-jj1DKM/mqdefault.jpg',category:'Thiếu nhi'},
+ {id:'qEyuddM9K_Y',title:'Chương trình Quốc tế Thiếu nhi',channel:'POPS Kids',thumbnail:'https://i.ytimg.com/vi/qEyuddM9K_Y/mqdefault.jpg',category:'Thiếu nhi'},
+ {id:'ukbdRN999y4',title:'Chương trình thiếu nhi tại nhà',channel:'POPS Kids',thumbnail:'https://i.ytimg.com/vi/ukbdRN999y4/mqdefault.jpg',category:'Thiếu nhi'}
 ];
 
 
