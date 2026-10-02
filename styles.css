@@ -139,3 +139,17 @@ body{background:radial-gradient(circle at 50% -20%,#17263a 0,#07111f 44%,#030914
 @media(min-width:900px) and (max-width:1199px){.results{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
 @media(max-width:899px){:root{--rail:88px}.service-stack{grid-template-columns:1fr!important}.service-card{min-height:360px!important}.results{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
 @media(max-width:620px){.drive-home{grid-template-columns:72px 1fr}.home-main{padding:10px}.home-head{grid-template-columns:1fr auto}.home-head>.home-square:first-child,.home-title small{display:none}.service-card{min-height:300px!important}.car-youtube-layout{grid-template-columns:1fr!important}.car-side{overflow-x:auto;border-right:0}.yt-sections{display:flex!important}.yt-section{min-width:74px!important}.results{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+
+/* === Separate YouTube Split View / CarTube Full === */
+.cartube-full #cockpitApp .workspace{grid-template-columns:minmax(0,1fr)!important}
+.cartube-full #cockpitApp .right{display:none!important}
+.cartube-full .car-youtube-layout{grid-template-columns:82px minmax(0,1fr)!important}
+.cartube-full .results{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))!important}
+.cartube-full .cartube-full-footer{justify-content:flex-end}
+.youtube-split .car-youtube-layout{grid-template-columns:minmax(0,1fr)!important}
+.youtube-split .car-main{width:100%}
+.youtube-split #cockpitApp .workspace{grid-template-columns:minmax(0,3fr) minmax(280px,1fr)!important}
+.youtube-split #cockpitApp .right{display:grid!important}
+.youtube-split .results{grid-template-columns:repeat(3,minmax(0,1fr))!important;max-height:42vh;overflow:auto}
+.youtube-split .media-grid{display:none!important}
+@media(max-width:900px){.youtube-split #cockpitApp .workspace{grid-template-columns:minmax(0,1fr) minmax(240px,.42fr)!important}.youtube-split .results{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
