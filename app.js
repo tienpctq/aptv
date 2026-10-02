@@ -1,272 +1,54 @@
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-let channels=[],hls=null,watchId=null;
-let currentSpeed=0,speedLimit=null,speedLimitSource='Chưa kết nối nguồn bản đồ';
-let onlineSpeedLimitEnabled=false,lastRoadPoint=null,lastSpeedLimitFetch=0;
-const OVERSPEED_MARGIN=3;
-let lastAlertAt=0,audioCtx=null;
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+let channels=[],hls=null,watchId=null,currentSpeed=0,speedLimit=null,onlineSpeedLimitEnabled=false,lastRoadPoint=null,lastSpeedLimitFetch=0,lastAlertAt=0,audioCtx=null;
+const OVERSPEED_MARGIN=3, pages=['dashboard','cartube','player','tv','gps','history'];
 
-function applyAdaptiveLayout(){
-  const w=window.innerWidth, h=window.innerHeight, ratio=w/Math.max(h,1);
-  document.body.classList.remove('layout-low','layout-ultrawide','layout-portrait','layout-small');
-  if(h<=720) document.body.classList.add('layout-low');
-  if(ratio>=2.15) document.body.classList.add('layout-ultrawide');
-  if(h>w) document.body.classList.add('layout-portrait');
-  if(w<=760 || h<=520) document.body.classList.add('layout-small');
+function showPage(name){
+ pages.forEach(p=>$('#'+p+'Page')?.classList.toggle('hidden',p!==name));
+ $$('.rail-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===name));
+ $('#pageTitle').textContent=({dashboard:'Giải trí',cartube:'CarTube',player:'Đang phát',tv:'TV / IPTV',gps:'GPS Drive',history:'Đã xem'})[name]||'APTV Car';
+ setTimeout(()=>document.querySelector('#'+name+'Page .focusable')?.focus(),20);
 }
-applyAdaptiveLayout();
-window.addEventListener('resize',applyAdaptiveLayout);
-window.addEventListener('orientationchange',()=>setTimeout(applyAdaptiveLayout,150));
+$$('[data-page]').forEach(b=>b.onclick=()=>showPage(b.dataset.page));
+$$('[data-query]').forEach(b=>b.onclick=()=>{showPage('cartube');$('#ytSearch').value=b.dataset.query;searchYouTube(b.dataset.query);});
+$('#fitButton').onclick=()=>document.fullscreenElement?document.exitFullscreen?.():document.documentElement.requestFullscreen?.();
+$('#gpsQuick').onclick=()=>showPage('gps');
 
-
-function setRoadSpeedLimit(limit,source='Nguồn bản đồ'){
-  const n=Number(limit);
-  speedLimit=Number.isFinite(n)&&n>0?n:null;
-  speedLimitSource=source||'Nguồn bản đồ';
-  $('#speedLimitValue').textContent=speedLimit??'--';
-  $('#speedLimitText').textContent=speedLimit?speedLimit+' km/h':'Chưa có dữ liệu';
-  $('#speedLimitSource').textContent=speedLimitSource;
-  $('#limitStateText').textContent=speedLimit?speedLimit+' km/h':'Chưa xác định';
-  updateOverspeedState();
+function parseYouTubeId(v=''){const m=v.match(/(?:v=|youtu\.be\/|shorts\/|embed\/)([A-Za-z0-9_-]{6,})/);if(m)return m[1];return /^[A-Za-z0-9_-]{6,}$/.test(v.trim())?v.trim():null}
+function playYouTube(id,title='YouTube'){
+ if(!id)return; $('#youtubeFrame').src='https://www.youtube.com/embed/'+id+'?rel=0&autoplay=1';$('#nowPlaying').textContent=title;saveHistory({id,title,channel:'YouTube'});showPage('player');
 }
-window.updateRoadSpeedLimit=setRoadSpeedLimit;
+$('#backToResults').onclick=()=>showPage('cartube');
+$('#pastePlay').onclick=()=>{const q=prompt('Dán link YouTube hoặc ID video:');if(!q)return;const id=parseYouTubeId(q);if(id)playYouTube(id);else alert('Link/ID không hợp lệ.');};
+$('#ytSearchBtn').onclick=()=>handleSearch();
+$('#ytSearch').addEventListener('keydown',e=>{if(e.key==='Enter')handleSearch()});
+function handleSearch(){const q=$('#ytSearch').value.trim();if(!q)return;const id=parseYouTubeId(q);if(id)return playYouTube(id);searchYouTube(q)}
 
-function updateOverspeedState(){
-  const ring=$('#speedRing'),banner=$('#overspeedBanner');
-  ring.classList.remove('speed-near','speed-over');
-  banner.classList.add('hidden');
-  if(!speedLimit)return;
-  const diff=currentSpeed-speedLimit;
-  if(diff>OVERSPEED_MARGIN){
-    ring.classList.add('speed-over');
-    $('#overspeedAmount').textContent=Math.max(1,Math.round(diff));
-    banner.classList.remove('hidden');
-    playOverspeedAlert();
-  }else if(currentSpeed>=speedLimit-5){
-    ring.classList.add('speed-near');
-  }
+async function searchYouTube(q){
+ const endpoint=window.APTV_CONFIG?.youtubeSearchApiUrl;
+ $('#searchStatus').textContent='Đang tìm “'+q+'”...';$('#manualYoutube').classList.add('hidden');
+ if(!endpoint){$('#searchStatus').textContent='Chưa cấu hình YouTube Search API. Anh vẫn có thể dán link video để phát.';$('#manualYoutube').classList.remove('hidden');return}
+ try{const u=new URL(endpoint);u.searchParams.set('q',q);const r=await fetch(u,{cache:'no-store'}),d=await r.json();if(!r.ok)throw 0;renderVideos(d.items||[]);$('#searchStatus').textContent=(d.items||[]).length+' kết quả cho “'+q+'”';}
+ catch(e){$('#searchStatus').textContent='Không lấy được kết quả YouTube.';$('#manualYoutube').classList.remove('hidden')}
 }
-
-function unlockAudio(){
-  try{
-    audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
-    if(audioCtx.state==='suspended')audioCtx.resume();
-  }catch(e){}
+function renderVideos(items,root=$('#ytResults')){
+ root.innerHTML='';items.forEach(v=>{const b=document.createElement('button');b.className='video-card focusable';b.innerHTML='<img src="'+escapeHtml(v.thumbnail||'')+'" alt=""><b>'+escapeHtml(v.title||'Video')+'</b><small>'+escapeHtml(v.channel||'')+'</small>';b.onclick=()=>playYouTube(v.id,v.title);root.appendChild(b)});
 }
+function saveHistory(v){let h=JSON.parse(localStorage.getItem('aptvHistory')||'[]');h=[v,...h.filter(x=>x.id!==v.id)].slice(0,30);localStorage.setItem('aptvHistory',JSON.stringify(h));renderHistory()}
+function renderHistory(){const h=JSON.parse(localStorage.getItem('aptvHistory')||'[]');$('#emptyHistory').classList.toggle('hidden',h.length>0);renderVideos(h,$('#historyResults'))}
+function escapeHtml(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 
-function playOverspeedAlert(){
-  const now=Date.now();
-  if(now-lastAlertAt<5000)return;
-  lastAlertAt=now;
-  try{
-    unlockAudio();
-    if(!audioCtx)return;
-    const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();
-    osc.type='sine';osc.frequency.value=880;
-    gain.gain.setValueAtTime(0.0001,audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.18,audioCtx.currentTime+0.03);
-    gain.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+0.45);
-    osc.connect(gain);gain.connect(audioCtx.destination);
-    osc.start();osc.stop(audioCtx.currentTime+0.5);
-  }catch(e){}
-}
+async function loadChannels(){try{channels=await (await fetch('channels.json?ts='+Date.now(),{cache:'no-store'})).json()}catch(e){channels=[]}const root=$('#channelList');root.innerHTML='';channels.forEach(ch=>{const b=document.createElement('button');b.className='channel-btn focusable';b.innerHTML='<b>'+escapeHtml(ch.name)+'</b><span>'+escapeHtml(ch.group||'Kênh')+'</span>';b.onclick=()=>playChannel(ch);root.appendChild(b)})}
+function playChannel(ch){const v=$('#tvPlayer');if(hls){hls.destroy();hls=null}if(v.canPlayType('application/vnd.apple.mpegurl')){v.src=ch.url;v.play().catch(()=>{})}else if(window.Hls&&Hls.isSupported()){hls=new Hls();hls.loadSource(ch.url);hls.attachMedia(v);hls.on(Hls.Events.MANIFEST_PARSED,()=>v.play().catch(()=>{}))}}
 
-function updateClock(){
-  $('#clock').textContent=new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'});
-}
-updateClock();setInterval(updateClock,30000);
+function setRoadSpeedLimit(limit,source='Nguồn bản đồ'){const n=Number(limit);speedLimit=Number.isFinite(n)&&n>0?n:null;$('#speedLimitValue').textContent=speedLimit??'--';$('#speedLimitText').textContent=speedLimit?speedLimit+' km/h':'Chưa có giới hạn';$('#speedLimitSource').textContent=source;$('#limitStateText').textContent=speedLimit?'Giới hạn '+speedLimit+' km/h':'Chưa xác định';updateOverspeed()}
+function updateOverspeed(){const r=$('#speedRing'),b=$('#overspeedBanner');r.classList.remove('speed-near','speed-over');b.classList.add('hidden');if(!speedLimit)return;const d=currentSpeed-speedLimit;if(d>OVERSPEED_MARGIN){r.classList.add('speed-over');$('#overspeedAmount').textContent=Math.round(d);b.classList.remove('hidden');alertTone()}else if(currentSpeed>=speedLimit-5)r.classList.add('speed-near')}
+function alertTone(){if(Date.now()-lastAlertAt<5000)return;lastAlertAt=Date.now();try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.frequency.value=880;g.gain.value=.12;o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+.35)}catch(e){}}
+function distanceMeters(a,b,c,d){const R=6371000,t=x=>x*Math.PI/180,x=t(c-a),y=t(d-b),z=Math.sin(x/2)**2+Math.cos(t(a))*Math.cos(t(c))*Math.sin(y/2)**2;return 2*R*Math.atan2(Math.sqrt(z),Math.sqrt(1-z))}
+async function fetchRoadSpeedLimit(lat,lon){if(!onlineSpeedLimitEnabled)return;const ep=window.APTV_CONFIG?.speedLimitApiUrl;if(!ep){$('#speedLimitSource').textContent='Chưa cấu hình API HERE';return}const now=Date.now(),p={lat,lon};if(!lastRoadPoint){lastRoadPoint=p;return}if(now-lastSpeedLimitFetch<8000||distanceMeters(lastRoadPoint.lat,lastRoadPoint.lon,lat,lon)<15)return;lastSpeedLimitFetch=now;try{const u=new URL(ep);u.searchParams.set('lat',lat);u.searchParams.set('lon',lon);u.searchParams.set('prevLat',lastRoadPoint.lat);u.searchParams.set('prevLon',lastRoadPoint.lon);const r=await fetch(u),d=await r.json();setRoadSpeedLimit(d.speedLimit,d.speedLimit?'HERE':'HERE · chưa xác định')}catch(e){$('#speedLimitSource').textContent='Lỗi API HERE'}finally{lastRoadPoint=p}}
+function startGPS(){if(!navigator.geolocation){$('#gpsText').textContent='Không hỗ trợ';return}$('#gpsText').textContent='Đang xác định...';watchId=navigator.geolocation.watchPosition(p=>{const {latitude,longitude,accuracy,speed}=p.coords;currentSpeed=Math.max(0,Math.round((speed||0)*3.6));$('#speedValue').textContent=currentSpeed;$('#gpsText').textContent='Đã bật';$('#accuracyText').textContent=Math.round(accuracy||0)+' m';updateOverspeed();fetchRoadSpeedLimit(latitude,longitude)},()=>$('#gpsText').textContent='Không có tín hiệu',{enableHighAccuracy:true,maximumAge:3000,timeout:10000})}
+$('#gpsButton').onclick=()=>{if(watchId!==null){navigator.geolocation.clearWatch(watchId);watchId=null;currentSpeed=0;$('#speedValue').textContent='0';$('#gpsText').textContent='Đã tắt';$('#gpsButton').textContent='Bật GPS'}else{startGPS();$('#gpsButton').textContent='Tắt GPS'}};
+$('#speedLimitOnlineButton').onclick=()=>{onlineSpeedLimitEnabled=!onlineSpeedLimitEnabled;$('#speedLimitOnlineButton').textContent=onlineSpeedLimitEnabled?'Tắt giới hạn tốc độ trực tuyến':'Bật giới hạn tốc độ trực tuyến';if(!onlineSpeedLimitEnabled){lastRoadPoint=null;setRoadSpeedLimit(null,'Đã tắt dữ liệu trực tuyến')}};
+$('#limitSign').onclick=()=>{const x=prompt('Nhập giới hạn tốc độ thử nghiệm:');if(x!==null)setRoadSpeedLimit(x,'Thử nghiệm thủ công')};
 
-function showView(name){
-  $$('.tab').forEach(t=>t.classList.toggle('active',t.dataset.view===name));
-  ['youtube','tv','apps'].forEach(v=>$('#'+v+'View').classList.toggle('hidden',v!==name));
-  $('#viewTitle').textContent=name==='youtube'?'YouTube':name==='tv'?'Truyền hình':'Ứng dụng';
-  setTimeout(()=>document.querySelector('#'+name+'View .focusable')?.focus(),20);
-}
-$$('.tab').forEach(t=>t.onclick=()=>showView(t.dataset.view));
-
-async function loadChannels(){
-  try{
-    const r=await fetch('channels.json?ts='+Date.now(),{cache:'no-store'});
-    channels=await r.json();
-  }catch(e){channels=[]}
-  const root=$('#channelList'); root.innerHTML='';
-  channels.forEach(ch=>{
-    const b=document.createElement('button');
-    b.className='channel-btn focusable';
-    b.innerHTML='<b>'+escapeHtml(ch.name)+'</b><span>'+escapeHtml(ch.group||'Kênh')+'</span>';
-    b.onclick=()=>playChannel(ch);
-    root.appendChild(b);
-  });
-}
-function escapeHtml(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
-
-function playChannel(ch){
-  const v=$('#tvPlayer'),msg=$('#tvMessage');msg.classList.add('hidden');
-  if(hls){hls.destroy();hls=null}
-  if(v.canPlayType('application/vnd.apple.mpegurl')){
-    v.src=ch.url;v.play().catch(()=>showTvMessage('Nhấn Play để bắt đầu.'));
-  }else if(window.Hls&&Hls.isSupported()){
-    hls=new Hls({enableWorker:true,lowLatencyMode:true});
-    hls.loadSource(ch.url);hls.attachMedia(v);
-    hls.on(Hls.Events.MANIFEST_PARSED,()=>v.play().catch(()=>showTvMessage('Nhấn Play để bắt đầu.')));
-    hls.on(Hls.Events.ERROR,(_,d)=>{if(d.fatal)showTvMessage('Không phát được luồng này.');});
-  }else showTvMessage('Trình duyệt không hỗ trợ HLS.');
-}
-function showTvMessage(t){const m=$('#tvMessage');m.textContent=t;m.classList.remove('hidden');}
-
-$('#openYoutube').onclick=()=>location.href='https://www.youtube.com/';
-$('#retryButton').onclick=()=>$('#youtubeFrame').src=$('#youtubeFrame').src;
-$('#playButton').onclick=()=>$('#youtubeFrame').focus();
-$('#changeVideo').onclick=()=>{
-  const q=prompt('Nhập link YouTube hoặc ID video:');
-  if(!q)return;
-  let id=q.trim();
-  const m=id.match(/(?:v=|youtu\.be\/|shorts\/|embed\/)([A-Za-z0-9_-]{6,})/);
-  if(m)id=m[1];
-  if(!/^[A-Za-z0-9_-]{6,}$/.test(id)){alert('Link/ID video không hợp lệ.');return;}
-  $('#youtubeFrame').src='https://www.youtube.com/embed/'+id+'?rel=0&autoplay=1';
-};
-$('#zoomVideo').onclick=()=>{
-  const el=$('.video-stage');
-  if(document.fullscreenElement) document.exitFullscreen?.();
-  else el.requestFullscreen?.();
-};
-$('#fitButton').onclick=()=>document.documentElement.requestFullscreen?.();
-$('#utilityButton').onclick=()=>showView('apps');
-$('#appsTvShortcut').onclick=()=>showView('tv');
-$('#appsHomeShortcut').onclick=()=>showView('youtube');
-
-
-async function fetchRoadSpeedLimit(lat,lon){
-  if(!onlineSpeedLimitEnabled)return;
-  const endpoint=window.APTV_CONFIG?.speedLimitApiUrl;
-  if(!endpoint){
-    $('#speedLimitSource').textContent='Chưa cấu hình API giới hạn tốc độ';
-    return;
-  }
-  const now=Date.now();
-  const current={lat,lon};
-  if(!lastRoadPoint){lastRoadPoint=current;return;}
-  if(now-lastSpeedLimitFetch<8000)return;
-
-  const moved=distanceMeters(lastRoadPoint.lat,lastRoadPoint.lon,lat,lon);
-  if(moved<15)return;
-
-  lastSpeedLimitFetch=now;
-  try{
-    const url=new URL(endpoint);
-    url.searchParams.set('lat',lat);
-    url.searchParams.set('lon',lon);
-    url.searchParams.set('prevLat',lastRoadPoint.lat);
-    url.searchParams.set('prevLon',lastRoadPoint.lon);
-    const resp=await fetch(url.toString(),{cache:'no-store'});
-    const data=await resp.json();
-    if(resp.ok && Number.isFinite(Number(data.speedLimit)) && Number(data.speedLimit)>0){
-      setRoadSpeedLimit(Number(data.speedLimit),'HERE · '+(data.source||'bản đồ'));
-    }else{
-      setRoadSpeedLimit(null,'HERE · chưa xác định giới hạn');
-    }
-  }catch(e){
-    $('#speedLimitSource').textContent='Không kết nối được API giới hạn tốc độ';
-  }finally{
-    lastRoadPoint=current;
-  }
-}
-
-function distanceMeters(lat1,lon1,lat2,lon2){
-  const R=6371000,toRad=x=>x*Math.PI/180;
-  const dLat=toRad(lat2-lat1),dLon=toRad(lon2-lon1);
-  const a=Math.sin(dLat/2)**2+Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
-  return 2*R*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-}
-
-function updateWeather(lat,lon){
-  const url='https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+'&current=temperature_2m,weather_code,wind_speed_10m&timezone=auto';
-  fetch(url).then(r=>r.json()).then(data=>{
-    const c=data.current||{};
-    $('#temperature').textContent=Math.round(c.temperature_2m??0)+'°C';
-    const w=weatherFromCode(c.weather_code);
-    $('#weatherIcon').textContent=w.icon;
-    $('#weatherText').textContent=w.text;
-    $('#weatherMeta').textContent='Gió '+Math.round(c.wind_speed_10m??0)+' km/h';
-  }).catch(()=>$('#weatherMeta').textContent='Không lấy được dữ liệu thời tiết.');
-}
-function weatherFromCode(code){
-  if(code===0)return{icon:'☀️',text:'Trời quang'};
-  if([1,2].includes(code))return{icon:'🌤️',text:'Ít mây'};
-  if(code===3)return{icon:'☁️',text:'Nhiều mây'};
-  if([45,48].includes(code))return{icon:'🌫️',text:'Sương mù'};
-  if([51,53,55,61,63,65,80,81,82].includes(code))return{icon:'🌧️',text:'Có mưa'};
-  if([71,73,75,77,85,86].includes(code))return{icon:'❄️',text:'Có tuyết'};
-  if([95,96,99].includes(code))return{icon:'⛈️',text:'Dông'};
-  return{icon:'🌡️',text:'Thời tiết'};
-}
-
-function startGPS(){
-  if(!navigator.geolocation){$('#gpsText').textContent='Không hỗ trợ';return;}
-  $('#gpsText').textContent='Đang xác định...';
-  watchId=navigator.geolocation.watchPosition(pos=>{
-    const {latitude,longitude,accuracy,speed}=pos.coords;
-    $('#gpsText').textContent='Đã bật';
-    $('#accuracyText').textContent=Math.round(accuracy||0)+' m';
-    currentSpeed=Math.max(0,Math.round((speed||0)*3.6));
-    $('#speedValue').textContent=currentSpeed;
-    updateOverspeedState();
-    $('#gpsState').style.color='#55ff88';
-    updateWeather(latitude,longitude);
-    fetchRoadSpeedLimit(latitude,longitude);
-  },err=>{
-    $('#gpsText').textContent=err.code===1?'Bị từ chối':'Không có tín hiệu';
-    $('#gpsState').style.color='#ff5577';
-  },{enableHighAccuracy:true,maximumAge:3000,timeout:10000});
-}
-
-$('#limitSign').onclick=()=>{
-  const raw=prompt('Nhập giới hạn tốc độ để thử cảnh báo (km/h). Để trống để xóa:');
-  if(raw===null)return;
-  if(raw.trim()===''){setRoadSpeedLimit(null,'Chưa kết nối nguồn bản đồ');return;}
-  const n=Number(raw);
-  if(Number.isFinite(n)&&n>0)setRoadSpeedLimit(n,'Giới hạn thử nghiệm thủ công');
-};
-
-
-$('#speedLimitOnlineButton').onclick=()=>{
-  onlineSpeedLimitEnabled=!onlineSpeedLimitEnabled;
-  $('#speedLimitOnlineButton').textContent=onlineSpeedLimitEnabled?'Tắt giới hạn tốc độ trực tuyến':'Bật giới hạn tốc độ trực tuyến';
-  $('#speedLimitSource').textContent=onlineSpeedLimitEnabled?'Đang chờ dữ liệu GPS...':'Đã tắt dữ liệu giới hạn trực tuyến';
-  if(!onlineSpeedLimitEnabled){
-    lastRoadPoint=null;
-    setRoadSpeedLimit(null,'Đã tắt dữ liệu giới hạn trực tuyến');
-  }
-};
-
-$('#gpsButton').onclick=()=>{
-  if(watchId!==null){
-    navigator.geolocation.clearWatch(watchId);watchId=null;
-    $('#gpsText').textContent='Đã tắt';$('#speedValue').textContent='0';$('#gpsButton').textContent='Bật GPS';
-  }else{
-    unlockAudio();startGPS();$('#gpsButton').textContent='Tắt GPS';
-  }
-};
-
-document.addEventListener('keydown',e=>{
-  if(!['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key))return;
-  const cur=document.activeElement;if(!cur?.classList.contains('focusable'))return;
-  e.preventDefault();
-  const all=$$('.focusable').filter(x=>x.offsetParent!==null);
-  const r=cur.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
-  let best=null,score=Infinity;
-  for(const el of all){
-    if(el===cur)continue;
-    const q=el.getBoundingClientRect(),x=q.left+q.width/2,y=q.top+q.height/2,dx=x-cx,dy=y-cy;
-    const ok=(e.key==='ArrowRight'&&dx>8)||(e.key==='ArrowLeft'&&dx<-8)||(e.key==='ArrowDown'&&dy>8)||(e.key==='ArrowUp'&&dy<-8);
-    if(!ok)continue;
-    const primary=(e.key==='ArrowLeft'||e.key==='ArrowRight')?Math.abs(dx):Math.abs(dy);
-    const secondary=(e.key==='ArrowLeft'||e.key==='ArrowRight')?Math.abs(dy):Math.abs(dx);
-    const s=primary+secondary*2.2;
-    if(s<score){score=s;best=el}
-  }
-  best?.focus();
-});
-
-loadChannels();
-setTimeout(()=>$('.focusable')?.focus(),50);
+document.addEventListener('keydown',e=>{if(!['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key))return;const cur=document.activeElement;if(!cur?.classList.contains('focusable'))return;e.preventDefault();const all=$$('.focusable').filter(x=>x.offsetParent!==null),r=cur.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;let best=null,score=Infinity;for(const el of all){if(el===cur)continue;const q=el.getBoundingClientRect(),dx=q.left+q.width/2-cx,dy=q.top+q.height/2-cy,ok=(e.key==='ArrowRight'&&dx>8)||(e.key==='ArrowLeft'&&dx<-8)||(e.key==='ArrowDown'&&dy>8)||(e.key==='ArrowUp'&&dy<-8);if(!ok)continue;const p=(e.key==='ArrowLeft'||e.key==='ArrowRight')?Math.abs(dx):Math.abs(dy),s=(e.key==='ArrowLeft'||e.key==='ArrowRight')?Math.abs(dy):Math.abs(dx),v=p+s*2;if(v<score){score=v;best=el}}best?.focus()});
+loadChannels();renderHistory();showPage('dashboard');
