@@ -23,17 +23,16 @@ var exf=document.querySelector('#exitFullscreen');if(exf)exf.onclick=function(){
 
 // Vietnamese voice search
 (function(){
- var vb=q('#voiceSearchBtn'),inp=q('#ytSearch'),sb=q('#ytSearchBtn');
+ var vb=q('#voiceSearchBtn'),inp=q('#ytSearch'),sb=q('#ytSearchBtn'),rec=null,timer=null,heard='';
  if(!vb||!inp)return;
  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
  if(!SR){vb.onclick=function(){status.textContent='Thiết bị này chưa hỗ trợ tìm kiếm bằng giọng nói.'};return}
- var rec=new SR();rec.lang='vi-VN';rec.interimResults=false;rec.maxAlternatives=1;
- vb.onclick=function(){try{vb.className='voice-search focusable listening';status.textContent='🎤 Đang nghe... Hãy nói tên video, bài hát hoặc kênh.';rec.start()}catch(e){}};
- rec.onresult=function(e){var t=e.results&&e.results[0]&&e.results[0][0]?e.results[0][0].transcript:'';if(t){inp.value=t;status.textContent='Đã nghe: '+t;if(sb)sb.click()}};
- rec.onerror=function(e){vb.className='voice-search focusable';status.textContent=e&&e.error==='not-allowed'?'Chưa được cấp quyền micro. Hãy cho phép APTV sử dụng micro.':'Không nhận được giọng nói. Chạm 🎤 để thử lại.'};
- rec.onend=function(){vb.className='voice-search focusable'};
+ function clean(t){return (t||'').replace(/\s+/g,' ').replace(/^\s+|\s+$/g,'')}
+ function command(t){var x=clean(t),low=x.toLowerCase();var words=['tìm kiếm','tìm đi','tìm','xong','dừng tìm kiếm','dừng'];for(var i=0;i<words.length;i++){var w=words[i],p=low.lastIndexOf(w);if(p>=0&&p+w.length>=low.length-1){return {go:true,text:clean(x.substring(0,p))}}}return {go:false,text:x}}
+ function finish(){if(timer){clearTimeout(timer);timer=null}var c=command(heard);var t=clean(c.text||heard);if(t){inp.value=t;status.textContent='Đang tìm: '+t;if(sb)sb.click()}else status.textContent='Không nghe rõ nội dung. Chạm 🎤 để thử lại.';try{if(rec)rec.stop()}catch(e){}}
+ function arm(){if(timer)clearTimeout(timer);timer=setTimeout(finish,1300)}
+ vb.onclick=function(){try{heard='';rec=new SR();rec.lang='vi-VN';rec.interimResults=true;rec.continuous=true;rec.maxAlternatives=1;rec.onresult=function(e){var all='';for(var i=0;i<e.results.length;i++)if(e.results[i][0])all+=e.results[i][0].transcript+' ';heard=clean(all);var c=command(heard);inp.value=c.text||heard;status.textContent='🎤 '+(inp.value||'Đang nghe...');if(c.go)finish();else arm()};rec.onerror=function(e){if(timer)clearTimeout(timer);vb.className='voice-search focusable';status.textContent=e&&e.error==='not-allowed'?'Chưa được cấp quyền micro. Hãy cho phép APTV sử dụng micro.':'Không nhận được giọng nói. Chạm 🎤 để thử lại.'};rec.onend=function(){vb.className='voice-search focusable';if(heard)arm()};vb.className='voice-search focusable listening';status.textContent='🎤 Đang nghe... nói “tìm kiếm”, “xong” hoặc ngừng nói.';rec.start()}catch(e){}};
 })();
-
 status.textContent='CarTube sẵn sàng · chọn danh mục hoặc tìm kiếm YouTube.';
 })();
 (function(){
