@@ -4,7 +4,16 @@
 <main class="workspace">
 <section class="left">
 <div id="youtubeMode">
-<div class="section-head"><b>▶ YouTube</b><button class="small focusable" id="videoFullscreen">Toàn màn hình</button></div>
+<div class="section-head"><b>▶ YouTube</b><div class="yt-head-actions"><a class="small focusable yt-original" id="youtubeOriginal" href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube gốc ↗</a><button class="small focusable" id="videoFullscreen">Toàn màn hình</button></div></div>
+<div class="yt-sections">
+<button class="yt-section focusable active" data-yt-section="home">⌂ Trang chủ</button>
+<button class="yt-section focusable" data-yt-query="Nhạc Việt Nam mới">♫ Nhạc</button>
+<button class="yt-section focusable" data-yt-query="Tin tức Việt Nam mới nhất">◉ Tin tức</button>
+<button class="yt-section focusable" data-yt-query="Thể thao Việt Nam hôm nay">⚽ Thể thao</button>
+<button class="yt-section focusable" data-yt-query="Thiếu nhi tiếng Việt">★ Thiếu nhi</button>
+<button class="yt-section focusable" data-yt-query="Du lịch Việt Nam">⌖ Du lịch</button>
+<button class="yt-section focusable" data-yt-section="history">↶ Đã xem</button>
+</div>
 <div class="search"><input id="ytSearch" class="focusable" placeholder="Tìm bài hát, video, kênh..."><button id="ytSearchBtn" class="focusable">Tìm</button></div>
 <div class="chips"><button class="chip focusable" data-query="Nhạc Việt Nam mới">Âm nhạc</button><button class="chip focusable" data-query="Nhạc thư giãn">Thư giãn</button><button class="chip focusable" data-query="Video khám phá Việt Nam">Khám phá</button><button class="chip focusable" id="recentBtn">Gần đây</button></div>
 <div id="searchStatus" class="status">Chọn danh mục hoặc tìm video.</div><div id="ytResults" class="results"></div>
