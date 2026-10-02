@@ -1,5 +1,8 @@
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 let channels=[],hls=null,watchId=null;
+let currentSpeed=0,speedLimit=null,speedLimitSource='Chưa kết nối nguồn bản đồ';
+const OVERSPEED_MARGIN=3;
+let lastAlertAt=0,audioCtx=null;
 
 function applyAdaptiveLayout(){
   const w=window.innerWidth, h=window.innerHeight, ratio=w/Math.max(h,1);
@@ -12,6 +15,59 @@ function applyAdaptiveLayout(){
 applyAdaptiveLayout();
 window.addEventListener('resize',applyAdaptiveLayout);
 window.addEventListener('orientationchange',()=>setTimeout(applyAdaptiveLayout,150));
+
+
+function setRoadSpeedLimit(limit,source='Nguồn bản đồ'){
+  const n=Number(limit);
+  speedLimit=Number.isFinite(n)&&n>0?n:null;
+  speedLimitSource=source||'Nguồn bản đồ';
+  $('#speedLimitValue').textContent=speedLimit??'--';
+  $('#speedLimitText').textContent=speedLimit?speedLimit+' km/h':'Chưa có dữ liệu';
+  $('#speedLimitSource').textContent=speedLimitSource;
+  $('#limitStateText').textContent=speedLimit?speedLimit+' km/h':'Chưa xác định';
+  updateOverspeedState();
+}
+window.updateRoadSpeedLimit=setRoadSpeedLimit;
+
+function updateOverspeedState(){
+  const ring=$('#speedRing'),banner=$('#overspeedBanner');
+  ring.classList.remove('speed-near','speed-over');
+  banner.classList.add('hidden');
+  if(!speedLimit)return;
+  const diff=currentSpeed-speedLimit;
+  if(diff>OVERSPEED_MARGIN){
+    ring.classList.add('speed-over');
+    $('#overspeedAmount').textContent=Math.max(1,Math.round(diff));
+    banner.classList.remove('hidden');
+    playOverspeedAlert();
+  }else if(currentSpeed>=speedLimit-5){
+    ring.classList.add('speed-near');
+  }
+}
+
+function unlockAudio(){
+  try{
+    audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
+    if(audioCtx.state==='suspended')audioCtx.resume();
+  }catch(e){}
+}
+
+function playOverspeedAlert(){
+  const now=Date.now();
+  if(now-lastAlertAt<5000)return;
+  lastAlertAt=now;
+  try{
+    unlockAudio();
+    if(!audioCtx)return;
+    const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();
+    osc.type='sine';osc.frequency.value=880;
+    gain.gain.setValueAtTime(0.0001,audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.18,audioCtx.currentTime+0.03);
+    gain.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+0.45);
+    osc.connect(gain);gain.connect(audioCtx.destination);
+    osc.start();osc.stop(audioCtx.currentTime+0.5);
+  }catch(e){}
+}
 
 function updateClock(){
   $('#clock').textContent=new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'});
@@ -107,7 +163,9 @@ function startGPS(){
     const {latitude,longitude,accuracy,speed}=pos.coords;
     $('#gpsText').textContent='Đã bật';
     $('#accuracyText').textContent=Math.round(accuracy||0)+' m';
-    $('#speedValue').textContent=Math.max(0,Math.round((speed||0)*3.6));
+    currentSpeed=Math.max(0,Math.round((speed||0)*3.6));
+    $('#speedValue').textContent=currentSpeed;
+    updateOverspeedState();
     $('#gpsState').style.color='#55ff88';
     updateWeather(latitude,longitude);
   },err=>{
@@ -115,12 +173,21 @@ function startGPS(){
     $('#gpsState').style.color='#ff5577';
   },{enableHighAccuracy:true,maximumAge:3000,timeout:10000});
 }
+
+$('#limitSign').onclick=()=>{
+  const raw=prompt('Nhập giới hạn tốc độ để thử cảnh báo (km/h). Để trống để xóa:');
+  if(raw===null)return;
+  if(raw.trim()===''){setRoadSpeedLimit(null,'Chưa kết nối nguồn bản đồ');return;}
+  const n=Number(raw);
+  if(Number.isFinite(n)&&n>0)setRoadSpeedLimit(n,'Giới hạn thử nghiệm thủ công');
+};
+
 $('#gpsButton').onclick=()=>{
   if(watchId!==null){
     navigator.geolocation.clearWatch(watchId);watchId=null;
     $('#gpsText').textContent='Đã tắt';$('#speedValue').textContent='0';$('#gpsButton').textContent='Bật GPS';
   }else{
-    startGPS();$('#gpsButton').textContent='Tắt GPS';
+    unlockAudio();startGPS();$('#gpsButton').textContent='Tắt GPS';
   }
 };
 
