@@ -4,5 +4,5 @@ window.APTV_CONFIG = {
 
   // Endpoint Vercel cho tìm kiếm YouTube:
   // Ví dụ: "https://ten-du-an.vercel.app/api/youtube-search"
-  youtubeSearchApiUrl: ""
+  youtubeSearchApiUrl: "https://aptv-two.vercel.app/api/youtube-search"
 };
