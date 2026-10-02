@@ -26,6 +26,24 @@ $('#ytSearchBtn').onclick=handleSearch;$('#ytSearch').addEventListener('keydown'
 $$('[data-query]').forEach(b=>b.onclick=()=>{$('#ytSearch').value=b.dataset.query;searchYouTube(b.dataset.query)});
 $('#recentBtn').onclick=()=>renderVideos(getHistory());
 
+$('[data-yt-query]').forEach(b=>b.onclick=()=>{
+  $('.yt-section').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+  $('#ytSearch').value=b.dataset.ytQuery;searchYouTube(b.dataset.ytQuery);
+});
+$('[data-yt-section]').forEach(b=>b.onclick=()=>{
+  $('.yt-section').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+  if(b.dataset.ytSection==='history'){
+    $('#searchStatus').classList.remove('hidden');$('#searchStatus').textContent='Video đã xem gần đây';
+    renderVideos(getHistory());
+  }else{
+    $('#ytSearch').value='';
+    $('#searchStatus').classList.remove('hidden');
+    $('#searchStatus').textContent='Trang chủ CarTube · chọn danh mục hoặc tìm kiếm YouTube.';
+    $('#ytResults').innerHTML='';
+  }
+});
+
+
 async function searchYouTube(q){
  const ep=window.APTV_CONFIG?.youtubeSearchApiUrl;$('#searchStatus').classList.remove('hidden');$('#searchStatus').textContent='Đang tìm “'+q+'”...';
  if(!ep){$('#searchStatus').textContent='Chưa cấu hình YouTube Search API. Có thể dán link YouTube vào ô tìm kiếm.';return}
