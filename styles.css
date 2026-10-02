@@ -337,3 +337,27 @@ footer .foot{min-height:var(--touch);white-space:nowrap;flex:0 1 auto}
 .limit-sign{cursor:pointer}.limit-near{box-shadow:0 0 18px #ffd447}.limit-over{animation:aptvLimitFlash .55s steps(2,end) infinite;box-shadow:0 0 25px #ff315a}.speed-over{animation:aptvSpeedFlash .55s steps(2,end) infinite}
 .gps-on{color:#52e69b}.gps-error{color:#ff5570}
 @keyframes aptvLimitFlash{50%{background:#ff315a;color:#fff;border-color:#fff;transform:scale(1.08)}}@keyframes aptvSpeedFlash{50%{box-shadow:0 0 34px #ff315a,inset 0 0 25px #ff315a;border-color:#fff}}
+
+/* Mr.TIEN grand touring GPS gauge v2 */
+.widget.drive{position:relative;overflow:hidden;padding:14px;background:
+ radial-gradient(circle at 50% 48%,#0b2c4a 0 18%,#061528 38%,#030914 67%),
+ linear-gradient(180deg,#071b30,#020711);box-shadow:inset 0 0 55px #0079c633}
+.widget.drive:after{content:"";position:absolute;left:-10%;right:-10%;bottom:-7px;height:34%;opacity:.5;pointer-events:none;background:
+ linear-gradient(115deg,transparent 0 44%,#19cfff 44.5% 45%,transparent 45.5%),
+ linear-gradient(65deg,transparent 0 44%,#ff245d 44.5% 45%,transparent 45.5%),
+ linear-gradient(180deg,transparent,#071b30)}
+.widget.drive .widget-head{position:relative;z-index:8;letter-spacing:.18em;color:#bfefff}
+.drive-row{position:relative;z-index:5;gap:12px}
+.speedometer{width:min(248px,90%);height:auto!important;aspect-ratio:1/1;flex:0 0 auto;border:7px solid #183c5d!important;background:
+ radial-gradient(circle,#08223c 0 28%,#06182c 29% 52%,#020a14 53% 100%)!important;
+ box-shadow:0 0 8px #fff,0 0 20px #00d8ff,0 0 36px #087cfb99,inset 0 0 25px #0c6da666!important}
+.speedometer:before{inset:8px!important;border:7px solid transparent!important;border-top-color:#42e9ff!important;border-left-color:#15bfff!important;border-right-color:#ff2f79!important;transform:rotate(-45deg)!important;box-shadow:inset 0 0 20px #00bfff66}
+.speedometer:after{content:"";position:absolute;inset:22px;border-radius:50%;border:2px dashed #80dfff88;box-shadow:inset 0 0 18px #38bfff33}
+.speed-needle{height:39%!important;width:4px!important;left:calc(50% - 2px)!important;background:linear-gradient(#ff3b64 0 72%,#dffaff 73%)!important;box-shadow:0 0 10px #ff2d60,0 0 3px #fff!important}
+.speed-hub{width:28px!important;height:28px!important;left:calc(50% - 14px)!important;top:calc(50% - 14px)!important;background:radial-gradient(circle,#75efff 0 18%,#0a3454 25% 62%,#020914 65%)!important;border:2px solid #6ee9ff!important;box-shadow:0 0 15px #19d9ff}
+.speedometer strong{top:57%!important;font-size:38px!important;color:#eafcff;text-shadow:0 0 10px #27dfff,0 2px 8px #000!important}
+.speedometer small{top:76%!important;font-size:10px!important;letter-spacing:.08em;color:#b9d8e8!important}
+.speed-zero,.speed-mid,.speed-max{font-size:10px!important;color:#d3ecf8!important;text-shadow:0 0 5px #24bfff}.speed-zero{left:28px!important;bottom:36px!important}.speed-mid{top:28px!important}.speed-max{right:22px!important;bottom:36px!important}
+.limit-wrap{position:relative;z-index:8}.limit-sign{background:#fff;border-color:#ef294b;box-shadow:0 0 14px #ff315a88}.overspeed,.gps-info,.drive-actions{position:relative;z-index:8}
+@media(min-width:1060px){.right .widget.drive{min-height:330px}.right .speedometer{width:210px}.right .drive-row{margin-top:-4px}.right .limit-sign{width:58px;height:58px}.right .limit-sign span{font-size:21px}}
+@media(max-width:720px),(orientation:portrait){.widget.drive{min-height:520px!important}.drive-row{flex-direction:column}.speedometer{width:min(390px,88vw)}.limit-wrap{position:absolute;right:14px;bottom:112px}.speedometer strong{font-size:48px!important}}
