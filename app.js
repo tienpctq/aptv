@@ -18,7 +18,8 @@ function mode(name){
  ['youtube','tv','apps'].forEach(x=>$('#'+x+'Mode')?.classList.toggle('hidden',x!==name));
  $$('.nav').forEach(b=>b.classList.toggle('active',b.dataset.mode===name));
 }
-$$('.nav').forEach(b=>b.onclick=()=>mode(b.dataset.mode));
+$('.nav[data-mode]').forEach(b=>b.onclick=()=>mode(b.dataset.mode));
+$('#dashboardBtn').onclick=showDriveHome;
 $('#utilityBtn').onclick=()=>mode('apps');
 $('#gpsApp').onclick=()=>{$('.right').scrollIntoView({behavior:'smooth'});};
 let fitIndex=0;const FITS=[1,.9,.8];$('#fitButton').onclick=()=>{fitIndex=(fitIndex+1)%FITS.length;const v=FITS[fitIndex];document.documentElement.style.setProperty('--fit',v);$('#fitButton').textContent='⛶ Fit '+Math.round(v*100)+'%';localStorage.setItem('aptvFit',String(v))};
