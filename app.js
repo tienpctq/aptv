@@ -12,21 +12,21 @@ const STARTER_VIDEOS=[
 ];
 
 
-function openCockpit(name){$('#driveHome').classList.add('hidden');$('#cockpitApp').classList.remove('hidden');mode(name)}
-function showDriveHome(){$('#cockpitApp').classList.add('hidden');$('#driveHome').classList.remove('hidden')}
+function openCockpit(name){var h=$('#driveHome'),c=$('#cockpitApp');if(h)h.classList.add('hidden');if(c)c.classList.remove('hidden');mode(name)}
+function showDriveHome(){window.location.href='index.html'}
 function mode(name){
  ['youtube','tv','apps'].forEach(x=>$('#'+x+'Mode')?.classList.toggle('hidden',x!==name));
  $$('.nav').forEach(b=>b.classList.toggle('active',b.dataset.mode===name));
 }
 $('.nav[data-mode]').forEach(b=>b.onclick=()=>mode(b.dataset.mode));
-$('#dashboardBtn').onclick=showDriveHome;
+const dashboardBtn=$('#dashboardBtn');if(dashboardBtn)dashboardBtn.onclick=showDriveHome;
 $('#utilityBtn').onclick=()=>mode('apps');
 $('#gpsApp').onclick=()=>{$('.right').scrollIntoView({behavior:'smooth'});};
 let fitIndex=0;const FITS=[1,.9,.8];$('#fitButton').onclick=()=>{fitIndex=(fitIndex+1)%FITS.length;const v=FITS[fitIndex];document.documentElement.style.setProperty('--fit',v);$('#fitButton').textContent='⛶ Fit '+Math.round(v*100)+'%';localStorage.setItem('aptvFit',String(v))};
 $('#swapBtn').onclick=()=>$('.shell').classList.toggle('swapped');
 $('#videoFullscreen').onclick=()=>$('#playerWrap').classList.contains('hidden')?$('.left').requestFullscreen?.():$('#playerWrap').requestFullscreen?.();
 
-function clock(){ const t=new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'});$('#clock').textContent=t;const hc=$('#homeClock');if(hc)hc.textContent=t; } clock();setInterval(clock,30000);
+function clock(){const t=new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'});const c=$('#clock');if(c)c.textContent=t;const hc=$('#homeClock');if(hc)hc.textContent=t;} clock();setInterval(clock,30000);
 
 function parseId(v=''){const m=v.match(/(?:v=|youtu\.be\/|shorts\/|embed\/)([A-Za-z0-9_-]{6,})/);if(m)return m[1];return /^[A-Za-z0-9_-]{6,}$/.test(v.trim())?v.trim():null}
 function ensureYTPlayer(id,autoplay){
@@ -115,4 +115,4 @@ $('#modalFit').onclick=function(){$('.video-modal-card').classList.toggle('playe
 $('#settingsBtn').onclick=()=>$('#settingsModal').classList.remove('hidden');$('#settingsClose').onclick=()=>$('#settingsModal').classList.add('hidden');['toggleWeather','toggleGps','togglePlaylist','toggleAutoplay'].forEach(id=>$('#'+id).onchange=savePrefs);$('#modalClose').onclick=()=>{$('#videoModal').classList.add('hidden');try{if(ytPlayer)ytPlayer.stopVideo()}catch(e){};$('#youtubeFrame').src=''};$('#videoModal').onclick=e=>{if(e.target===$('#videoModal'))$('#modalClose').click()};applyPrefs();
 try{const f=Number(localStorage.getItem('aptvFit')||1);const i=FITS.indexOf(f);if(i>=0){fitIndex=i;document.documentElement.style.setProperty('--fit',f);$('#fitButton').textContent='⛶ Fit '+Math.round(f*100)+'%'}}catch(e){}
 $('#homeYouTube').onclick=()=>openCockpit('youtube');$('#homeCarTube').onclick=()=>openCockpit('youtube');$('#homeTV').onclick=()=>openCockpit('tv');$('#homeSettings').onclick=()=>$('#settingsModal').classList.remove('hidden');$('#homeLayout').onclick=()=>openCockpit('apps');$('#homeFit').onclick=()=>{document.documentElement.style.setProperty('--fit','.9');localStorage.setItem('aptvFit','.9');$('#homeFit span').textContent='Fit 90%'};
-window.addEventListener('error',e=>{$('#searchStatus').textContent='Lỗi giao diện: '+(e.message||'hãy tải lại trang.')});loadChannels();renderPlaylist();mode('youtube');showDriveHome();renderVideos(STARTER_VIDEOS);$('#searchStatus').textContent='Chọn video để xem trực tiếp · hoặc dán link YouTube vào ô tìm kiếm.';
+window.addEventListener('error',e=>{$('#searchStatus').textContent='Lỗi giao diện: '+(e.message||'hãy tải lại trang.')});loadChannels();renderPlaylist();mode(document.body.classList.contains('page-tv')?'tv':document.body.classList.contains('page-apps')?'apps':'youtube');renderVideos(STARTER_VIDEOS);$('#searchStatus').textContent='Chọn video để xem trực tiếp · hoặc dán link YouTube vào ô tìm kiếm.';
