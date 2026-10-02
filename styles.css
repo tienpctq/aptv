@@ -49,3 +49,54 @@ footer{height:46px;background:#06131f;border-top-color:#203a4d}.foot{color:#92ad
 #videoModal .player-actions{display:flex;gap:12px;justify-content:center;padding-top:14px}
 #videoModal .player-actions .small{min-width:130px;min-height:48px}
 #modalRetry:disabled{opacity:.55;pointer-events:none}
+
+/* === CarTube responsive automotive layout v2 === */
+body{overflow-x:hidden}
+#cockpitApp{min-height:100vh}
+#cockpitApp .top{min-height:68px;padding:10px clamp(12px,1.6vw,24px);gap:clamp(8px,1vw,16px)}
+#cockpitApp .workspace{display:grid;grid-template-columns:minmax(0,1fr) clamp(270px,25vw,390px);gap:clamp(10px,1.25vw,18px);padding:clamp(10px,1.2vw,18px);align-items:start}
+#cockpitApp .left{min-width:0}
+#cockpitApp .right{min-width:0;display:grid;gap:12px;position:sticky;top:82px}
+.car-youtube-layout{display:grid;grid-template-columns:clamp(105px,9vw,138px) minmax(0,1fr);gap:clamp(10px,1vw,16px);align-items:start}
+.car-side{position:sticky;top:82px;min-width:0}
+.car-main{min-width:0}
+.car-main .search{display:grid;grid-template-columns:minmax(0,1fr) clamp(82px,8vw,116px);gap:10px}
+#ytSearch{width:100%;min-width:0;height:48px}
+#ytSearchBtn{height:48px}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:10px 0}.chips::-webkit-scrollbar{display:none}.chips .chip{flex:0 0 auto}
+.media-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(155px,.55fr);gap:12px}
+.player-inline{width:100%;aspect-ratio:16/9;min-height:0}
+.quick-panel{min-width:0}
+.results{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(10px,1vw,16px);align-items:start}
+.video-card{min-width:0;width:100%;text-align:left;overflow:hidden}
+.video-card img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.video-card b,.video-card small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.yt-sections{display:grid;gap:7px}.yt-section{width:100%;min-height:46px}
+#cockpitApp footer{position:sticky;bottom:0;z-index:20;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+#videoModal{padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));box-sizing:border-box}
+#videoModal .video-modal-card{width:min(1000px,94vw);max-height:94vh;overflow:auto;margin:auto}
+#videoModal .modal-player{width:100%;aspect-ratio:16/9;max-height:68vh}
+#videoModal .settings-head{position:sticky;top:0;z-index:3}
+#videoModal .player-actions{position:sticky;bottom:0;z-index:3;flex-wrap:wrap}
+.workspace.swapped-layout{grid-template-columns:clamp(270px,25vw,390px) minmax(0,1fr)}
+.workspace.swapped-layout>.left{grid-column:2;grid-row:1}.workspace.swapped-layout>.right{grid-column:1;grid-row:1}
+@media (max-width:1050px){
+ #cockpitApp .workspace,.workspace.swapped-layout{grid-template-columns:minmax(0,1fr) clamp(230px,28vw,300px)}
+ .car-youtube-layout{grid-template-columns:100px minmax(0,1fr)}
+ .media-grid{grid-template-columns:1fr}.quick-panel{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+}
+@media (max-width:780px){
+ #cockpitApp .top{flex-wrap:wrap}.top-center{display:none}
+ #cockpitApp .workspace,.workspace.swapped-layout{grid-template-columns:1fr}
+ #cockpitApp .left,.workspace.swapped-layout>.left{grid-column:1;grid-row:1}
+ #cockpitApp .right,.workspace.swapped-layout>.right{grid-column:1;grid-row:2;position:static;grid-template-columns:repeat(2,minmax(0,1fr))}
+ .car-youtube-layout{grid-template-columns:1fr}
+ .car-side{position:static;display:flex;align-items:center;gap:8px;overflow-x:auto}
+ .car-side .side-logo,.car-side .side-label{flex:0 0 auto}.yt-sections{display:flex;gap:7px}.yt-section{width:auto;min-width:max-content}
+ .results{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:520px){
+ #cockpitApp .right{grid-template-columns:1fr}.results{grid-template-columns:1fr}
+ #videoModal .video-modal-card{width:97vw;max-height:96vh}
+ #videoModal .player-actions .small{min-width:100px;flex:1}
+}
