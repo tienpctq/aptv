@@ -261,3 +261,11 @@ footer .foot{min-height:var(--touch);white-space:nowrap;flex:0 1 auto}
 .youtube-split.player-mode .inline-controls{display:flex!important;height:58px!important;min-height:58px;justify-content:flex-end;padding:8px 4px 0!important}
 .youtube-split.player-mode .car-main{display:flex!important;flex-direction:column}
 @media(max-width:1100px){.youtube-split .workspace{grid-template-columns:minmax(0,2.7fr) minmax(270px,1fr)!important}.youtube-split #ytResults{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+
+/* Fullscreen controls stay reachable */
+.youtube-split #playerWrap:fullscreen,.youtube-split #playerWrap:-webkit-full-screen{background:#020711;display:flex!important;flex-direction:column;padding:10px}
+.youtube-split #playerWrap:fullscreen iframe,.youtube-split #playerWrap:-webkit-full-screen iframe{flex:1;height:auto!important}
+.youtube-split #playerWrap:fullscreen .inline-controls,.youtube-split #playerWrap:-webkit-full-screen .inline-controls{display:flex!important;position:absolute;right:18px;bottom:18px;z-index:99999;background:rgba(3,12,25,.86);padding:8px!important;border-radius:12px}
+.youtube-split.soft-fullscreen #playerWrap{position:fixed!important;inset:0!important;z-index:99990!important;width:100vw!important;height:100dvh!important;max-height:none!important;background:#020711;padding:10px}
+.youtube-split.soft-fullscreen #playerWrap .inline-controls{display:flex!important;position:absolute;right:18px;bottom:18px;z-index:99999;background:rgba(3,12,25,.86);padding:8px!important;border-radius:12px}
+.youtube-split.soft-fullscreen #playerWrap iframe{height:100%!important}
