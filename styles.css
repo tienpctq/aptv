@@ -99,3 +99,6 @@ body.layout-low .limit-sign{width:58px;height:58px;border-width:6px}
 body.layout-low .limit-sign span{font-size:22px}
 body.layout-small .speed-limit-row{align-items:flex-start}
 body.layout-small .limit-sign{width:56px;height:56px;border-width:6px}
+
+.privacy-note{display:block;margin-top:7px;color:var(--muted);font-size:11px;line-height:1.35}
+#speedLimitOnlineButton{margin-top:8px}
