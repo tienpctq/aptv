@@ -1,117 +1,136 @@
-const state={channels:[],lastFocus:null,hls:null};
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+let channels=[],hls=null,watchId=null;
 
-function tickClock(){
+function updateClock(){
   $('#clock').textContent=new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'});
 }
-tickClock(); setInterval(tickClock,30000);
+updateClock();setInterval(updateClock,30000);
+
+function showView(name){
+  $$('.tab').forEach(t=>t.classList.toggle('active',t.dataset.view===name));
+  ['youtube','tv','apps'].forEach(v=>$('#'+v+'View').classList.toggle('hidden',v!==name));
+  $('#viewTitle').textContent=name==='youtube'?'YouTube':name==='tv'?'Truyền hình':'Ứng dụng';
+  setTimeout(()=>document.querySelector('#'+name+'View .focusable')?.focus(),20);
+}
+$$('.tab').forEach(t=>t.onclick=()=>showView(t.dataset.view));
 
 async function loadChannels(){
   try{
     const r=await fetch('channels.json?ts='+Date.now(),{cache:'no-store'});
-    state.channels=await r.json();
-  }catch(e){ state.channels=[]; }
-  $('#channelCount').textContent=state.channels.length ? state.channels.length+' kênh' : 'Chưa có kênh';
-  renderChannelGrid('#channelGrid',state.channels.slice(0,8));
-  wireCards(); focusFirst();
-}
-
-function renderChannelGrid(target,items){
-  const root=$(target); root.innerHTML='';
-  if(!items.length){
-    root.innerHTML='<div class="hint">Chưa có kênh trong mục này.</div>';
-    return;
-  }
-  items.forEach(ch=>{
+    channels=await r.json();
+  }catch(e){channels=[]}
+  const root=$('#channelList'); root.innerHTML='';
+  channels.forEach(ch=>{
     const b=document.createElement('button');
-    b.className='card focusable'; b.dataset.action='play'; b.dataset.id=ch.id;
-    b.innerHTML=`<span class="channel-logo">${escapeHtml(ch.short||ch.name.slice(0,4).toUpperCase())}</span>
-      <span class="card-title">${escapeHtml(ch.name)}</span>
-      <span class="card-subtitle">${escapeHtml(ch.group||'Kênh')}</span>`;
+    b.className='channel-btn focusable';
+    b.innerHTML='<b>'+escapeHtml(ch.name)+'</b><span>'+escapeHtml(ch.group||'Kênh')+'</span>';
+    b.onclick=()=>playChannel(ch);
     root.appendChild(b);
   });
 }
-
-function escapeHtml(s=''){
-  return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
-}
-function wireCards(){ $$('.card').forEach(el=>el.onclick=()=>handleAction(el)); }
-
-function handleAction(el){
-  const action=el.dataset.action;
-  if(action==='youtube') location.href=el.dataset.url;
-  else if(action==='play'){
-    const ch=state.channels.find(x=>x.id===el.dataset.id);
-    if(ch) playChannel(ch);
-  }else if(action==='category') openCategory(el.dataset.category);
-}
-
-function openCategory(cat){
-  state.lastFocus=document.activeElement;
-  let items=state.channels, title='Tất cả kênh';
-  if(cat==='favorites'){items=state.channels.filter(x=>x.favorite);title='Yêu thích';}
-  else if(cat==='sports'){items=state.channels.filter(x=>/(thể thao|sport)/i.test(x.group||''));title='Thể thao';}
-  else if(cat==='tv'){title='Truyền hình';}
-  $('#listTitle').textContent=title;
-  renderChannelGrid('#listGrid',items);
-  $('#listOverlay').classList.remove('hidden');
-  wireCards();
-  setTimeout(()=>$('#listGrid .focusable')?.focus()||$('#closeList').focus(),40);
-}
-
-function closeList(){ $('#listOverlay').classList.add('hidden'); setTimeout(()=>state.lastFocus?.focus(),20); }
-$('#closeList').onclick=closeList;
+function escapeHtml(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
 
 function playChannel(ch){
-  state.lastFocus=document.activeElement;
-  $('#playerTitle').textContent=ch.name;
-  $('#playerOverlay').classList.remove('hidden');
-  const video=$('#video'), msg=$('#playerMessage');
-  msg.classList.add('hidden');
-  if(state.hls){state.hls.destroy();state.hls=null}
-  if(video.canPlayType('application/vnd.apple.mpegurl')){
-    video.src=ch.url; video.play().catch(()=>showMessage('Nhấn OK/Play để bắt đầu phát.'));
+  const v=$('#tvPlayer'),msg=$('#tvMessage');msg.classList.add('hidden');
+  if(hls){hls.destroy();hls=null}
+  if(v.canPlayType('application/vnd.apple.mpegurl')){
+    v.src=ch.url;v.play().catch(()=>showTvMessage('Nhấn Play để bắt đầu.'));
   }else if(window.Hls&&Hls.isSupported()){
-    state.hls=new Hls({enableWorker:true,lowLatencyMode:true});
-    state.hls.loadSource(ch.url); state.hls.attachMedia(video);
-    state.hls.on(Hls.Events.MANIFEST_PARSED,()=>video.play().catch(()=>showMessage('Nhấn OK/Play để bắt đầu phát.')));
-    state.hls.on(Hls.Events.ERROR,(_,data)=>{if(data.fatal) showMessage('Không phát được luồng này. Hãy kiểm tra URL, CORS hoặc quyền truy cập.');});
-  }else showMessage('Trình duyệt này không hỗ trợ HLS.');
-  setTimeout(()=>$('#closePlayer').focus(),40);
+    hls=new Hls({enableWorker:true,lowLatencyMode:true});
+    hls.loadSource(ch.url);hls.attachMedia(v);
+    hls.on(Hls.Events.MANIFEST_PARSED,()=>v.play().catch(()=>showTvMessage('Nhấn Play để bắt đầu.')));
+    hls.on(Hls.Events.ERROR,(_,d)=>{if(d.fatal)showTvMessage('Không phát được luồng này.');});
+  }else showTvMessage('Trình duyệt không hỗ trợ HLS.');
+}
+function showTvMessage(t){const m=$('#tvMessage');m.textContent=t;m.classList.remove('hidden');}
+
+$('#openYoutube').onclick=()=>location.href='https://www.youtube.com/';
+$('#retryButton').onclick=()=>$('#youtubeFrame').src=$('#youtubeFrame').src;
+$('#playButton').onclick=()=>$('#youtubeFrame').focus();
+$('#changeVideo').onclick=()=>{
+  const q=prompt('Nhập link YouTube hoặc ID video:');
+  if(!q)return;
+  let id=q.trim();
+  const m=id.match(/(?:v=|youtu\.be\/|shorts\/|embed\/)([A-Za-z0-9_-]{6,})/);
+  if(m)id=m[1];
+  if(!/^[A-Za-z0-9_-]{6,}$/.test(id)){alert('Link/ID video không hợp lệ.');return;}
+  $('#youtubeFrame').src='https://www.youtube.com/embed/'+id+'?rel=0&autoplay=1';
+};
+$('#zoomVideo').onclick=()=>{
+  const el=$('.video-stage');
+  if(document.fullscreenElement) document.exitFullscreen?.();
+  else el.requestFullscreen?.();
+};
+$('#fitButton').onclick=()=>document.documentElement.requestFullscreen?.();
+$('#utilityButton').onclick=()=>showView('apps');
+$('#appsTvShortcut').onclick=()=>showView('tv');
+$('#appsHomeShortcut').onclick=()=>showView('youtube');
+
+function updateWeather(lat,lon){
+  const url='https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+'&current=temperature_2m,weather_code,wind_speed_10m&timezone=auto';
+  fetch(url).then(r=>r.json()).then(data=>{
+    const c=data.current||{};
+    $('#temperature').textContent=Math.round(c.temperature_2m??0)+'°C';
+    const w=weatherFromCode(c.weather_code);
+    $('#weatherIcon').textContent=w.icon;
+    $('#weatherText').textContent=w.text;
+    $('#weatherMeta').textContent='Gió '+Math.round(c.wind_speed_10m??0)+' km/h';
+  }).catch(()=>$('#weatherMeta').textContent='Không lấy được dữ liệu thời tiết.');
+}
+function weatherFromCode(code){
+  if(code===0)return{icon:'☀️',text:'Trời quang'};
+  if([1,2].includes(code))return{icon:'🌤️',text:'Ít mây'};
+  if(code===3)return{icon:'☁️',text:'Nhiều mây'};
+  if([45,48].includes(code))return{icon:'🌫️',text:'Sương mù'};
+  if([51,53,55,61,63,65,80,81,82].includes(code))return{icon:'🌧️',text:'Có mưa'};
+  if([71,73,75,77,85,86].includes(code))return{icon:'❄️',text:'Có tuyết'};
+  if([95,96,99].includes(code))return{icon:'⛈️',text:'Dông'};
+  return{icon:'🌡️',text:'Thời tiết'};
 }
 
-function showMessage(t){const el=$('#playerMessage');el.textContent=t;el.classList.remove('hidden');}
-function closePlayer(){
-  const v=$('#video');v.pause();v.removeAttribute('src');v.load();
-  if(state.hls){state.hls.destroy();state.hls=null}
-  $('#playerOverlay').classList.add('hidden');
-  setTimeout(()=>state.lastFocus?.focus(),20);
+function startGPS(){
+  if(!navigator.geolocation){$('#gpsText').textContent='Không hỗ trợ';return;}
+  $('#gpsText').textContent='Đang xác định...';
+  watchId=navigator.geolocation.watchPosition(pos=>{
+    const {latitude,longitude,accuracy,speed}=pos.coords;
+    $('#gpsText').textContent='Đã bật';
+    $('#accuracyText').textContent=Math.round(accuracy||0)+' m';
+    $('#speedValue').textContent=Math.max(0,Math.round((speed||0)*3.6));
+    $('#gpsState').style.color='#55ff88';
+    updateWeather(latitude,longitude);
+  },err=>{
+    $('#gpsText').textContent=err.code===1?'Bị từ chối':'Không có tín hiệu';
+    $('#gpsState').style.color='#ff5577';
+  },{enableHighAccuracy:true,maximumAge:3000,timeout:10000});
 }
-$('#closePlayer').onclick=closePlayer;
-function focusFirst(){setTimeout(()=>$('.focusable')?.focus(),40);}
+$('#gpsButton').onclick=()=>{
+  if(watchId!==null){
+    navigator.geolocation.clearWatch(watchId);watchId=null;
+    $('#gpsText').textContent='Đã tắt';$('#speedValue').textContent='0';$('#gpsButton').textContent='Bật GPS';
+  }else{
+    startGPS();$('#gpsButton').textContent='Tắt GPS';
+  }
+};
 
 document.addEventListener('keydown',e=>{
-  if(['Escape','Backspace','BrowserBack'].includes(e.key)){
-    if(!$('#playerOverlay').classList.contains('hidden')){e.preventDefault();closePlayer();return}
-    if(!$('#listOverlay').classList.contains('hidden')){e.preventDefault();closeList();return}
-  }
-  if(!['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) return;
-  const current=document.activeElement;
-  if(!current?.classList.contains('focusable')) return;
+  if(!['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key))return;
+  const cur=document.activeElement;if(!cur?.classList.contains('focusable'))return;
   e.preventDefault();
-  const all=$$('.focusable').filter(x=>x.offsetParent!==null),r=current.getBoundingClientRect();
-  const cx=r.left+r.width/2,cy=r.top+r.height/2; let best=null,bestScore=Infinity;
+  const all=$$('.focusable').filter(x=>x.offsetParent!==null);
+  const r=cur.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+  let best=null,score=Infinity;
   for(const el of all){
-    if(el===current) continue;
+    if(el===cur)continue;
     const q=el.getBoundingClientRect(),x=q.left+q.width/2,y=q.top+q.height/2,dx=x-cx,dy=y-cy;
-    const valid=(e.key==='ArrowRight'&&dx>10)||(e.key==='ArrowLeft'&&dx<-10)||(e.key==='ArrowDown'&&dy>10)||(e.key==='ArrowUp'&&dy<-10);
-    if(!valid) continue;
+    const ok=(e.key==='ArrowRight'&&dx>8)||(e.key==='ArrowLeft'&&dx<-8)||(e.key==='ArrowDown'&&dy>8)||(e.key==='ArrowUp'&&dy<-8);
+    if(!ok)continue;
     const primary=(e.key==='ArrowLeft'||e.key==='ArrowRight')?Math.abs(dx):Math.abs(dy);
     const secondary=(e.key==='ArrowLeft'||e.key==='ArrowRight')?Math.abs(dy):Math.abs(dx);
-    const score=primary+secondary*2.4;
-    if(score<bestScore){bestScore=score;best=el}
+    const s=primary+secondary*2.2;
+    if(s<score){score=s;best=el}
   }
   best?.focus();
 });
 
 loadChannels();
+setTimeout(()=>$('.focusable')?.focus(),50);
