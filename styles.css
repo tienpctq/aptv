@@ -313,3 +313,7 @@ footer .foot{min-height:var(--touch);white-space:nowrap;flex:0 1 auto}
 .tv-quick{min-height:0;border:1px solid rgba(120,215,255,.28);border-radius:14px;padding:10px;background:#061326;display:flex;flex-direction:column;overflow:hidden}.tv-quick-list{flex:1;overflow:auto;display:flex;flex-direction:column;gap:6px}.tv-quick-item .tv-channel-open{width:100%;min-height:58px}.tv-source{min-height:44px;margin-top:8px;border:1px solid #28506c;border-radius:9px;display:flex;align-items:center;justify-content:center;text-decoration:none;color:#dff7ff;background:#0a2038}
 .aptv-tv footer{height:64px;min-height:64px;display:flex;justify-content:flex-end;gap:8px;padding:7px 14px;background:#061225}.aptv-tv footer .foot{min-width:130px}
 @media(max-width:1100px){.tv-workspace{grid-template-columns:minmax(0,2.7fr) minmax(230px,.8fr)}.tv-channel-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* TV direct M3U/HLS */
+.aptv-tv .tv-player-wrap video{display:none;width:100%;height:100%;object-fit:contain;background:#000}
+.aptv-tv .tv-logo-img{width:48px;height:42px;object-fit:contain;border-radius:7px;background:#102b49}
