@@ -80,17 +80,36 @@
           <div class="weather-meta" id="weatherMeta">Cho phép vị trí để xem thời tiết địa phương</div>
         </section>
 
-        <section class="widget trip-widget">
+        <section class="widget trip-widget" id="tripWidget">
           <div class="widget-head"><span>CHUYẾN ĐI · GPS</span><span id="gpsState">●</span></div>
+
+          <div class="speed-limit-row">
+            <div class="limit-sign" id="limitSign">
+              <span id="speedLimitValue">--</span>
+            </div>
+            <div class="limit-copy">
+              <span>GIỚI HẠN TỐC ĐỘ</span>
+              <b id="speedLimitText">Chưa có dữ liệu</b>
+              <small id="speedLimitSource">Chưa kết nối nguồn bản đồ</small>
+            </div>
+          </div>
+
           <div class="speedometer">
-            <div class="speed-ring">
+            <div class="speed-ring" id="speedRing">
               <div class="speed-value" id="speedValue">0</div>
               <div class="speed-unit">km/h</div>
             </div>
           </div>
+
+          <div class="overspeed-banner hidden" id="overspeedBanner">
+            ⚠ VƯỢT TỐC ĐỘ <b id="overspeedAmount">0</b> km/h
+          </div>
+
           <div class="trip-stats">
             <div><span>GPS</span><b id="gpsText">Chưa bật</b></div>
             <div><span>Độ chính xác</span><b id="accuracyText">--</b></div>
+            <div><span>Ngưỡng cảnh báo</span><b>+3 km/h</b></div>
+            <div><span>Giới hạn</span><b id="limitStateText">Chưa xác định</b></div>
           </div>
           <button class="wide-btn focusable" id="gpsButton">Bật GPS</button>
         </section>
