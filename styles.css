@@ -230,3 +230,34 @@ footer .foot{min-height:var(--touch);white-space:nowrap;flex:0 1 auto}
 .youtube-split .browse-foot a{text-decoration:none}
 .youtube-split.player-mode .browse-foot{display:none!important}
 .youtube-split.player-mode .player-inline{border:1px solid rgba(117,222,255,.45);box-shadow:inset 0 0 22px rgba(37,150,220,.08)}
+
+/* === Split cockpit correction v5: match reference proportions === */
+.youtube-split{height:100dvh;overflow:hidden}
+.youtube-split .shell,.youtube-split #cockpitApp{height:100dvh;overflow:hidden}
+.youtube-split .top{height:64px!important;min-height:64px!important}
+.youtube-split .workspace{height:calc(100dvh - 128px)!important;min-height:0!important;padding:8px!important;gap:8px!important;grid-template-columns:minmax(0,3fr) minmax(300px,1fr)!important;overflow:hidden!important}
+.youtube-split .left{height:100%!important;overflow:hidden!important;border:1px solid rgba(120,215,255,.3);border-radius:14px;padding:10px!important}
+.youtube-split #youtubeMode{height:100%;display:flex;flex-direction:column;min-height:0}
+.youtube-split .section-head{height:46px;min-height:46px;padding:0 4px!important}
+.youtube-split .car-youtube-layout{flex:1;height:auto!important;min-height:0!important;overflow:hidden}
+.youtube-split .car-main{height:100%;overflow:hidden}
+.youtube-split .search{display:grid!important;grid-template-columns:minmax(0,1fr) 74px;gap:8px;margin:0 0 8px!important}
+.youtube-split .search input{height:54px!important;font-size:18px!important}
+.youtube-split .search button{height:54px!important}
+.youtube-split .chips{gap:7px!important;margin:0 0 8px!important}
+.youtube-split .chip{min-height:42px!important;padding:0 14px!important}
+.youtube-split .media-grid{display:none!important}
+.youtube-split #searchStatus{order:4;margin:0!important;padding:6px 4px!important;min-height:30px}
+.youtube-split #ytResults{order:3;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important;overflow-y:auto!important;min-height:0!important;max-height:none!important;padding:0 3px 4px 0}
+.youtube-split .video-card{min-height:0!important}
+.youtube-split .video-card img{aspect-ratio:16/9;object-fit:cover}
+.youtube-split .browse-foot{order:5;height:34px;min-height:34px;padding:5px 2px!important}
+.youtube-split .right{height:100%!important;display:grid!important;grid-template-rows:minmax(170px,.9fr) minmax(260px,1.7fr)!important;gap:8px!important;overflow:hidden!important}
+.youtube-split .right .widget{height:100%;min-height:0;overflow:hidden}
+.youtube-split footer{height:64px!important;min-height:64px!important;position:fixed!important;left:0;right:0;bottom:0;z-index:30;background:#061225}
+.youtube-split.player-mode .search,.youtube-split.player-mode .chips,.youtube-split.player-mode #searchStatus,.youtube-split.player-mode #ytResults,.youtube-split.player-mode .browse-foot{display:none!important}
+.youtube-split.player-mode .media-grid{order:1;display:flex!important;flex:1;min-height:0;flex-direction:column}
+.youtube-split.player-mode .player-inline{flex:1;height:auto!important;min-height:0!important;max-height:none!important;aspect-ratio:auto!important;border-radius:10px}
+.youtube-split.player-mode .inline-controls{display:flex!important;height:58px!important;min-height:58px;justify-content:flex-end;padding:8px 4px 0!important}
+.youtube-split.player-mode .car-main{display:flex!important;flex-direction:column}
+@media(max-width:1100px){.youtube-split .workspace{grid-template-columns:minmax(0,2.7fr) minmax(270px,1fr)!important}.youtube-split #ytResults{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
