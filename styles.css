@@ -325,3 +325,15 @@ footer .foot{min-height:var(--touch);white-space:nowrap;flex:0 1 auto}
 
 /* Mr.TIEN EVN branding */
 .brand .brand-mark{flex:0 0 48px!important;overflow:visible!important}.brand .brand-mark img{filter:none!important}.brand>span:last-child{white-space:nowrap}.brand>span:last-child>b{color:#68d9ef}.home-logo img{display:block}
+
+/* Animated automotive GPS speedometer */
+.speedometer{--needle-angle:-130deg;position:relative;display:block!important;background:radial-gradient(circle,#0b1d2d 0 48%,#07131f 49% 100%);border-width:5px!important;overflow:hidden}
+.speedometer:before{content:"";position:absolute;inset:7px;border-radius:50%;border:2px solid #294e65;border-top-color:#69dff3;border-left-color:#69dff3;transform:rotate(-45deg)}
+.speed-needle{position:absolute;z-index:3;width:3px;height:43%;left:calc(50% - 1.5px);bottom:50%;border-radius:3px;background:linear-gradient(#ff415d 0 55%,#dcecff 56%);transform-origin:50% 100%;transform:rotate(var(--needle-angle));transition:transform .08s linear;box-shadow:0 0 7px #ff315a}
+.speed-hub{position:absolute;z-index:4;width:13px;height:13px;border-radius:50%;left:calc(50% - 6.5px);top:calc(50% - 6.5px);background:#d9f5ff;border:3px solid #18394d}
+.speedometer strong{position:absolute;z-index:5;left:0;right:0;top:57%;text-align:center;font-size:30px!important;text-shadow:0 2px 8px #000}
+.speedometer small{position:absolute;z-index:5;left:0;right:0;top:79%;text-align:center;font-size:9px}
+.speed-zero,.speed-mid,.speed-max{position:absolute;z-index:2;font-size:8px;color:#7292a5;font-weight:700}.speed-zero{left:15px;bottom:21px}.speed-mid{left:50%;top:9px;transform:translateX(-50%)}.speed-max{right:10px;bottom:21px}
+.limit-sign{cursor:pointer}.limit-near{box-shadow:0 0 18px #ffd447}.limit-over{animation:aptvLimitFlash .55s steps(2,end) infinite;box-shadow:0 0 25px #ff315a}.speed-over{animation:aptvSpeedFlash .55s steps(2,end) infinite}
+.gps-on{color:#52e69b}.gps-error{color:#ff5570}
+@keyframes aptvLimitFlash{50%{background:#ff315a;color:#fff;border-color:#fff;transform:scale(1.08)}}@keyframes aptvSpeedFlash{50%{box-shadow:0 0 34px #ff315a,inset 0 0 25px #ff315a;border-color:#fff}}
