@@ -36,7 +36,12 @@ $('#recentBtn').onclick=()=>renderVideos(getHistory());
 
 $('[data-yt-query]').forEach(b=>b.onclick=()=>{
   $('.yt-section').forEach(x=>x.classList.remove('active'));b.classList.add('active');
-  $('#ytSearch').value=b.dataset.ytQuery;searchYouTube(b.dataset.ytQuery);
+  const q=b.dataset.ytQuery,cat=q.includes('Thiếu nhi')?'Thiếu nhi':q.includes('Tin tức')?'Tin tức':q.includes('Thể thao')?'Thể thao':q.includes('Nhạc')?'Nhạc':q.includes('Du lịch')?'Du lịch':null;
+  $('#ytSearch').value=q;
+  const local=cat?STARTER_VIDEOS.filter(v=>v.category===cat):STARTER_VIDEOS;
+  renderVideos(local);$('#searchStatus').classList.remove('hidden');
+  $('#searchStatus').textContent=local.length?cat+' · '+local.length+' video':'Chưa có video cố định cho '+cat;
+  if(window.APTV_CONFIG?.youtubeSearchApiUrl)searchYouTube(q);
 });
 $('[data-yt-section]').forEach(b=>b.onclick=()=>{
   $('.yt-section').forEach(x=>x.classList.remove('active'));b.classList.add('active');
