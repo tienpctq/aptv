@@ -20,6 +20,20 @@ q('#videoFullscreen').onclick=function(){var p=q('#playerWrap');if(!p)return;var
 function fsState(){var on=!!(document.fullscreenElement||document.webkitFullscreenElement||document.msFullscreenElement)||document.body.className.indexOf('soft-fullscreen')>=0;var ex=q('#exitFullscreen'),vf=document.querySelector('#videoFullscreen');if(ex)ex.className=on?'small focusable':'small focusable hidden';if(vf)vf.className=on?'small focusable hidden':'small focusable'}
 document.addEventListener('fullscreenchange',fsState);document.addEventListener('webkitfullscreenchange',fsState);
 var exf=document.querySelector('#exitFullscreen');if(exf)exf.onclick=function(){var d=document,fn=d.exitFullscreen||d.webkitExitFullscreen||d.msExitFullscreen;if(d.fullscreenElement||d.webkitFullscreenElement||d.msFullscreenElement){if(fn)try{fn.call(d)}catch(e){}}document.body.className=document.body.className.replace(/\s*soft-fullscreen/g,'');fsState();var cv=document.querySelector('#changeVideo');if(cv)cv.click()};
+
+// Vietnamese voice search
+(function(){
+ var vb=q('#voiceSearchBtn'),inp=q('#ytSearch'),sb=q('#ytSearchBtn');
+ if(!vb||!inp)return;
+ var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!SR){vb.onclick=function(){status.textContent='Thiết bị này chưa hỗ trợ tìm kiếm bằng giọng nói.'};return}
+ var rec=new SR();rec.lang='vi-VN';rec.interimResults=false;rec.maxAlternatives=1;
+ vb.onclick=function(){try{vb.className='voice-search focusable listening';status.textContent='🎤 Đang nghe... Hãy nói tên video, bài hát hoặc kênh.';rec.start()}catch(e){}};
+ rec.onresult=function(e){var t=e.results&&e.results[0]&&e.results[0][0]?e.results[0][0].transcript:'';if(t){inp.value=t;status.textContent='Đã nghe: '+t;if(sb)sb.click()}};
+ rec.onerror=function(e){vb.className='voice-search focusable';status.textContent=e&&e.error==='not-allowed'?'Chưa được cấp quyền micro. Hãy cho phép APTV sử dụng micro.':'Không nhận được giọng nói. Chạm 🎤 để thử lại.'};
+ rec.onend=function(){vb.className='voice-search focusable'};
+})();
+
 status.textContent='CarTube sẵn sàng · chọn danh mục hoặc tìm kiếm YouTube.';
 })();
 (function(){
