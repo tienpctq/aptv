@@ -32,6 +32,7 @@ function playYouTube(v){
 }
 
 function handleSearch(){const q=$('#ytSearch').value.trim();if(!q)return;const id=parseId(q);if(id)return playYouTube(id);searchYouTube(q)}
+function youtubeWebSearch(q){window.location.href='https://www.youtube.com/results?search_query='+encodeURIComponent(q)}
 $('#ytSearchBtn').onclick=handleSearch;$('#ytSearch').addEventListener('keydown',e=>{if(e.key==='Enter')handleSearch()});
 $('[data-query]').forEach(b=>b.onclick=()=>{$('#ytSearch').value=b.dataset.query;const q=b.dataset.query,cat=q.includes('Thiếu nhi')?'Thiếu nhi':q.includes('Tin tức')?'Tin tức':q.includes('Thể thao')?'Thể thao':q.includes('Nhạc')?'Nhạc':q.includes('Du lịch')||q.includes('khám phá')?'Du lịch':null;if(cat){const x=STARTER_VIDEOS.filter(v=>v.category===cat);renderVideos(x.length?x:STARTER_VIDEOS);$('#searchStatus').textContent=x.length?cat+' · '+x.length+' video':'Chưa có video cố định cho '+cat;}if(window.APTV_CONFIG?.youtubeSearchApiUrl)searchYouTube(q)});
 $('#recentBtn').onclick=()=>renderVideos(getHistory());
@@ -61,7 +62,7 @@ $('[data-yt-section]').forEach(b=>b.onclick=()=>{
 
 async function searchYouTube(q){
  const ep=window.APTV_CONFIG?.youtubeSearchApiUrl;$('#searchStatus').classList.remove('hidden');$('#searchStatus').textContent='Đang tìm “'+q+'”...';
- if(!ep){$('#searchStatus').innerHTML='Chưa bật tìm kiếm toàn YouTube. <a class="inline-yt" href="https://www.youtube.com/results?search_query='+encodeURIComponent(q)+'" target="_blank" rel="noopener">Mở tìm kiếm trên YouTube ↗</a>';const cat=q.includes('Thiếu nhi')?'Thiếu nhi':q.includes('Tin tức')?'Tin tức':q.includes('Thể thao')?'Thể thao':q.includes('Nhạc')?'Nhạc':q.includes('Du lịch')?'Du lịch':null;const matched=cat?STARTER_VIDEOS.filter(v=>v.category===cat):STARTER_VIDEOS;renderVideos(matched.length?matched:STARTER_VIDEOS);return}
+ if(!ep){$('#searchStatus').innerHTML='Tìm kiếm toàn YouTube cần dịch vụ tìm kiếm. <button id="openYTSearch" class="inline-search-btn">Tìm trực tiếp trên YouTube ↗</button>';setTimeout(()=>{const z=$('#openYTSearch');if(z)z.onclick=()=>youtubeWebSearch(q)},0);const cat=q.includes('Thiếu nhi')?'Thiếu nhi':q.includes('Tin tức')?'Tin tức':q.includes('Thể thao')?'Thể thao':q.includes('Nhạc')?'Nhạc':q.includes('Du lịch')?'Du lịch':null;const matched=cat?STARTER_VIDEOS.filter(v=>v.category===cat):STARTER_VIDEOS;renderVideos(matched.length?matched:STARTER_VIDEOS);return}
  try{const u=new URL(ep);u.searchParams.set('q',q);const r=await fetch(u,{cache:'no-store'}),d=await r.json();if(!r.ok)throw 0;renderVideos(d.items||[]);$('#searchStatus').textContent=(d.items||[]).length+' kết quả cho “'+q+'”'}catch(e){$('#searchStatus').textContent='Không lấy được kết quả YouTube.'}
 }
 function renderVideos(items){const root=$('#ytResults');root.classList.remove('hidden');root.innerHTML='';items.forEach(v=>{const b=document.createElement('button');b.className='video-card focusable';b.innerHTML='<img src="'+esc(v.thumbnail||('https://i.ytimg.com/vi/'+v.id+'/mqdefault.jpg'))+'"><b>'+esc(v.title||'Video')+'</b><small>'+esc(v.channel||'YouTube')+'</small>';b.onclick=()=>playYouTube(v);root.appendChild(b)})}
