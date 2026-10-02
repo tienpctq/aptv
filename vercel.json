@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/speed-limit.js": {
+      "maxDuration": 10
+    }
+  }
+}
