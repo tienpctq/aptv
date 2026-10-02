@@ -34,11 +34,11 @@ function playYouTube(v){
 function handleSearch(){const q=$('#ytSearch').value.trim();if(!q)return;const id=parseId(q);if(id)return playYouTube(id);searchYouTube(q)}
 function youtubeWebSearch(q){window.location.href='https://www.youtube.com/results?search_query='+encodeURIComponent(q)}
 $('#ytSearchBtn').onclick=handleSearch;$('#ytSearch').addEventListener('keydown',e=>{if(e.key==='Enter')handleSearch()});
-$('[data-query]').forEach(b=>b.onclick=()=>{$('#ytSearch').value=b.dataset.query;const q=b.dataset.query,cat=q.includes('Thiếu nhi')?'Thiếu nhi':q.includes('Tin tức')?'Tin tức':q.includes('Thể thao')?'Thể thao':q.includes('Nhạc')?'Nhạc':q.includes('Du lịch')||q.includes('khám phá')?'Du lịch':null;if(cat){const x=STARTER_VIDEOS.filter(v=>v.category===cat);renderVideos(x.length?x:STARTER_VIDEOS);$('#searchStatus').textContent=x.length?cat+' · '+x.length+' video':'Chưa có video cố định cho '+cat;}if(window.APTV_CONFIG?.youtubeSearchApiUrl)searchYouTube(q)});
+document.querySelectorAll('[data-query]').forEach(b=>b.onclick=()=>{$('#ytSearch').value=b.dataset.query;const q=b.dataset.query,cat=q.includes('Thiếu nhi')?'Thiếu nhi':q.includes('Tin tức')?'Tin tức':q.includes('Thể thao')?'Thể thao':q.includes('Nhạc')?'Nhạc':q.includes('Du lịch')||q.includes('khám phá')?'Du lịch':null;if(cat){const x=STARTER_VIDEOS.filter(v=>v.category===cat);renderVideos(x.length?x:STARTER_VIDEOS);$('#searchStatus').textContent=x.length?cat+' · '+x.length+' video':'Chưa có video cố định cho '+cat;}if(window.APTV_CONFIG?.youtubeSearchApiUrl)searchYouTube(q)});
 $('#recentBtn').onclick=()=>renderVideos(getHistory());
 
-$('[data-yt-query]').forEach(b=>b.onclick=()=>{
-  $('.yt-section').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+document.querySelectorAll('[data-yt-query]').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.yt-section').forEach(x=>x.classList.remove('active'));b.classList.add('active');
   const q=b.dataset.ytQuery,cat=q.includes('Thiếu nhi')?'Thiếu nhi':q.includes('Tin tức')?'Tin tức':q.includes('Thể thao')?'Thể thao':q.includes('Nhạc')?'Nhạc':q.includes('Du lịch')?'Du lịch':null;
   $('#ytSearch').value=q;
   const local=cat?STARTER_VIDEOS.filter(v=>v.category===cat):STARTER_VIDEOS;
@@ -46,8 +46,8 @@ $('[data-yt-query]').forEach(b=>b.onclick=()=>{
   $('#searchStatus').textContent=local.length?cat+' · '+local.length+' video':'Chưa có video cố định cho '+cat;
   if(window.APTV_CONFIG?.youtubeSearchApiUrl)searchYouTube(q);
 });
-$('[data-yt-section]').forEach(b=>b.onclick=()=>{
-  $('.yt-section').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+document.querySelectorAll('[data-yt-section]').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.yt-section').forEach(x=>x.classList.remove('active'));b.classList.add('active');
   if(b.dataset.ytSection==='history'){
     $('#searchStatus').classList.remove('hidden');$('#searchStatus').textContent='Video đã xem gần đây';
     renderVideos(getHistory());
