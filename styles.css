@@ -82,3 +82,20 @@ body.layout-small .app-card b{font-size:19px}
 /* Fallback CSS thuần nếu JS chưa chạy */
 @media(max-width:1100px){.dashboard{grid-template-columns:1fr}.side-column{grid-template-columns:1fr 1fr;grid-template-rows:auto}}
 @media(max-width:700px){.dashboard{display:block}.side-column{display:grid;grid-template-columns:1fr;margin-top:10px}.channel-list{grid-template-columns:repeat(2,1fr)}}
+
+.speed-limit-row{display:flex;align-items:center;gap:12px;margin-top:10px;padding:10px;border-radius:12px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08)}
+.limit-sign{width:76px;height:76px;border-radius:50%;background:#fff;border:8px solid #e53935;color:#111;display:grid;place-items:center;flex:0 0 auto;box-shadow:0 0 16px rgba(229,57,53,.28)}
+.limit-sign span{font-size:28px;font-weight:900}
+.limit-copy{display:flex;flex-direction:column;min-width:0}
+.limit-copy>span{font-size:11px;letter-spacing:.12em;color:var(--muted);font-weight:800}
+.limit-copy>b{font-size:20px;margin-top:2px}
+.limit-copy>small{color:var(--muted);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.overspeed-banner{margin:8px 0;padding:10px 12px;border-radius:10px;background:linear-gradient(180deg,#7d1020,#4b0912);border:1px solid #ff6b7c;color:#fff;text-align:center;font-weight:900;letter-spacing:.02em;box-shadow:0 0 18px rgba(255,49,87,.28)}
+.speed-ring.speed-near{border-color:#ffd84a;box-shadow:0 0 20px #d1a900,0 0 36px rgba(255,216,74,.28),inset 0 0 35px rgba(255,216,74,.12)}
+.speed-ring.speed-over{border-color:#ff3d5f;box-shadow:0 0 24px #ff3155,0 0 44px rgba(255,49,85,.5),inset 0 0 35px rgba(255,49,85,.16);animation:overspeedPulse .85s ease-in-out infinite alternate}
+@keyframes overspeedPulse{from{transform:scale(1)}to{transform:scale(1.035)}}
+body.layout-low .speed-limit-row{padding:7px;margin-top:6px}
+body.layout-low .limit-sign{width:58px;height:58px;border-width:6px}
+body.layout-low .limit-sign span{font-size:22px}
+body.layout-small .speed-limit-row{align-items:flex-start}
+body.layout-small .limit-sign{width:56px;height:56px;border-width:6px}
