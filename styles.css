@@ -220,3 +220,13 @@ footer .foot{min-height:var(--touch);white-space:nowrap;flex:0 1 auto}
 .youtube-split.player-mode .car-youtube-layout{flex:1;min-height:0}
 .youtube-split.player-mode .inline-controls{height:50px}
 .youtube-split.player-mode .section-head{flex:0 0 auto}
+
+/* Unified YouTube browse/player frame */
+.youtube-split .car-main{display:flex;flex-direction:column;min-height:0}
+.youtube-split .search{flex:0 0 auto}
+.youtube-split .chips{flex:0 0 auto;display:flex;flex-wrap:wrap}
+.youtube-split #ytResults{flex:1;min-height:0;overflow:auto;align-content:start}
+.youtube-split .browse-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 2px 2px;color:#9eacc1;flex:0 0 auto}
+.youtube-split .browse-foot a{text-decoration:none}
+.youtube-split.player-mode .browse-foot{display:none!important}
+.youtube-split.player-mode .player-inline{border:1px solid rgba(117,222,255,.45);box-shadow:inset 0 0 22px rgba(37,150,220,.08)}
