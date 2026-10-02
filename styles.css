@@ -322,3 +322,6 @@ footer .foot{min-height:var(--touch);white-space:nowrap;flex:0 1 auto}
 .youtube-split .search{grid-template-columns:minmax(0,1fr) 54px 74px!important}
 .youtube-split .voice-search{height:54px!important;min-width:54px!important;border:1px solid rgba(115,204,255,.35);border-radius:10px;background:#0a2038;color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center}
 .youtube-split .voice-search.listening{box-shadow:0 0 0 3px rgba(100,220,255,.24);transform:scale(.96)}
+
+/* Mr.TIEN EVN branding */
+.brand .brand-mark{flex:0 0 48px!important;overflow:visible!important}.brand .brand-mark img{filter:none!important}.brand>span:last-child{white-space:nowrap}.brand>span:last-child>b{color:#68d9ef}.home-logo img{display:block}
