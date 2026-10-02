@@ -1,6 +1,18 @@
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 let channels=[],hls=null,watchId=null;
 
+function applyAdaptiveLayout(){
+  const w=window.innerWidth, h=window.innerHeight, ratio=w/Math.max(h,1);
+  document.body.classList.remove('layout-low','layout-ultrawide','layout-portrait','layout-small');
+  if(h<=720) document.body.classList.add('layout-low');
+  if(ratio>=2.15) document.body.classList.add('layout-ultrawide');
+  if(h>w) document.body.classList.add('layout-portrait');
+  if(w<=760 || h<=520) document.body.classList.add('layout-small');
+}
+applyAdaptiveLayout();
+window.addEventListener('resize',applyAdaptiveLayout);
+window.addEventListener('orientationchange',()=>setTimeout(applyAdaptiveLayout,150));
+
 function updateClock(){
   $('#clock').textContent=new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'});
 }
