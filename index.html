@@ -3,74 +3,104 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#07111f">
-  <title>APTV Home</title>
+  <meta name="theme-color" content="#0c0716">
+  <title>APTV Dashboard</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="app-shell">
+  <div class="shell">
     <header class="topbar">
-      <div>
-        <div class="eyebrow">APTV HOME</div>
-        <h1>Truyền hình & Giải trí</h1>
-      </div>
-      <div class="clock" id="clock">--:--</div>
+      <div class="brand">VELO<span>RA</span></div>
+      <nav class="tabs" aria-label="Điều hướng">
+        <button class="tab focusable active" data-view="youtube">▶ YouTube</button>
+        <button class="tab focusable" data-view="tv">▣ TV</button>
+        <button class="tab focusable" data-view="apps">◈ Apps</button>
+      </nav>
     </header>
 
-    <main>
-      <section class="hero">
-        <div class="hero-copy">
-          <span class="pill">Tối ưu cho TV & remote</span>
-          <h2>Chọn nhanh. Xem ngay.</h2>
-          <p>↑ ↓ ← → để di chuyển · OK/Enter để mở · Back/Esc để quay lại</p>
+    <main class="dashboard">
+      <section class="main-panel">
+        <div class="panel-head">
+          <div>
+            <div class="eyebrow">MEDIA</div>
+            <h1 id="viewTitle">YouTube</h1>
+          </div>
+          <div class="panel-actions">
+            <button class="mini-btn focusable" id="changeVideo">Đổi video</button>
+            <button class="mini-btn focusable" id="zoomVideo">⛶ Phóng to</button>
+          </div>
+        </div>
+
+        <div id="youtubeView" class="view">
+          <div class="video-stage">
+            <iframe id="youtubeFrame"
+              src="https://www.youtube.com/embed/jfKfPfyJRdk?rel=0&autoplay=0"
+              title="YouTube"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+          <div class="media-toolbar">
+            <button class="action-btn focusable" id="playButton">▶ Phát</button>
+            <button class="action-btn focusable" id="retryButton">↻ Thử lại</button>
+            <button class="action-btn focusable" id="openYoutube">YouTube gốc ↗</button>
+          </div>
+        </div>
+
+        <div id="tvView" class="view hidden">
+          <div class="channel-list" id="channelList"></div>
+          <div class="tv-player-wrap">
+            <video id="tvPlayer" controls autoplay playsinline></video>
+            <div id="tvMessage" class="player-message hidden"></div>
+          </div>
+        </div>
+
+        <div id="appsView" class="view hidden">
+          <div class="apps-grid">
+            <a class="app-card focusable" href="https://www.google.com/maps" target="_blank" rel="noopener"><span>📍</span><b>Google Maps</b><small>Bản đồ</small></a>
+            <a class="app-card focusable" href="https://www.youtube.com" target="_blank" rel="noopener"><span>▶</span><b>YouTube</b><small>Mở bản gốc</small></a>
+            <button class="app-card focusable" id="appsTvShortcut"><span>▣</span><b>Truyền hình</b><small>Mở danh sách kênh</small></button>
+            <button class="app-card focusable" id="appsHomeShortcut"><span>⌂</span><b>Trang chính</b><small>Quay về YouTube</small></button>
+          </div>
         </div>
       </section>
 
-      <section class="section">
-        <div class="section-title-row"><h3>Truy cập nhanh</h3></div>
-        <div class="grid quick-grid">
-          <button class="card focusable accent-card" data-action="youtube" data-url="https://www.youtube.com/">
-            <span class="card-icon">▶</span><span class="card-title">YouTube</span><span class="card-subtitle">Mở trình duyệt</span>
-          </button>
-          <button class="card focusable" data-action="category" data-category="tv">
-            <span class="card-icon">▣</span><span class="card-title">Truyền hình</span><span class="card-subtitle">Tất cả kênh</span>
-          </button>
-          <button class="card focusable" data-action="category" data-category="sports">
-            <span class="card-icon">★</span><span class="card-title">Thể thao</span><span class="card-subtitle">Kênh thể thao</span>
-          </button>
-          <button class="card focusable" data-action="category" data-category="favorites">
-            <span class="card-icon">♥</span><span class="card-title">Yêu thích</span><span class="card-subtitle">Mở nhanh</span>
-          </button>
-        </div>
-      </section>
+      <aside class="side-column">
+        <section class="widget weather-widget">
+          <div class="widget-head">
+            <span>THỜI TIẾT</span>
+            <span id="clock">--:--</span>
+          </div>
+          <div class="weather-main">
+            <div class="weather-icon" id="weatherIcon">☀️</div>
+            <div>
+              <div class="temp" id="temperature">--°</div>
+              <div class="weather-text" id="weatherText">Đang lấy dữ liệu...</div>
+            </div>
+          </div>
+          <div class="weather-meta" id="weatherMeta">Cho phép vị trí để xem thời tiết địa phương</div>
+        </section>
 
-      <section class="section">
-        <div class="section-title-row">
-          <h3>Kênh của tôi</h3>
-          <span class="hint" id="channelCount"></span>
-        </div>
-        <div class="grid channel-grid" id="channelGrid"></div>
-      </section>
+        <section class="widget trip-widget">
+          <div class="widget-head"><span>CHUYẾN ĐI · GPS</span><span id="gpsState">●</span></div>
+          <div class="speedometer">
+            <div class="speed-ring">
+              <div class="speed-value" id="speedValue">0</div>
+              <div class="speed-unit">km/h</div>
+            </div>
+          </div>
+          <div class="trip-stats">
+            <div><span>GPS</span><b id="gpsText">Chưa bật</b></div>
+            <div><span>Độ chính xác</span><b id="accuracyText">--</b></div>
+          </div>
+          <button class="wide-btn focusable" id="gpsButton">Bật GPS</button>
+        </section>
+      </aside>
     </main>
-  </div>
 
-  <div class="overlay hidden" id="playerOverlay">
-    <div class="player-topbar">
-      <div><div class="eyebrow">ĐANG PHÁT</div><div class="player-title" id="playerTitle">Kênh</div></div>
-      <button class="back-btn focusable" id="closePlayer">← Quay lại</button>
-    </div>
-    <video id="video" controls autoplay playsinline></video>
-    <div class="player-message hidden" id="playerMessage"></div>
-  </div>
-
-  <div class="overlay hidden" id="listOverlay">
-    <div class="list-panel">
-      <div class="player-topbar">
-        <div><div class="eyebrow">DANH SÁCH</div><div class="player-title" id="listTitle">Kênh</div></div>
-        <button class="back-btn focusable" id="closeList">← Quay lại</button>
-      </div>
-      <div class="grid channel-grid" id="listGrid"></div>
-    </div>
+    <footer class="footerbar">
+      <button class="footer-btn focusable" id="utilityButton">◉ Tiện ích</button>
+      <button class="footer-btn focusable" id="fitButton">Fit 100%</button>
+    </footer>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
