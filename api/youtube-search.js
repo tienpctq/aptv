@@ -1,5 +1,5 @@
 var CACHE_TTL=21600000;
-var cache=globalThis.__aptvYoutubeCache||(globalThis.__aptvYoutubeCache={});
+var cache=globalThis.__aptvYoutubeCacheV2||(globalThis.__aptvYoutubeCacheV2={});
 function normalize(items){var out=[];for(var i=0;i<(items||[]).length;i++){var x=items[i]||{},id=x.videoId||x.id;if(typeof id==="object")id=id.videoId;var t=x.title||"",ch=x.author||x.channel||x.channelTitle||"",thumb=id?("https://i.ytimg.com/vi/"+encodeURIComponent(id)+"/mqdefault.jpg"):(x.videoThumbnails&&x.videoThumbnails.length?x.videoThumbnails[0].url:(x.thumbnail||""));if(id)out.push({id:id,title:t,channel:ch,thumbnail:thumb})}return out}
 async function fallback(q){
   var bases=["https://pipedapi.kavin.rocks","https://pipedapi.tokhmi.xyz","https://pipedapi.moomoo.me","https://pipedapi.syncpundit.io","https://api-piped.mha.fi","https://piped-api.garudalinux.org"];
