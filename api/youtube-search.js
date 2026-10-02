@@ -1,6 +1,6 @@
 var CACHE_TTL=21600000;
 var cache=globalThis.__aptvYoutubeCache||(globalThis.__aptvYoutubeCache={});
-function normalize(items){var out=[];for(var i=0;i<(items||[]).length;i++){var x=items[i]||{},id=x.videoId||x.id;if(typeof id==="object")id=id.videoId;var t=x.title||"",ch=x.author||x.channel||x.channelTitle||"",thumb=x.videoThumbnails&&x.videoThumbnails.length?x.videoThumbnails[0].url:(x.thumbnail||"");if(id)out.push({id:id,title:t,channel:ch,thumbnail:thumb})}return out}
+function normalize(items){var out=[];for(var i=0;i<(items||[]).length;i++){var x=items[i]||{},id=x.videoId||x.id;if(typeof id==="object")id=id.videoId;var t=x.title||"",ch=x.author||x.channel||x.channelTitle||"",thumb=id?("https://i.ytimg.com/vi/"+encodeURIComponent(id)+"/mqdefault.jpg"):(x.videoThumbnails&&x.videoThumbnails.length?x.videoThumbnails[0].url:(x.thumbnail||""));if(id)out.push({id:id,title:t,channel:ch,thumbnail:thumb})}return out}
 async function fallback(q){
   var bases=["https://pipedapi.kavin.rocks","https://pipedapi.tokhmi.xyz","https://pipedapi.moomoo.me","https://pipedapi.syncpundit.io","https://api-piped.mha.fi","https://piped-api.garudalinux.org"];
   for(var i=0;i<bases.length;i++){try{var r=await fetch(bases[i]+"/search?q="+encodeURIComponent(q)+"&filter=videos",{headers:{"User-Agent":"APTV/1.0"}});if(!r.ok)continue;var d=await r.json(),items=normalize(d.items||d);if(items.length)return items.slice(0,18)}catch(e){}}
