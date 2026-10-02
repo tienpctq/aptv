@@ -33,7 +33,7 @@ function playYouTube(v){
 
 function handleSearch(){const q=$('#ytSearch').value.trim();if(!q)return;const id=parseId(q);if(id)return playYouTube(id);searchYouTube(q)}
 $('#ytSearchBtn').onclick=handleSearch;$('#ytSearch').addEventListener('keydown',e=>{if(e.key==='Enter')handleSearch()});
-$$('[data-query]').forEach(b=>b.onclick=()=>{$('#ytSearch').value=b.dataset.query;searchYouTube(b.dataset.query)});
+$('[data-query]').forEach(b=>b.onclick=()=>{$('#ytSearch').value=b.dataset.query;const q=b.dataset.query,cat=q.includes('Thiếu nhi')?'Thiếu nhi':q.includes('Tin tức')?'Tin tức':q.includes('Thể thao')?'Thể thao':q.includes('Nhạc')?'Nhạc':q.includes('Du lịch')||q.includes('khám phá')?'Du lịch':null;if(cat){const x=STARTER_VIDEOS.filter(v=>v.category===cat);renderVideos(x.length?x:STARTER_VIDEOS);$('#searchStatus').textContent=x.length?cat+' · '+x.length+' video':'Chưa có video cố định cho '+cat;}if(window.APTV_CONFIG?.youtubeSearchApiUrl)searchYouTube(q)});
 $('#recentBtn').onclick=()=>renderVideos(getHistory());
 
 $('[data-yt-query]').forEach(b=>b.onclick=()=>{
@@ -86,4 +86,4 @@ $('#speedLimitOnlineButton').onclick=()=>{onlineSpeedLimitEnabled=!onlineSpeedLi
 $('#limitSign').onclick=()=>{const x=prompt('Nhập giới hạn tốc độ thử nghiệm:');if(x!==null)setLimit(x,'Thử nghiệm thủ công')};
 
 document.addEventListener('keydown',e=>{if(!['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key))return;const cur=document.activeElement;if(!cur?.classList.contains('focusable'))return;e.preventDefault();const all=$$('.focusable').filter(x=>x.offsetParent!==null),r=cur.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;let best=null,score=1e9;for(const el of all){if(el===cur)continue;const q=el.getBoundingClientRect(),dx=q.left+q.width/2-cx,dy=q.top+q.height/2-cy,ok=(e.key==='ArrowRight'&&dx>8)||(e.key==='ArrowLeft'&&dx<-8)||(e.key==='ArrowDown'&&dy>8)||(e.key==='ArrowUp'&&dy<-8);if(!ok)continue;const p=/Left|Right/.test(e.key)?Math.abs(dx):Math.abs(dy),s=/Left|Right/.test(e.key)?Math.abs(dy):Math.abs(dx),v=p+s*2;if(v<score){score=v;best=el}}best?.focus()});
-loadChannels();renderPlaylist();mode('youtube');renderVideos(STARTER_VIDEOS);$('#searchStatus').textContent='Chọn video để xem trực tiếp · hoặc dán link YouTube vào ô tìm kiếm.';
+window.addEventListener('error',()=>{$('#searchStatus').textContent='Có lỗi giao diện · hãy tải lại trang.'});loadChannels();renderPlaylist();mode('youtube');renderVideos(STARTER_VIDEOS);$('#searchStatus').textContent='Chọn video để xem trực tiếp · hoặc dán link YouTube vào ô tìm kiếm.';
