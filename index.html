@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#08111f">
+  <title>APTV Home</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">APTV HOME</div>
+        <h1>Truyền hình & Giải trí</h1>
+      </div>
+      <div class="clock" id="clock">--:--</div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <span class="pill">Điều khiển bằng Remote</span>
+          <h2>Chọn nội dung và xem ngay</h2>
+          <p>↑ ↓ ← → để di chuyển · OK/Enter để mở · Back/Esc để quay lại</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title-row">
+          <h3>Truy cập nhanh</h3>
+        </div>
+        <div class="grid" id="quickGrid">
+          <button class="card focusable" data-action="youtube" data-url="https://www.youtube.com/">
+            <span class="card-icon">▶</span>
+            <span class="card-title">YouTube</span>
+            <span class="card-subtitle">Mở trình duyệt</span>
+          </button>
+
+          <button class="card focusable" data-action="category" data-category="tv">
+            <span class="card-icon">▣</span>
+            <span class="card-title">Truyền hình</span>
+            <span class="card-subtitle">Danh sách kênh</span>
+          </button>
+
+          <button class="card focusable" data-action="category" data-category="sports">
+            <span class="card-icon">★</span>
+            <span class="card-title">Thể thao</span>
+            <span class="card-subtitle">Kênh yêu thích</span>
+          </button>
+
+          <button class="card focusable" data-action="category" data-category="favorites">
+            <span class="card-icon">♥</span>
+            <span class="card-title">Yêu thích</span>
+            <span class="card-subtitle">Mở nhanh</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title-row">
+          <h3>Kênh của tôi</h3>
+          <span class="hint">Sửa trong <b>channels.json</b></span>
+        </div>
+        <div class="grid channel-grid" id="channelGrid"></div>
+      </section>
+    </main>
+  </div>
+
+  <div class="overlay hidden" id="playerOverlay">
+    <div class="player-topbar">
+      <div>
+        <div class="eyebrow">ĐANG PHÁT</div>
+        <div class="player-title" id="playerTitle">Kênh</div>
+      </div>
+      <button class="back-btn focusable" id="closePlayer">← Quay lại</button>
+    </div>
+    <video id="video" controls autoplay playsinline></video>
+    <div class="player-message hidden" id="playerMessage"></div>
+  </div>
+
+  <div class="overlay hidden" id="listOverlay">
+    <div class="list-panel">
+      <div class="player-topbar">
+        <div>
+          <div class="eyebrow">DANH SÁCH</div>
+          <div class="player-title" id="listTitle">Kênh</div>
+        </div>
+        <button class="back-btn focusable" id="closeList">← Quay lại</button>
+      </div>
+      <div class="grid channel-grid" id="listGrid"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
+  <script src="app.js"></script>
+</body>
+</html>
