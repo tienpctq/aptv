@@ -1,6 +1,7 @@
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 let channels=[],hls=null,watchId=null;
 let currentSpeed=0,speedLimit=null,speedLimitSource='Chưa kết nối nguồn bản đồ';
+let onlineSpeedLimitEnabled=false,lastRoadPoint=null,lastSpeedLimitFetch=0;
 const OVERSPEED_MARGIN=3;
 let lastAlertAt=0,audioCtx=null;
 
@@ -134,6 +135,50 @@ $('#utilityButton').onclick=()=>showView('apps');
 $('#appsTvShortcut').onclick=()=>showView('tv');
 $('#appsHomeShortcut').onclick=()=>showView('youtube');
 
+
+async function fetchRoadSpeedLimit(lat,lon){
+  if(!onlineSpeedLimitEnabled)return;
+  const endpoint=window.APTV_CONFIG?.speedLimitApiUrl;
+  if(!endpoint){
+    $('#speedLimitSource').textContent='Chưa cấu hình API giới hạn tốc độ';
+    return;
+  }
+  const now=Date.now();
+  const current={lat,lon};
+  if(!lastRoadPoint){lastRoadPoint=current;return;}
+  if(now-lastSpeedLimitFetch<8000)return;
+
+  const moved=distanceMeters(lastRoadPoint.lat,lastRoadPoint.lon,lat,lon);
+  if(moved<15)return;
+
+  lastSpeedLimitFetch=now;
+  try{
+    const url=new URL(endpoint);
+    url.searchParams.set('lat',lat);
+    url.searchParams.set('lon',lon);
+    url.searchParams.set('prevLat',lastRoadPoint.lat);
+    url.searchParams.set('prevLon',lastRoadPoint.lon);
+    const resp=await fetch(url.toString(),{cache:'no-store'});
+    const data=await resp.json();
+    if(resp.ok && Number.isFinite(Number(data.speedLimit)) && Number(data.speedLimit)>0){
+      setRoadSpeedLimit(Number(data.speedLimit),'HERE · '+(data.source||'bản đồ'));
+    }else{
+      setRoadSpeedLimit(null,'HERE · chưa xác định giới hạn');
+    }
+  }catch(e){
+    $('#speedLimitSource').textContent='Không kết nối được API giới hạn tốc độ';
+  }finally{
+    lastRoadPoint=current;
+  }
+}
+
+function distanceMeters(lat1,lon1,lat2,lon2){
+  const R=6371000,toRad=x=>x*Math.PI/180;
+  const dLat=toRad(lat2-lat1),dLon=toRad(lon2-lon1);
+  const a=Math.sin(dLat/2)**2+Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
+  return 2*R*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+
 function updateWeather(lat,lon){
   const url='https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+'&current=temperature_2m,weather_code,wind_speed_10m&timezone=auto';
   fetch(url).then(r=>r.json()).then(data=>{
@@ -168,6 +213,7 @@ function startGPS(){
     updateOverspeedState();
     $('#gpsState').style.color='#55ff88';
     updateWeather(latitude,longitude);
+    fetchRoadSpeedLimit(latitude,longitude);
   },err=>{
     $('#gpsText').textContent=err.code===1?'Bị từ chối':'Không có tín hiệu';
     $('#gpsState').style.color='#ff5577';
@@ -180,6 +226,17 @@ $('#limitSign').onclick=()=>{
   if(raw.trim()===''){setRoadSpeedLimit(null,'Chưa kết nối nguồn bản đồ');return;}
   const n=Number(raw);
   if(Number.isFinite(n)&&n>0)setRoadSpeedLimit(n,'Giới hạn thử nghiệm thủ công');
+};
+
+
+$('#speedLimitOnlineButton').onclick=()=>{
+  onlineSpeedLimitEnabled=!onlineSpeedLimitEnabled;
+  $('#speedLimitOnlineButton').textContent=onlineSpeedLimitEnabled?'Tắt giới hạn tốc độ trực tuyến':'Bật giới hạn tốc độ trực tuyến';
+  $('#speedLimitSource').textContent=onlineSpeedLimitEnabled?'Đang chờ dữ liệu GPS...':'Đã tắt dữ liệu giới hạn trực tuyến';
+  if(!onlineSpeedLimitEnabled){
+    lastRoadPoint=null;
+    setRoadSpeedLimit(null,'Đã tắt dữ liệu giới hạn trực tuyến');
+  }
 };
 
 $('#gpsButton').onclick=()=>{
