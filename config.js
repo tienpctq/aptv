@@ -1,5 +1,8 @@
 window.APTV_CONFIG = {
-  // Sau khi deploy API proxy (ví dụ Vercel), điền URL tại đây.
-  // Ví dụ: "https://aptv-speed.vercel.app/api/speed-limit"
-  speedLimitApiUrl: ""
+  // Endpoint Vercel cho giới hạn tốc độ HERE:
+  speedLimitApiUrl: "",
+
+  // Endpoint Vercel cho tìm kiếm YouTube:
+  // Ví dụ: "https://ten-du-an.vercel.app/api/youtube-search"
+  youtubeSearchApiUrl: ""
 };
