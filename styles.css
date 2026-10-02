@@ -40,3 +40,12 @@ footer{height:46px;background:#06131f;border-top-color:#203a4d}.foot{color:#92ad
 .workspace.swapped-layout>.left{grid-column:2;grid-row:1}
 .workspace.swapped-layout>.right{grid-column:1;grid-row:1}
 @media(max-width:900px){.workspace.swapped-layout{grid-template-columns:1fr}.workspace.swapped-layout>.left,.workspace.swapped-layout>.right{grid-column:1;grid-row:auto}}
+
+/* CarTube automotive popup */
+#videoModal{background:rgba(1,6,18,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+#videoModal .video-modal-card{width:min(980px,92vw);border:1px solid rgba(120,180,255,.28);box-shadow:0 28px 90px rgba(0,0,0,.65);transform:scale(.97);transition:transform .18s ease}
+#videoModal.velora-open .video-modal-card{transform:scale(1)}
+#videoModal .modal-player{aspect-ratio:16/9;background:#000;border-radius:14px;overflow:hidden}
+#videoModal .player-actions{display:flex;gap:12px;justify-content:center;padding-top:14px}
+#videoModal .player-actions .small{min-width:130px;min-height:48px}
+#modalRetry:disabled{opacity:.55;pointer-events:none}
