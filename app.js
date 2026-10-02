@@ -12,6 +12,8 @@ const STARTER_VIDEOS=[
 ];
 
 
+function openCockpit(name){$('#driveHome').classList.add('hidden');$('#cockpitApp').classList.remove('hidden');mode(name)}
+function showDriveHome(){$('#cockpitApp').classList.add('hidden');$('#driveHome').classList.remove('hidden')}
 function mode(name){
  ['youtube','tv','apps'].forEach(x=>$('#'+x+'Mode')?.classList.toggle('hidden',x!==name));
  $$('.nav').forEach(b=>b.classList.toggle('active',b.dataset.mode===name));
@@ -23,7 +25,7 @@ let fitIndex=0;const FITS=[1,.9,.8];$('#fitButton').onclick=()=>{fitIndex=(fitIn
 $('#swapBtn').onclick=()=>$('.shell').classList.toggle('swapped');
 $('#videoFullscreen').onclick=()=>$('#playerWrap').classList.contains('hidden')?$('.left').requestFullscreen?.():$('#playerWrap').requestFullscreen?.();
 
-function clock(){ $('#clock').textContent=new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'}); } clock();setInterval(clock,30000);
+function clock(){ const t=new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'});$('#clock').textContent=t;const hc=$('#homeClock');if(hc)hc.textContent=t; } clock();setInterval(clock,30000);
 
 function parseId(v=''){const m=v.match(/(?:v=|youtu\.be\/|shorts\/|embed\/)([A-Za-z0-9_-]{6,})/);if(m)return m[1];return /^[A-Za-z0-9_-]{6,}$/.test(v.trim())?v.trim():null}
 function ensureYTPlayer(id,autoplay){
@@ -111,4 +113,5 @@ $('#modalRetry').onclick=function(){if(!currentVideo)return;$('#modalHelp').text
 $('#modalFit').onclick=function(){$('.video-modal-card').classList.toggle('player-fit90');$('#modalFit').textContent=$('.video-modal-card').classList.contains('player-fit90')?'⛶ Fit 100%':'⛶ Fit 90%'};
 $('#settingsBtn').onclick=()=>$('#settingsModal').classList.remove('hidden');$('#settingsClose').onclick=()=>$('#settingsModal').classList.add('hidden');['toggleWeather','toggleGps','togglePlaylist','toggleAutoplay'].forEach(id=>$('#'+id).onchange=savePrefs);$('#modalClose').onclick=()=>{$('#videoModal').classList.add('hidden');try{if(ytPlayer)ytPlayer.stopVideo()}catch(e){};$('#youtubeFrame').src=''};$('#videoModal').onclick=e=>{if(e.target===$('#videoModal'))$('#modalClose').click()};applyPrefs();
 try{const f=Number(localStorage.getItem('aptvFit')||1);const i=FITS.indexOf(f);if(i>=0){fitIndex=i;document.documentElement.style.setProperty('--fit',f);$('#fitButton').textContent='⛶ Fit '+Math.round(f*100)+'%'}}catch(e){}
-window.addEventListener('error',e=>{$('#searchStatus').textContent='Lỗi giao diện: '+(e.message||'hãy tải lại trang.')});loadChannels();renderPlaylist();mode('youtube');renderVideos(STARTER_VIDEOS);$('#searchStatus').textContent='Chọn video để xem trực tiếp · hoặc dán link YouTube vào ô tìm kiếm.';
+$('#homeYouTube').onclick=()=>openCockpit('youtube');$('#homeCarTube').onclick=()=>openCockpit('youtube');$('#homeTV').onclick=()=>openCockpit('tv');$('#homeSettings').onclick=()=>$('#settingsModal').classList.remove('hidden');$('#homeLayout').onclick=()=>openCockpit('apps');$('#homeFit').onclick=()=>{document.documentElement.style.setProperty('--fit','.9');localStorage.setItem('aptvFit','.9');$('#homeFit span').textContent='Fit 90%'};
+window.addEventListener('error',e=>{$('#searchStatus').textContent='Lỗi giao diện: '+(e.message||'hãy tải lại trang.')});loadChannels();renderPlaylist();mode('youtube');showDriveHome();renderVideos(STARTER_VIDEOS);$('#searchStatus').textContent='Chọn video để xem trực tiếp · hoặc dán link YouTube vào ô tìm kiếm.';
