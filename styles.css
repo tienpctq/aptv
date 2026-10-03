@@ -713,3 +713,35 @@ footer{height:auto;min-height:56px;align-items:center}
  .youtube-split .results{gap:10px 8px!important}
  .youtube-split .video-card b{font-size:12px!important}
 }
+
+/* CarTube dense desktop/tablet gallery v11 */
+@media(min-width:821px){
+ body.cartube-page .workspace{grid-template-columns:minmax(0,1fr)!important}
+ body.cartube-page .right{display:none!important}
+ body.cartube-page .left{padding:10px 14px!important;overflow:hidden!important}
+ body.cartube-page #youtubeMode{height:100%;display:flex;flex-direction:column;min-height:0}
+ body.cartube-page .velora-head{min-height:52px!important;margin-bottom:8px!important}
+ body.cartube-page .car-youtube-layout{display:grid!important;grid-template-columns:92px minmax(0,1fr)!important;gap:14px!important;flex:1;min-height:0}
+ body.cartube-page .car-side{width:auto!important;min-width:0!important;overflow-y:auto!important}
+ body.cartube-page .car-main{min-width:0!important;height:100%!important;display:flex!important;flex-direction:column!important;overflow:hidden!important}
+ body.cartube-page .search{display:grid!important;grid-template-columns:minmax(0,1fr) 64px 78px!important;gap:8px!important;margin-bottom:8px!important}
+ body.cartube-page .chips,body.cartube-page .media-grid,body.cartube-page .quick-panel{display:none!important}
+ body.cartube-page .status{margin:0 0 10px!important;padding:8px 12px!important;flex:0 0 auto}
+ body.cartube-page .browse-foot{display:none!important}
+ body.cartube-page .results{flex:1!important;min-height:0!important;overflow-y:auto!important;display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:18px 14px!important;align-content:start!important;padding:0 4px 12px!important}
+ body.cartube-page .video-card{display:block!important;width:100%!important;min-width:0!important;height:auto!important;min-height:0!important;max-height:none!important;border:0!important;background:transparent!important;box-shadow:none!important;overflow:hidden!important}
+ body.cartube-page .video-card img{display:block!important;width:100%!important;height:auto!important;aspect-ratio:16/9!important;object-fit:cover!important;border-radius:12px!important}
+ body.cartube-page .video-card b{display:-webkit-box!important;-webkit-box-orient:vertical!important;-webkit-line-clamp:2!important;overflow:hidden!important;white-space:normal!important;font-size:14px!important;line-height:1.2!important;margin:7px 2px 3px!important;min-height:34px!important}
+ body.cartube-page .video-card small{display:block!important;font-size:11px!important;margin:0 2px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+}
+@media(min-width:821px) and (max-width:1180px){
+ body.cartube-page .results{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+}
+@media(max-width:820px),(orientation:portrait){
+ body.cartube-page .chips{display:none!important}
+ body.cartube-page .results{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px 9px!important;align-content:start!important}
+ body.cartube-page .video-card{display:block!important;height:auto!important;min-height:0!important;max-height:none!important;border:0!important;background:transparent!important}
+ body.cartube-page .video-card img{width:100%!important;height:auto!important;aspect-ratio:16/9!important;object-fit:cover!important;border-radius:12px!important}
+ body.cartube-page .video-card b{font-size:13px!important;line-height:1.18!important;margin:6px 3px 2px!important;-webkit-line-clamp:2!important}
+ body.cartube-page .video-card small{font-size:10px!important;margin:0 3px 4px!important}
+}
