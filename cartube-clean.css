@@ -87,3 +87,9 @@ body.cartube-page{margin:0;background:var(--ct-bg)!important;color:var(--ct-text
  .cartube-page .yt-sections{margin-top:0!important;padding-top:0!important;justify-content:flex-start!important;align-content:flex-start!important}
  .cartube-page .dashboard-link{margin-top:0!important}
 }
+
+/* Fix inherited sticky offset from legacy stylesheet v9 */
+@media(min-width:821px){
+ body.cartube-page .car-side{position:static!important;top:auto!important;bottom:auto!important;transform:none!important;max-height:none!important;height:100%!important;margin:0!important;padding-top:0!important}
+ body.cartube-page .car-side .yt-sections{margin:0!important;padding-top:0!important}
+}
