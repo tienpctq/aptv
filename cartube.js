@@ -151,7 +151,7 @@ if(saved)saved.onclick=function(){try{var a=JSON.parse(localStorage.getItem('apt
  var inp=document.getElementById('ytSearch'),btn=document.getElementById('ytClearSearch');
  if(!inp||!btn)return;
  function sync(){var p=inp.parentNode;if(!p)return;p.className=(inp.value&&inp.value.length)?'ct-search-input has-text':'ct-search-input'}
- inp.addEventListener('input',sync);
+ inp.addEventListener('input',sync);inp.addEventListener('keyup',sync);inp.addEventListener('change',sync);
  btn.onclick=function(e){if(e){e.preventDefault();e.stopPropagation()}inp.value='';sync();inp.focus()};
  sync();
 })();
