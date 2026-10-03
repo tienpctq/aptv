@@ -86,3 +86,17 @@
  .aptv-tv .tv-voice,.aptv-tv .tv-clear{top:2px!important}
  .aptv-tv .tv-channel-grid{top:82px!important}
 }
+
+/* TV Focus v5 — fit entire cockpit inside viewport, no clipped bottom */
+html,body.aptv-tv{height:100%!important;min-height:0!important;overflow:hidden!important}
+.aptv-tv #cockpitApp{height:100dvh!important;max-height:100dvh!important;min-height:0!important;box-sizing:border-box!important;overflow:hidden!important;grid-template-rows:58px minmax(0,1fr)!important}
+.aptv-tv .tv-workspace{height:auto!important;min-height:0!important;overflow:hidden!important}
+.aptv-tv .tv-main,.aptv-tv .tv-quick{height:100%!important;min-height:0!important;overflow:hidden!important}
+.aptv-tv .tv-main{grid-template-rows:40px 42px minmax(0,1fr)!important;gap:4px!important}
+.aptv-tv .tv-head{height:40px!important;min-height:40px!important}
+.aptv-tv .tv-head-actions .small{height:36px!important;min-height:36px!important}
+.aptv-tv .tv-toolbar,.aptv-tv .tv-search-wrap,.aptv-tv #tvSearch,.aptv-tv .tv-browse-toggle,.aptv-tv .tv-groups,.aptv-tv .tv-groups .chip{height:42px!important;min-height:42px!important}
+.aptv-tv .tv-player-wrap{height:100%!important;min-height:0!important;max-height:100%!important;overflow:hidden!important}
+.aptv-tv #tvVideo{height:100%!important;max-height:100%!important}
+.aptv-tv .tv-quick-list{height:auto!important;min-height:0!important;max-height:none!important;overflow-y:auto!important}
+@supports not (height:100dvh){.aptv-tv #cockpitApp{height:100vh!important;max-height:100vh!important}}
