@@ -141,3 +141,21 @@ body.youtube-split{margin:0;background:radial-gradient(ellipse at 0 0,#24444d55,
  .youtube-split .velora-split-top nav{grid-template-columns:repeat(3,96px)!important;gap:6px!important}
  .youtube-split .velora-split-top .nav{width:96px!important;min-width:96px!important;height:42px!important;min-height:42px!important;font-size:14px!important}
 }
+
+/* Compact weather card v11 — keep all information visible */
+.youtube-split .weather{position:relative!important;display:grid!important;grid-template-rows:auto auto minmax(0,1fr)!important;padding:8px 10px!important;overflow:hidden!important}
+.youtube-split .weather>div:first-child{position:relative!important;display:block!important;min-height:46px!important}
+.youtube-split .weather>div:first-child>small{position:absolute!important;left:0!important;top:0!important;font-size:10px!important;letter-spacing:.04em!important}
+.youtube-split .weather #clock{position:absolute!important;right:0!important;top:-2px!important;font-size:34px!important;line-height:38px!important}
+.youtube-split #weatherRefresh{
+ position:absolute!important;right:8px!important;top:48px!important;z-index:3!important;
+ width:32px!important;height:32px!important;min-width:32px!important;min-height:32px!important;
+ padding:0!important;margin:0!important;border-radius:10px!important;
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ font-size:19px!important;line-height:1!important;
+}
+.youtube-split .weather-place{min-height:20px!important;padding-right:42px!important;margin:0!important;font-size:12px!important;line-height:18px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.youtube-split .weather-row{min-height:54px!important;margin:0!important;padding:2px 42px 0 0!important;display:grid!important;grid-template-columns:42px auto minmax(0,1fr)!important;align-items:center!important;gap:5px!important;overflow:hidden!important}
+.youtube-split .weather-row #weatherIcon{font-size:28px!important;line-height:32px!important}
+.youtube-split .weather-row #temperature{font-size:25px!important;line-height:30px!important;white-space:nowrap!important}
+.youtube-split .weather-row #weatherText{font-size:10px!important;line-height:13px!important;white-space:normal!important;overflow:hidden!important;max-height:28px!important}
