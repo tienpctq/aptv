@@ -73,3 +73,21 @@ body.youtube-split{margin:0;background:radial-gradient(ellipse at 0 0,#24444d55,
 .youtube-split.player-mode .results{display:none!important}
 .youtube-split.player-mode .browse-foot{display:none!important}
 .youtube-split.player-mode .velora-chips{display:none!important}
+
+/* Video-first browsing v7: maximize useful selection area */
+.youtube-split:not(.player-mode) .velora-head{height:38px!important;flex-basis:38px!important}
+.youtube-split:not(.player-mode) .velora-head>b{font-size:18px!important}
+.youtube-split:not(.player-mode) .yt-head-actions .small{height:34px!important;min-height:34px!important;padding:0 11px!important;font-size:12px!important}
+.youtube-split:not(.player-mode) .search{height:44px!important;margin-bottom:5px!important;grid-template-columns:minmax(0,1fr) 58px 190px!important}
+.youtube-split:not(.player-mode) #ytSearch,.youtube-split:not(.player-mode) #ytSearchBtn,.youtube-split:not(.player-mode) .yt-external-search{height:44px!important;min-height:44px!important}
+.youtube-split:not(.player-mode) .velora-chips{height:40px!important;margin-bottom:5px!important;gap:7px!important}
+.youtube-split:not(.player-mode) .velora-chips .quick{height:40px!important;min-height:40px!important;padding:0 13px!important;border-radius:12px!important;font-size:13px!important}
+.youtube-split:not(.player-mode) .results{
+ grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ grid-auto-rows:max-content!important;gap:12px!important;
+ padding:4px 4px 8px!important;align-content:start!important;
+}
+.youtube-split:not(.player-mode) .video-card{display:block!important;min-height:0!important}
+.youtube-split:not(.player-mode) .video-card img{width:100%!important;aspect-ratio:16/9!important;max-height:none!important;border-radius:10px!important}
+.youtube-split:not(.player-mode) .browse-foot{height:22px!important;min-height:22px!important;font-size:10px!important;padding:1px 2px!important}
+@media(min-width:1450px){.youtube-split:not(.player-mode) .results{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
