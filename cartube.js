@@ -170,3 +170,24 @@ if(saved)saved.onclick=function(){try{var a=JSON.parse(localStorage.getItem('apt
   }
  },true);
 })();
+
+/* Mobile clear search touch fix v29 */
+(function(){
+ var i=document.getElementById('ytSearch'),b=document.getElementById('ytClearSearch');
+ if(!i||!b)return;
+ function sync(){var p=i.parentNode;if(p)p.className=i.value?'ct-search-input has-text':'ct-search-input'}
+ function clear(e){
+  if(e&&e.preventDefault)e.preventDefault();
+  if(e&&e.stopPropagation)e.stopPropagation();
+  i.value='';
+  try{i.dispatchEvent(new Event('input',{bubbles:true}))}catch(x){sync()}
+  sync();
+  try{i.focus()}catch(x){}
+  return false;
+ }
+ b.onclick=clear;
+ b.ontouchend=clear;
+ b.onpointerup=clear;
+ i.onsearch=function(){sync()};
+ sync();
+})();
