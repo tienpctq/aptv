@@ -122,3 +122,25 @@ body.cartube-page{margin:0;background:var(--ct-bg)!important;color:var(--ct-text
  .cartube-page .ct-brand-contact{display:none}
  body.cartube-page .search{left:82px!important;right:88px!important;width:auto!important;transform:none!important}
 }
+
+/* Header visibility + true centered search fix v12 */
+body.cartube-page header.top>a.ct-brand-contact{
+ display:block!important;visibility:visible!important;opacity:1!important;
+ position:fixed!important;z-index:100!important;left:14px!important;top:27px!important;
+ width:auto!important;height:auto!important;margin:0!important;padding:0!important;
+ color:#f5f7fb!important;text-decoration:none!important;font-size:14px!important;font-weight:800!important;
+}
+@media(min-width:821px){
+ body.cartube-page #youtubeMode .search{
+   display:grid!important;position:fixed!important;z-index:90!important;
+   left:50%!important;right:auto!important;top:9px!important;
+   width:620px!important;max-width:46vw!important;height:56px!important;
+   transform:translateX(-50%)!important;
+   grid-template-columns:minmax(0,1fr) 62px!important;gap:8px!important;
+ }
+ body.cartube-page footer.cartube-full-footer{display:block!important;width:104px!important}
+}
+@media(max-width:1050px) and (min-width:641px){
+ body.cartube-page header.top>a.ct-brand-contact{font-size:12px!important;left:9px!important}
+ body.cartube-page #youtubeMode .search{width:480px!important;max-width:48vw!important}
+}
