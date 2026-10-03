@@ -260,3 +260,21 @@ body.cartube-page header.top>a.ct-brand-contact{
 .cartube-page .ct-search-input #ytSearch{width:100%!important;height:100%!important;box-sizing:border-box!important;padding-right:44px!important}
 .cartube-page .ct-clear-search{display:none!important;position:absolute!important;right:7px!important;top:50%!important;transform:translateY(-50%)!important;width:32px!important;height:32px!important;min-width:32px!important;padding:0!important;border:0!important;border-radius:50%!important;background:#24344a!important;color:#dce8f5!important;font-size:22px!important;line-height:30px!important;z-index:3!important}
 .cartube-page .ct-search-input.has-text .ct-clear-search{display:block!important}
+
+/* Automotive brand badge with logo, hidden behind modal v20 */
+#ctCornerBrand{
+ display:flex!important;align-items:center!important;gap:8px!important;
+ position:fixed!important;z-index:80!important;left:10px!important;top:10px!important;
+ width:168px!important;height:48px!important;padding:4px 9px 4px 6px!important;box-sizing:border-box!important;
+ border:1px solid #24374d!important;border-radius:13px!important;
+ background:linear-gradient(145deg,#0d1a2b,#08111d)!important;
+ box-shadow:0 5px 16px rgba(0,0,0,.3)!important;color:#fff!important;text-decoration:none!important;
+ visibility:visible!important;opacity:1!important;pointer-events:auto!important;line-height:normal!important;
+}
+#ctCornerBrand img{display:block!important;width:34px!important;height:34px!important;object-fit:contain!important;flex:0 0 34px!important}
+#ctCornerBrand span{display:flex!important;flex-direction:column!important;justify-content:center!important;min-width:0!important;line-height:1.05!important}
+#ctCornerBrand b{font:800 13px/15px Arial,sans-serif!important;white-space:nowrap!important}
+#ctCornerBrand small{display:block!important;margin-top:3px!important;color:#9fb2c7!important;font:700 10px/12px Arial,sans-serif!important;white-space:nowrap!important}
+body:has(#videoModal:not(.hidden)) #ctCornerBrand{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+#videoModal{z-index:1000!important}
+@media(max-width:700px){#ctCornerBrand{width:145px!important;height:44px!important}#ctCornerBrand img{width:30px!important;height:30px!important;flex-basis:30px!important}#ctCornerBrand b{font-size:11px!important}#ctCornerBrand small{font-size:9px!important}}
