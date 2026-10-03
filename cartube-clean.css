@@ -43,3 +43,22 @@ body.cartube-page{margin:0;background:var(--ct-bg)!important;color:var(--ct-text
 @media(min-width:1500px){.cartube-page .results{grid-template-columns:repeat(6,minmax(0,1fr))!important}}
 @media(max-width:1100px){.cartube-page .ct-intro{grid-template-columns:1fr;gap:12px}.cartube-page .ct-intro-copy strong{font-size:23px}}
 @media(max-width:640px){.cartube-page .ct-intro{display:none!important}.cartube-page .results{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+
+/* Balanced CarTube sidebar v6 */
+@media(min-width:821px){
+ .cartube-page .car-youtube-layout{grid-template-columns:96px minmax(0,1fr)!important}
+ .cartube-page .car-side{padding:10px 8px!important;overflow-y:auto!important;scrollbar-width:none}
+ .cartube-page .car-side::-webkit-scrollbar{display:none}
+ .cartube-page .yt-sections{gap:4px!important}
+ .cartube-page .yt-section{min-height:58px!important;height:58px!important;padding:5px 3px!important;border-radius:12px!important;font-size:10px!important;line-height:1.05!important;text-align:center!important;text-decoration:none!important}
+ .cartube-page .yt-section span{font-size:19px!important;margin:0!important}
+ .cartube-page .dashboard-link{min-height:52px!important;height:52px!important;margin-bottom:5px!important;border-bottom:1px solid rgba(255,255,255,.08)!important;border-radius:10px!important}
+ .cartube-page .car-main{padding-left:14px!important}
+ .cartube-page .search{left:110px!important}
+}
+@media(max-height:760px) and (min-width:821px){
+ .cartube-page .yt-sections{gap:2px!important}
+ .cartube-page .yt-section{min-height:50px!important;height:50px!important;font-size:9px!important;padding:3px 2px!important}
+ .cartube-page .yt-section span{font-size:17px!important}
+ .cartube-page .dashboard-link{min-height:46px!important;height:46px!important;margin-bottom:3px!important}
+}
