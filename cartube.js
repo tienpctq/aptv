@@ -81,7 +81,10 @@ function play(v){currentVideo=v;updateSaveButton();if(document.body.className.in
 window.aptvPlayVideo=play;window.aptvHardStop=hardStopPlayback;window.aptvPlayInline=loadInlineVideo;
 var ctPlayUrl=q('#ctPlayUrl'),ctVideoUrl=q('#ctVideoUrl');if(ctPlayUrl&&ctVideoUrl)ctPlayUrl.onclick=function(){var u=ctVideoUrl.value||'',m=u.match(/(?:v=|youtu\.be\/|shorts\/)([A-Za-z0-9_-]{6,})/);if(m&&m[1])play({id:m[1],title:'YouTube',channel:'YouTube'});else status.textContent='Liên kết YouTube chưa hợp lệ.'};
 var searchBtn=q('#ytSearchBtn');if(searchBtn)searchBtn.onclick=function(){search(input.value.replace(/^\s+|\s+$/g,''))};if(input)input.onkeydown=function(e){e=e||window.event;if((e.keyCode||e.which)===13)search(input.value.replace(/^\s+|\s+$/g,''))};
-var cats=qa('[data-yt-query]');for(var i=0;i<cats.length;i++)cats[i].onclick=function(){input.value=this.getAttribute('data-yt-query');search(input.value)};
+function setHomeIntro(show){var x=q('#ctIntro');if(x)x.style.display=show?'':'none'}
+var cats=qa('[data-yt-query]');for(var i=0;i<cats.length;i++)cats[i].onclick=function(){setHomeIntro(false);var secs=qa('.yt-section');for(var k=0;k<secs.length;k++)secs[k].className=secs[k].className.replace(/\s*active/g,'');this.className+=' active';input.value=this.getAttribute('data-yt-query');search(input.value)};
+var homeBtn=q('[data-yt-section="home"]');if(homeBtn)homeBtn.onclick=function(){setHomeIntro(true);var secs=qa('.yt-section');for(var k=0;k<secs.length;k++)secs[k].className=secs[k].className.replace(/\s*active/g,'');this.className+=' active';input.value='Nhạc Việt Nam mới';search(input.value)};
+var historyBtn=q('[data-yt-section="history"]');if(historyBtn)historyBtn.onclick=function(){setHomeIntro(false);var secs=qa('.yt-section');for(var k=0;k<secs.length;k++)secs[k].className=secs[k].className.replace(/\s*active/g,'');this.className+=' active';render(loadRecent());status.textContent='Video đã xem gần đây'};
 var chips=qa('[data-query]');for(var j=0;j<chips.length;j++)chips[j].onclick=function(){input.value=this.getAttribute('data-query');search(input.value)};
 var el_swapBtn=q('#swapBtn');if(el_swapBtn)el_swapBtn.onclick=function(){var w=q('.workspace');if(w.className.indexOf('swapped-layout')>=0)w.className=w.className.replace(/\s*swapped-layout/g,'');else w.className+=' swapped-layout'};
 var el_modalClose=q('#modalClose');if(el_modalClose)el_modalClose.onclick=function(){hardStopPlayback();currentVideo=null};var el_videoModal=q('#videoModal');if(el_videoModal)el_videoModal.onclick=function(e){if(e.target===q('#videoModal'))q('#modalClose').click()};
@@ -123,7 +126,7 @@ document.addEventListener('click',function(e){
 updateMini();
 try{var qp=new URLSearchParams(location.search),vid=qp.get('video');if(vid){setTimeout(function(){if(window.aptvPlayVideo)window.aptvPlayVideo({id:vid,title:'YouTube',channel:'YouTube'})},120)}}catch(e){}
 window.addEventListener('pagehide',function(){try{hardStopPlayback()}catch(e){}});document.addEventListener('visibilitychange',function(){if(document.hidden){try{hardStopPlayback()}catch(e){}}});
-if(input&&!input.value){input.value='Nhạc Việt Nam mới';search(input.value)}else if(input&&input.value){search(input.value)}else{status.textContent='CarTube sẵn sàng · chọn danh mục hoặc tìm kiếm YouTube.';}
+setHomeIntro(true);if(input&&!input.value){input.value='Nhạc Việt Nam mới';search(input.value)}else if(input&&input.value){search(input.value)}else{status.textContent='CarTube sẵn sàng · chọn danh mục hoặc tìm kiếm YouTube.';}
 })();
 (function(){
 function q2(s){return document.querySelector(s)}var results2=q2('#ytResults');
