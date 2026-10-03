@@ -1,0 +1,15 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#06111f"><title>APTV Navigation</title><link rel="stylesheet" href="map.css?v=20261003map1"></head><body>
+<div class="nav-app">
+<header><a href="index.html" class="brand">Mr.TIẾN</a><b>NAVIGATION COCKPIT</b><nav><a href="youtube.html">▶ YouTube</a><a href="tv.html">▣ TV</a><a href="apps.html">▦ Apps</a></nav></header>
+<main>
+<section class="map-panel"><div id="map" class="map"><iframe id="mapFrame" title="Bản đồ" loading="eager" referrerpolicy="no-referrer-when-downgrade"></iframe><div class="map-empty"><strong>⌖</strong><b>Bản đồ dẫn đường</b><small>Cho phép vị trí để hiển thị khu vực hiện tại</small></div></div>
+<div class="speed"><small>TỐC ĐỘ GPS</small><strong id="speed">0</strong><span>km/h</span><em id="gpsState">GPS chưa bật</em></div>
+<button id="locate" class="float">⌖</button></section>
+<aside class="route">
+<div class="search"><input id="destination" placeholder="Bạn muốn đi đâu?"><button id="voice" title="Tìm bằng giọng nói">🎤</button><button id="clear" title="Xóa">×</button></div>
+<div class="quick"><button data-q="Nhà">⌂ Nhà</button><button data-q="Cơ quan">▣ Cơ quan</button><button data-q="Trạm xăng gần đây">⛽ Xăng</button><button data-q="Bãi đỗ xe gần đây">P Đỗ xe</button></div>
+<button id="routeBtn" class="primary">➜ Tìm tuyến đường</button>
+<div class="trip"><div><small>ĐIỂM ĐẾN</small><b id="destText">Chưa chọn</b></div><div><small>TRẠNG THÁI</small><b id="routeState">Sẵn sàng</b></div></div>
+<section class="cams"><div class="section-title"><b>CAMERA GIAO THÔNG</b><span>nguồn thực</span></div><div class="empty">Chưa kết nối nguồn camera giao thông. Không hiển thị dữ liệu giả.</div></section>
+<section class="limit"><span>GIỚI HẠN</span><strong>—</strong><small>Chưa có dữ liệu tốc độ tuyến đường</small></section>
+</aside></main></div><script src="map.js?v=20261003map1"></script></body></html>
