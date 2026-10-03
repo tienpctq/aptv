@@ -1,0 +1,1 @@
+(function(){var i=document.getElementById('ytSearch'),b=document.getElementById('ytSplitClear');if(!i||!b)return;function s(){i.parentNode.className=i.value?'yt-input-wrap has-text':'yt-input-wrap'}i.addEventListener('input',s);b.onclick=function(e){e.preventDefault();i.value='';s();i.focus()};s()})();
