@@ -28,7 +28,9 @@ var voice=q('#tvVoiceSearch');if(voice)voice.onclick=function(){
  r.onend=function(){voice.textContent='🎤'};
  try{r.start()}catch(e){}
 };syncTvSearch();var gs=qa('[data-group]');for(var i=0;i<gs.length;i++)gs[i].onclick=function(){group=this.getAttribute('data-group');for(var j=0;j<gs.length;j++)gs[j].className='chip focusable';this.className='chip focusable active';render()};
-q('#tvPrev').onclick=function(){step(-1)};q('#tvNext').onclick=function(){step(1)};q('#tvPrevFoot').onclick=function(){step(-1)};q('#tvNextFoot').onclick=function(){step(1)};q('#tvListFoot').onclick=function(){q('#tvChannels').scrollIntoView({behavior:'smooth',block:'start'})};
+q('#tvPrev').onclick=function(){step(-1)};q('#tvNext').onclick=function(){step(1)};q('#tvPrevFoot').onclick=function(){step(-1)};q('#tvNextFoot').onclick=function(){step(1)};
+var browse=q('#tvBrowseToggle');if(browse)browse.onclick=function(){if(document.body.className.indexOf('channel-browser-open')>=0){document.body.className=document.body.className.replace(/\s*channel-browser-open/g,'');browse.textContent='☷ Kênh'}else{document.body.className+=' channel-browser-open';browse.textContent='× Đóng'}};
+var oldList=q('#tvListFoot');if(oldList)oldList.onclick=function(){if(browse)browse.click()};
 q('#tvFullscreen').onclick=function(){var p=q('#tvPlayerWrap'),fn=p.requestFullscreen||p.webkitRequestFullscreen;if(fn)try{fn.call(p)}catch(e){}};
 function updateMini(){var bar=q('#miniMediaBar'),title=q('#miniMediaTitle'),open=q('#miniMediaOpen');if(!bar||!title)return;try{var v=JSON.parse(localStorage.getItem('aptvNowPlaying')||'null');if(v&&v.id){title.textContent=v.title||'Video YouTube';if(open)open.href='youtube.html?video='+encodeURIComponent(v.id);bar.className='mini-media'}else bar.className='mini-media hidden'}catch(e){bar.className='mini-media hidden'}}
 var mc=q('#miniMediaClose');if(mc)mc.onclick=function(){localStorage.removeItem('aptvNowPlaying');updateMini()};updateMini();
