@@ -191,3 +191,32 @@ if(saved)saved.onclick=function(){try{var a=JSON.parse(localStorage.getItem('apt
  i.onsearch=function(){sync()};
  sync();
 })();
+
+/* Clear search definitive mobile handler v30 */
+(function(){
+ var input=document.getElementById('ytSearch');
+ var clear=document.getElementById('ytClearSearch');
+ if(!input||!clear)return;
+ function syncClear(){
+  var wrap=input.parentNode;
+  if(wrap)wrap.className=input.value.length?'ct-search-input has-text':'ct-search-input';
+ }
+ function erase(ev){
+  if(ev&&ev.cancelable)ev.preventDefault();
+  if(ev&&ev.stopPropagation)ev.stopPropagation();
+  input.value='';
+  syncClear();
+  try{
+   var e=document.createEvent('HTMLEvents');
+   e.initEvent('input',true,false);
+   input.dispatchEvent(e);
+  }catch(x){}
+  try{input.focus()}catch(x){}
+  return false;
+ }
+ clear.addEventListener('touchstart',erase,{passive:false});
+ clear.addEventListener('click',erase,false);
+ input.addEventListener('input',syncClear,false);
+ input.addEventListener('search',syncClear,false);
+ syncClear();
+})();
