@@ -157,3 +157,15 @@ body.cartube-page header.top>a.ct-brand-contact{
 @media(min-width:821px){
  body.cartube-page #youtubeMode .search{left:50%!important;width:600px!important;max-width:44vw!important}
 }
+
+/* Brand inline with the known-visible search bar v14 */
+#ctBrandInline{
+ display:block!important;position:fixed!important;z-index:10000!important;
+ left:12px!important;top:9px!important;width:165px!important;height:56px!important;
+ line-height:56px!important;color:#fff!important;background:#07111d!important;
+ font:800 12px/56px Arial,sans-serif!important;white-space:nowrap!important;
+ text-align:left!important;visibility:visible!important;opacity:1!important;
+}
+@media(min-width:821px){
+ body.cartube-page #youtubeMode .search{width:560px!important;max-width:42vw!important}
+}
