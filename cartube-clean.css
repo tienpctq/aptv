@@ -106,3 +106,19 @@ body.cartube-page{margin:0;background:var(--ct-bg)!important;color:var(--ct-text
  body.cartube-page .car-side .yt-sections{margin:0!important;padding:0!important;transform:none!important}
  body.cartube-page .dashboard-link{margin-top:0!important}
 }
+
+/* Balanced header/search/sidebar/contact v11 */
+.cartube-page .ct-brand-contact{position:fixed;z-index:70;left:14px;top:18px;color:#f5f7fb;text-decoration:none;font-size:15px;font-weight:800;white-space:nowrap}
+@media(min-width:821px){
+ body.cartube-page .car-side{top:10px!important;bottom:10px!important}
+ body.cartube-page .search{left:50%!important;right:auto!important;top:9px!important;width:min(58vw,760px)!important;transform:translateX(-50%)!important;grid-template-columns:minmax(0,1fr) 62px!important}
+ body.cartube-page footer.cartube-full-footer{top:9px!important;right:12px!important;width:112px!important}
+}
+@media(max-width:1050px){
+ .cartube-page .ct-brand-contact{font-size:12px;left:9px}
+ body.cartube-page .search{width:min(55vw,620px)!important}
+}
+@media(max-width:640px){
+ .cartube-page .ct-brand-contact{display:none}
+ body.cartube-page .search{left:82px!important;right:88px!important;width:auto!important;transform:none!important}
+}
