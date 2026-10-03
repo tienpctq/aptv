@@ -683,3 +683,15 @@ footer{height:auto;min-height:56px;align-items:center}
  .youtube-split .video-card b{grid-column:2!important;grid-row:1!important;align-self:center!important;font-size:16px!important;line-height:1.25!important;white-space:normal!important;display:-webkit-box!important;-webkit-line-clamp:3!important;-webkit-box-orient:vertical!important;overflow:hidden!important;margin:10px 13px 3px!important}
  .youtube-split .video-card small{grid-column:2!important;grid-row:2!important;font-size:12px!important;margin:0 13px 12px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
 }
+
+/* YouTube mobile gallery: categories live in dashboard, results use Velora-like 2-col grid v9 */
+@media(max-width:820px),(orientation:portrait){
+ .youtube-split .chips{display:none!important}
+ .youtube-split .status{margin:4px 0 8px!important}
+ .youtube-split .results{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-auto-rows:auto!important;gap:14px 12px!important;overflow-y:auto!important;overflow-x:hidden!important;padding:0 3px 8px!important;align-content:start!important}
+ .youtube-split .video-card{display:block!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;border:0!important;border-radius:14px!important;background:transparent!important}
+ .youtube-split .video-card img{display:block!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;aspect-ratio:16/9!important;object-fit:cover!important;border-radius:14px!important}
+ .youtube-split .video-card b{display:-webkit-box!important;-webkit-box-orient:vertical!important;-webkit-line-clamp:2!important;overflow:hidden!important;white-space:normal!important;font-size:15px!important;line-height:1.22!important;margin:8px 4px 4px!important;min-height:36px!important}
+ .youtube-split .video-card small{display:block!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;font-size:12px!important;margin:0 4px 5px!important;color:#7f91a3!important}
+ .youtube-split .browse-foot{padding-top:7px!important}
+}
