@@ -126,3 +126,18 @@ body.youtube-split{margin:0;background:radial-gradient(ellipse at 0 0,#24444d55,
 .youtube-split.player-mode .media-grid{display:block!important;flex:1 1 0!important;height:100%!important;min-height:0!important;overflow:hidden!important}
 .youtube-split.player-mode #playerWrap{position:relative!important;width:100%!important;height:100%!important;min-height:100%!important;max-height:none!important;aspect-ratio:auto!important;margin:0!important}
 .youtube-split.player-mode #youtubeFrame{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-height:100%!important;max-height:none!important}
+
+/* Balanced top navigation v10 */
+.youtube-split .velora-split-top{display:grid!important;grid-template-columns:minmax(180px,1fr) auto!important;align-items:center!important;padding:0 8px 0 28px!important}
+.youtube-split .velora-split-top nav{display:grid!important;grid-template-columns:repeat(3,112px)!important;gap:7px!important;height:100%!important;margin:0!important;align-items:center!important}
+.youtube-split .velora-split-top .nav{
+ width:112px!important;min-width:112px!important;height:46px!important;min-height:46px!important;
+ margin:0!important;padding:0!important;box-sizing:border-box!important;
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ border-radius:11px!important;font-size:16px!important;line-height:1!important;white-space:nowrap!important;
+}
+.youtube-split .velora-split-top .nav.active{transform:none!important}
+@media(max-height:650px) and (orientation:landscape){
+ .youtube-split .velora-split-top nav{grid-template-columns:repeat(3,96px)!important;gap:6px!important}
+ .youtube-split .velora-split-top .nav{width:96px!important;min-width:96px!important;height:42px!important;min-height:42px!important;font-size:14px!important}
+}
