@@ -609,3 +609,25 @@ body.youtube-split{margin:0;background:radial-gradient(ellipse at 0 0,#24444d55,
  }
  .youtube-split.player-mode #inlineOriginal{height:34px!important;min-height:34px!important}
 }
+
+/* Mobile v26 — fit the complete GPS/speed gauge inside its card */
+@media(max-width:560px) and (orientation:portrait){
+ .youtube-split:not(.player-mode) .right{
+   display:grid!important;grid-template-columns:1fr!important;grid-template-rows:160px auto!important;gap:12px!important;
+ }
+ .youtube-split:not(.player-mode) .widget.drive{
+   position:relative!important;width:100%!important;height:auto!important;min-height:0!important;
+   aspect-ratio:1.16/1!important;overflow:hidden!important;padding:12px!important;box-sizing:border-box!important;
+ }
+ .youtube-split:not(.player-mode) .drive .speedometer,
+ .youtube-split:not(.player-mode) .drive .gauge,
+ .youtube-split:not(.player-mode) .drive .speedo{
+   position:absolute!important;left:50%!important;top:54%!important;
+   width:min(92%,560px)!important;height:auto!important;max-height:88%!important;
+   transform:translate(-50%,-50%) scale(.82)!important;transform-origin:center center!important;
+ }
+ .youtube-split:not(.player-mode) .drive svg,
+ .youtube-split:not(.player-mode) .drive canvas{
+   max-width:100%!important;max-height:100%!important;
+ }
+}
