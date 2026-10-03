@@ -1,8 +1,57 @@
-<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#071126"><title>APTV Drive</title><link rel="stylesheet" href="styles.css?v=20261003brand3"></head><body><div class="shell"><div id="driveHome" class="drive-home">
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#071126"><link rel="manifest" href="manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Mr.TIẾN"><title>APTV Drive</title><link rel="stylesheet" href="styles.css?v=20261003brand3"></head><body><div class="shell"><div id="driveHome" class="drive-home">
   <aside class="home-rail"><div class="home-logo" style="padding:4px;background:transparent"><img src="assets/evn-logo.svg" alt="EVN" style="width:100%;height:100%;object-fit:contain;display:block"></div><strong id="homeClock">--:--</strong><div class="rail-spacer"></div><a class="rail-btn focusable" href="https://www.google.com/maps" target="_self">⌖<span>Map</span></a><a href="cartube.html" class="rail-btn focusable">▣<span>CarTube</span></a><button id="homeFit" class="rail-btn focusable">⛶<span>Fit 90%</span></button></aside>
-  <section class="home-main"><header class="home-head"><button class="home-square focusable">♩</button><div class="home-title"><small>Mr.TIẾN</small><b>Giải trí</b></div><button id="homeSettings" class="home-activate focusable">Cài đặt</button><button id="homeLayout" class="home-square focusable">▣</button></header>
+  <section class="home-main"><header class="home-head"><button class="home-square focusable">♩</button><div class="home-title"><small>Mr.TIẾN</small><b>Giải trí</b></div><button id="driveModeBtn" class="home-activate focusable">🚘 Chế độ lái</button><button id="voiceHomeBtn" class="home-square focusable" aria-label="Lệnh giọng nói" title="Lệnh giọng nói">🎙</button></header>
   <div class="service-stack"><a href="youtube.html" id="homeYouTube" class="service-card youtube-card focusable" style="text-decoration:none"><span class="service-kicker">VIDEO · ĐỒNG HỒ · GPS</span><span class="service-open">↗</span><span class="service-icon youtube-service">▶</span><span class="service-name">YouTube</span><span class="service-arrow">→</span></a>
   <a href="tv.html" id="homeTV" class="service-card tv-card focusable" style="text-decoration:none"><span class="service-kicker">TV · IPTV</span><span class="service-open">↗</span><span class="service-icon tv-service">▣</span><span class="service-name">Truyền hình</span><span class="service-arrow">→</span></a></div>
-  <div class="home-links">APTV Drive · CarTube · TV · GPS</div></section>
+  <div class="smart-strip"><div><small>TRẠNG THÁI</small><b id="driveModeState">Chế độ thường</b></div><div><small>GẦN ĐÂY</small><b id="recentMedia">Chưa có nội dung</b></div><button id="installAppBtn" class="smart-action focusable hidden">＋ Cài ứng dụng</button></div><div class="home-links">Mr.TIẾN Smart Cockpit · CarTube · TV · GPS</div></section>
 </div>
-</div><script>function tick(){var e=document.getElementById("homeClock");if(e)e.textContent=new Date().toLocaleTimeString("vi-VN",{hour:"2-digit",minute:"2-digit"})}tick();setInterval(tick,30000);document.getElementById("homeFit").onclick=function(){document.body.style.zoom=".9"}</script></body></html>
+</div><script>
+(function(){
+  function tick(){var e=document.getElementById("homeClock");if(e)e.textContent=new Date().toLocaleTimeString("vi-VN",{hour:"2-digit",minute:"2-digit"})}
+  tick();setInterval(tick,30000);
+
+  var fit=document.getElementById("homeFit");
+  if(fit)fit.onclick=function(){document.body.style.zoom=document.body.style.zoom===".9"?"1":".9";fit.querySelector("span").textContent=document.body.style.zoom===".9"?"Fit 100%":"Fit 90%"};
+
+  var recent=document.getElementById("recentMedia");
+  try{
+    var h=JSON.parse(localStorage.getItem("aptvHistory")||"[]");
+    if(recent&&h[0])recent.textContent=h[0].title||"Video gần đây";
+  }catch(e){}
+
+  var driveBtn=document.getElementById("driveModeBtn"), state=document.getElementById("driveModeState");
+  function applyDrive(on){
+    document.body.classList.toggle("home-driving-mode",!!on);
+    localStorage.setItem("aptvDrivingMode",on?"1":"0");
+    if(state)state.textContent=on?"Đang bật · nút lớn":"Chế độ thường";
+    if(driveBtn)driveBtn.textContent=on?"✓ Đang lái":"🚘 Chế độ lái";
+  }
+  applyDrive(localStorage.getItem("aptvDrivingMode")==="1");
+  if(driveBtn)driveBtn.onclick=function(){applyDrive(!document.body.classList.contains("home-driving-mode"))};
+
+  var voice=document.getElementById("voiceHomeBtn");
+  if(voice)voice.onclick=function(){
+    var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SR){alert("Trình duyệt này chưa hỗ trợ lệnh giọng nói.");return}
+    var r=new SR();r.lang="vi-VN";r.interimResults=false;r.maxAlternatives=1;
+    voice.classList.add("listening");voice.textContent="●";
+    r.onend=function(){voice.classList.remove("listening");voice.textContent="🎙"};
+    r.onerror=function(){voice.classList.remove("listening");voice.textContent="🎙"};
+    r.onresult=function(ev){
+      var s=(ev.results[0][0].transcript||"").toLowerCase();
+      if(s.includes("youtube")||s.includes("nhạc")||s.includes("car tube")||s.includes("cartube"))location.href="cartube.html";
+      else if(s.includes("tivi")||s.includes("tv")||s.includes("truyền hình"))location.href="tv.html";
+      else if(s.includes("bản đồ")||s.includes("map")||s.includes("đường đi"))location.href="https://www.google.com/maps";
+      else if(s.includes("chế độ lái"))applyDrive(true);
+      else alert("Chưa nhận ra lệnh: "+s);
+    };
+    r.start();
+  };
+
+  var deferredPrompt=null, install=document.getElementById("installAppBtn");
+  window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferredPrompt=e;if(install)install.classList.remove("hidden")});
+  if(install)install.onclick=async function(){if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;install.classList.add("hidden")};
+
+  if("serviceWorker" in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});
+})();
+</script></body></html>
