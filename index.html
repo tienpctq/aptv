@@ -1,9 +1,18 @@
-<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#071126"><link rel="manifest" href="manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Mr.TIẾN"><title>APTV Drive</title><link rel="stylesheet" href="styles.css?v=20261003mobile4"><link rel="stylesheet" href="home-polish.css?v=20261003map1"></head><body><div class="shell"><div id="driveHome" class="drive-home">
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#071126"><link rel="manifest" href="manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Mr.TIẾN"><title>APTV Drive</title><link rel="stylesheet" href="styles.css?v=20261003mobile4"><link rel="stylesheet" href="home-polish.css?v=20261003welcome1"></head><body><div class="shell"><div id="driveHome" class="drive-home">
   <aside class="home-rail"><div class="home-logo" style="padding:4px;background:transparent"><img src="assets/evn-logo.svg" alt="EVN" style="width:100%;height:100%;object-fit:contain;display:block"></div><strong id="homeClock">--:--</strong><div class="rail-spacer"></div><a class="rail-btn focusable" href="map.html">⌖<span>Map</span></a><a href="cartube.html" class="rail-btn focusable">▣<span>CarTube</span></a><button id="homeFit" class="rail-btn focusable">⛶<span>Fit 90%</span></button></aside>
   <section class="home-main"><header class="home-head"><button class="home-square focusable">♩</button><div class="home-title"><small>Mr.TIẾN</small><b>Giải trí</b></div><button id="driveModeBtn" class="home-activate focusable">🚘 Chế độ lái</button><button id="voiceHomeBtn" class="home-square focusable" aria-label="Lệnh giọng nói" title="Lệnh giọng nói">🎙</button></header>
   <div class="service-stack"><a href="youtube.html" id="homeYouTube" class="service-card youtube-card focusable" style="text-decoration:none"><span class="service-kicker">VIDEO · ĐỒNG HỒ · GPS</span><span class="service-open">↗</span><span class="service-icon youtube-service">▶</span><span class="service-name">YouTube</span><span class="service-arrow">→</span></a>
   <a href="tv.html" id="homeTV" class="service-card tv-card focusable" style="text-decoration:none"><span class="service-kicker">TV · IPTV</span><span class="service-open">↗</span><span class="service-icon tv-service">▣</span><span class="service-name">Truyền hình</span><span class="service-arrow">→</span></a></div>
-  <div class="smart-strip"><div><small>TRẠNG THÁI</small><b id="driveModeState">Chế độ thường</b></div><div><small>GẦN ĐÂY</small><b id="recentMedia">Chưa có nội dung</b></div><button id="installAppBtn" class="smart-action focusable hidden">＋ Cài ứng dụng</button></div><div class="home-links">Mr.TIẾN Smart Cockpit · CarTube · TV · GPS</div></section>
+  <div class="welcome-strip">
+  <button id="welcomeBtn" class="welcome-btn focusable"><span class="welcome-icon">🔊</span><span><small>CHÀO QUÝ KHÁCH</small><b id="welcomeText">Nhấn để phát lời chào</b></span></button>
+  <div class="welcome-scenes">
+    <button class="welcome-scene focusable active" data-scene="welcome">👋 Chào mừng</button>
+    <button class="welcome-scene focusable" data-scene="seatbelt">🚘 Lên xe</button>
+    <button class="welcome-scene focusable" data-scene="morning">☀ Buổi sáng</button>
+    <button class="welcome-scene focusable" data-scene="trip">🛣 Khởi hành</button>
+    <button class="welcome-scene focusable" data-scene="wish">✨ Lời chúc</button>
+  </div>
+</div><div class="home-links">Mr.TIẾN Smart Cockpit · CarTube · TV · GPS</div></section>
 </div>
 </div><div id="miniMediaBar" class="mini-media hidden"><a id="miniMediaOpen" class="mini-media-main focusable" href="youtube.html"><span>▶</span><span><small>VIDEO GẦN ĐÂY</small><b id="miniMediaTitle">Chưa có video</b></span></a><button id="miniMediaClose" class="mini-media-close focusable">×</button></div><script>
 (function(){
@@ -57,4 +66,20 @@
 
   if("serviceWorker" in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});
 })();
-</script></body></html>
+
+(function(){
+ var scene='welcome',texts={
+  welcome:'Xin chào quý khách. Chào mừng quý khách đến với Mr. Tiến Smart Cockpit. Chúc quý khách có một hành trình vui vẻ và an toàn.',
+  seatbelt:'Xin chào quý khách. Vui lòng thắt dây an toàn trước khi xe khởi hành. Chúc quý khách thượng lộ bình an.',
+  morning:'Chào buổi sáng. Chúc quý khách một ngày mới nhiều năng lượng, may mắn và có những hành trình thật an toàn.',
+  trip:'Hành trình sắp bắt đầu. Chúc quý khách lái xe an toàn, thuận lợi và có thật nhiều trải nghiệm thú vị.',
+  wish:'Chúc quý khách luôn mạnh khỏe, bình an, nhiều niềm vui và gặp nhiều may mắn trên mọi hành trình.'
+ };
+ var labels={welcome:'Lời chào thân thiện',seatbelt:'Nhắc thắt dây an toàn',morning:'Lời chúc buổi sáng',trip:'Chúc chuyến đi an toàn',wish:'Gửi lời chúc tốt đẹp'};
+ function tone(){
+  try{var A=window.AudioContext||window.webkitAudioContext;if(!A)return;var a=new A(),g=a.createGain(),o=a.createOscillator();o.type='sine';o.frequency.value=523;g.gain.setValueAtTime(.0001,a.currentTime);g.gain.exponentialRampToValueAtTime(.055,a.currentTime+.05);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.8);o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+.82)}catch(x){}
+ }
+ function speak(){var t=texts[scene];tone();if(window.speechSynthesis){window.speechSynthesis.cancel();setTimeout(function(){var u=new SpeechSynthesisUtterance(t);u.lang='vi-VN';u.rate=.92;var vs=window.speechSynthesis.getVoices(),v=null;for(var i=0;i<vs.length;i++){var l=(vs[i].lang||'').toLowerCase();if(l==='vi-vn'||l.indexOf('vi-')===0||l==='vi'){v=vs[i];break}}if(v)u.voice=v;window.speechSynthesis.speak(u)},350)}}
+ var b=document.getElementById('welcomeBtn');if(b)b.onclick=speak;
+ var bs=document.querySelectorAll('.welcome-scene');for(var i=0;i<bs.length;i++)bs[i].onclick=function(){scene=this.getAttribute('data-scene');for(var k=0;k<bs.length;k++)bs[k].classList.remove('active');this.classList.add('active');var wt=document.getElementById('welcomeText');if(wt)wt.textContent=labels[scene];speak()};
+})();</script></body></html>
