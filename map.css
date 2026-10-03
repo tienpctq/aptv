@@ -9,3 +9,10 @@
 
 /* In-app navigation + autocomplete v4 */
 .search{z-index:900!important}.suggestions{display:none;position:absolute;left:0;right:0;top:53px;z-index:1000;max-height:250px;overflow-y:auto;border:1px solid #3c657e;border-radius:12px;background:#081725;box-shadow:0 14px 30px #000b}.suggestions.open{display:block}.suggestion{width:100%;min-height:50px;padding:8px 11px;border:0;border-bottom:1px solid #1f394c;background:transparent;color:#edf8ff;text-align:left;display:block}.suggestion:last-child{border-bottom:0}.suggestion b{display:block;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.suggestion small{display:block;margin-top:3px;font-size:9px;color:#8fa9bb;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.start-nav{border:1px solid #49dbe9!important;cursor:pointer!important}.start-nav.nav-active{background:#0d5960!important;box-shadow:0 0 18px #1bd9e955!important}
+
+/* Autocomplete overlay fix v5 */
+.route{overflow:visible!important;position:relative!important;z-index:700!important}
+.search{position:relative!important;z-index:1200!important;overflow:visible!important}
+.suggestions{top:52px!important;z-index:5000!important;max-height:min(320px,48vh)!important;overflow-y:auto!important;background:#081725!important;border:1px solid #4c7893!important;box-shadow:0 18px 38px #000e!important}
+.suggestions.open{display:block!important}
+.quick,.primary,.route-summary,.trip,.turns,.cams,.limit{position:relative!important;z-index:1!important}
