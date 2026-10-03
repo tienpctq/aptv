@@ -144,3 +144,16 @@ body.cartube-page header.top>a.ct-brand-contact{
  body.cartube-page header.top>a.ct-brand-contact{font-size:12px!important;left:9px!important}
  body.cartube-page #youtubeMode .search{width:480px!important;max-width:48vw!important}
 }
+
+/* Guaranteed visible brand: outside legacy .top v13 */
+#ctFixedBrand{
+ display:block!important;visibility:visible!important;opacity:1!important;
+ position:fixed!important;z-index:9999!important;left:14px!important;top:22px!important;
+ width:auto!important;height:34px!important;line-height:34px!important;
+ margin:0!important;padding:0!important;background:transparent!important;
+ color:#fff!important;font:800 14px/34px Arial,sans-serif!important;
+ white-space:nowrap!important;pointer-events:none!important;
+}
+@media(min-width:821px){
+ body.cartube-page #youtubeMode .search{left:50%!important;width:600px!important;max-width:44vw!important}
+}
