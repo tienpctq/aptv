@@ -44,6 +44,7 @@ function stopAllYouTubeEmbeds(){
 }
 
 function hardStopPlayback(){stopAllYouTubeEmbeds()}
+window.aptvHardStop=hardStopPlayback;
 
 function buildEmbed(videoId){
   var fr=document.createElement('iframe');
@@ -63,6 +64,7 @@ function loadInlineVideo(v){
   fr.id='youtubeFrame';fr.title='YouTube';fr.style.display='block';
   old.parentNode.replaceChild(fr,old);
 }
+window.aptvPlayInline=function(v){if(v&&v.id)loadInlineVideo(v)};
 
 function updateMini(){var bar=q('#miniMediaBar');if(bar&&bar.parentNode)bar.parentNode.removeChild(bar)}
 function render(items){lastItems=items||[];results.innerHTML='';for(var i=0;i<items.length;i++){(function(v){var wrap=document.createElement('div');wrap.className='video-card-wrap';var b=document.createElement('button');b.className='video-card focusable';var thumb=v.thumbnail||('https://aptv-two.vercel.app/api/youtube-thumb?id='+encodeURIComponent(v.id||''));b.innerHTML='<img src="'+esc(thumb)+'"><b>'+esc(v.title||'Video')+'</b><small>'+esc(v.channel||'YouTube')+'</small>';b.onclick=function(){play(v)};var f=document.createElement('button');f.className='video-save focusable';f.textContent=isSaved(v.id)?'★':'☆';f.title='Lưu video';f.onclick=function(e){e.stopPropagation();toggleSaved(v);f.textContent=isSaved(v.id)?'★':'☆'};wrap.appendChild(b);wrap.appendChild(f);results.appendChild(wrap)})(items[i])}}
