@@ -1,4 +1,4 @@
-<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#071126"><link rel="manifest" href="manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Mr.TIẾN"><title>APTV Drive</title><link rel="stylesheet" href="styles.css?v=20261003mobile4"><link rel="stylesheet" href="home-polish.css?v=20261003audio2"></head><body><div class="shell"><div id="driveHome" class="drive-home">
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#071126"><link rel="manifest" href="manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Mr.TIẾN"><title>APTV Drive</title><link rel="stylesheet" href="styles.css?v=20261003mobile4"><link rel="stylesheet" href="home-polish.css?v=20261003audio3"></head><body><div class="shell"><div id="driveHome" class="drive-home">
   <aside class="home-rail"><div class="home-logo" style="padding:4px;background:transparent"><img src="assets/evn-logo.svg" alt="EVN" style="width:100%;height:100%;object-fit:contain;display:block"></div><strong id="homeClock">--:--</strong><div class="rail-spacer"></div><a class="rail-btn focusable" href="map.html">⌖<span>Map</span></a><a href="cartube.html" class="rail-btn focusable">▣<span>CarTube</span></a><button id="homeFit" class="rail-btn focusable">⛶<span>Fit 90%</span></button></aside>
   <section class="home-main"><header class="home-head"><button class="home-square focusable">♩</button><div class="home-title"><small>Mr.TIẾN</small><b>Giải trí</b></div><button id="driveModeBtn" class="home-activate focusable">🚘 Chế độ lái</button><button id="voiceHomeBtn" class="home-square focusable" aria-label="Lệnh giọng nói" title="Lệnh giọng nói">🎙</button></header>
   <div class="service-stack"><a href="youtube.html" id="homeYouTube" class="service-card youtube-card focusable" style="text-decoration:none"><span class="service-kicker">VIDEO · ĐỒNG HỒ · GPS</span><span class="service-open">↗</span><span class="service-icon youtube-service">▶</span><span class="service-name">YouTube</span><span class="service-arrow">→</span></a>
@@ -6,11 +6,11 @@
   <div class="welcome-strip">
   <div class="welcome-audio"><button id="welcomeBtn" class="welcome-btn focusable"><span class="welcome-icon">🔊</span><span><small>CHÀO QUÝ KHÁCH</small><b id="welcomeText">Nhấn để phát lời chào</b></span></button><button id="welcomeStop" class="welcome-stop focusable" type="button" aria-label="Tắt âm thanh" title="Tắt âm thanh">■</button></div>
   <div class="welcome-scenes">
-    <button class="welcome-scene focusable active" data-scene="welcome">👋 Chào mừng</button>
-    <button class="welcome-scene focusable" data-scene="seatbelt">🚘 Lên xe</button>
-    <button class="welcome-scene focusable" data-scene="morning">☀ Buổi sáng</button>
-    <button class="welcome-scene focusable" data-scene="trip">🛣 Khởi hành</button>
-    <button class="welcome-scene focusable" data-scene="wish">✨ Lời chúc</button>
+    <button class="welcome-scene focusable active" data-scene="welcome">👋 Kính chào quý khách</button>
+    <button class="welcome-scene focusable" data-scene="seatbelt">👨 Lên xe giọng nam</button>
+    <button class="welcome-scene focusable" data-scene="morning">👩 Lên xe giọng nữ</button>
+    <button class="welcome-scene focusable" data-scene="trip">🛡 Thắt dây an toàn</button>
+    <button class="welcome-scene focusable" data-scene="wish">👋 Xin chào cậu chủ</button>
   </div>
 </div><div class="home-links">Mr.TIẾN Smart Cockpit · CarTube · TV · GPS</div></section>
 </div>
@@ -69,17 +69,17 @@
 
 (function(){
  var scene='welcome',player=new Audio(),audioMap={
-  welcome:'assets/Audio/xin chào cậu chủ.mp3',
-  seatbelt:'assets/Audio/Âm thanh thắt dây an toàn.mp3',
-  trip:'assets/Audio/âm thanh lên xe.mp3',
-  wish:'assets/Audio/Âm thanh xuống xe.mp3',
-  morning:'assets/Audio/xin chào cậu chủ.mp3'
+  welcome:'assets/Audio/Kính chào quý khách.mp3',
+  seatbelt:'assets/Audio/Lên xe giọng nam.mp3',
+  morning:'assets/Audio/Lên xe giọng nữ.mp3',
+  trip:'assets/Audio/Lên xe thắt dây an toàn.mp3',
+  wish:'assets/Audio/Xin chào cậu chủ.mp3'
  },labels={
-  welcome:'Xin chào cậu chủ',
-  seatbelt:'Nhắc thắt dây an toàn',
-  morning:'Lời chào buổi sáng',
-  trip:'Âm thanh lên xe',
-  wish:'Âm thanh xuống xe'
+  welcome:'Kính chào quý khách',
+  seatbelt:'Lên xe · giọng nam',
+  morning:'Lên xe · giọng nữ',
+  trip:'Lên xe · thắt dây an toàn',
+  wish:'Xin chào cậu chủ'
  };
  player.preload='auto';
  function playScene(){
