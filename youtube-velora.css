@@ -530,3 +530,20 @@ body.youtube-split{margin:0;background:radial-gradient(ellipse at 0 0,#24444d55,
  .youtube-split.player-mode #inlineOriginal{margin-left:auto!important}
  .youtube-split.player-mode #changeVideo{display:inline-flex!important}
 }
+
+/* Mobile v23 — video-only playback: hide weather/GPS/footer while watching */
+@media(max-width:560px) and (orientation:portrait){
+ .youtube-split.player-mode .right,
+ .youtube-split.player-mode footer{display:none!important}
+ .youtube-split.player-mode .workspace{
+   display:block!important;width:100%!important;height:auto!important;min-height:0!important;
+   padding:8px!important;margin:0!important;overflow:visible!important;
+ }
+ .youtube-split.player-mode .left{display:block!important;width:100%!important;max-width:none!important;margin:0!important;padding:0!important}
+ .youtube-split.player-mode #youtubeMode{width:100%!important;margin:0!important}
+ .youtube-split.player-mode #playerWrap{
+   width:100%!important;max-width:none!important;aspect-ratio:16/9!important;
+   height:auto!important;min-height:0!important;margin:0!important;
+ }
+ .youtube-split.player-mode #youtubeFrame{width:100%!important;height:100%!important}
+}
