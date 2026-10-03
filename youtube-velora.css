@@ -631,3 +631,37 @@ body.youtube-split{margin:0;background:radial-gradient(ellipse at 0 0,#24444d55,
    max-width:100%!important;max-height:100%!important;
  }
 }
+
+/* Mobile v27 — complete GPS card including status and action buttons */
+@media(max-width:560px) and (orientation:portrait){
+ .youtube-split:not(.player-mode) .widget.drive{
+   display:grid!important;grid-template-rows:30px minmax(300px,1fr) auto auto auto!important;
+   width:100%!important;height:auto!important;min-height:520px!important;aspect-ratio:auto!important;
+   padding:12px!important;overflow:visible!important;box-sizing:border-box!important;
+ }
+ .youtube-split:not(.player-mode) .drive .widget-head{grid-row:1!important;position:relative!important;z-index:5!important;height:30px!important;min-height:30px!important}
+ .youtube-split:not(.player-mode) .drive .drive-row{
+   grid-row:2!important;position:relative!important;width:100%!important;height:310px!important;min-height:310px!important;
+   overflow:hidden!important;margin:0!important;padding:0!important;
+ }
+ .youtube-split:not(.player-mode) .drive .speed-ring.speedometer{
+   position:absolute!important;left:50%!important;top:50%!important;width:360px!important;height:360px!important;
+   max-width:none!important;max-height:none!important;transform:translate(-50%,-50%) scale(.76)!important;transform-origin:center!important;
+ }
+ .youtube-split:not(.player-mode) .drive .limit-wrap{position:absolute!important;right:8px!important;top:50%!important;transform:translateY(-50%) scale(.82)!important;z-index:6!important}
+ .youtube-split:not(.player-mode) .drive .overspeed{grid-row:3!important;position:relative!important;margin:4px 0!important}
+ .youtube-split:not(.player-mode) .drive .gps-info{
+   grid-row:4!important;position:relative!important;display:grid!important;grid-template-columns:1fr auto!important;
+   gap:4px 8px!important;min-height:54px!important;margin:4px 0 8px!important;padding:8px!important;
+   border-radius:10px!important;overflow:visible!important;font-size:10px!important;
+ }
+ .youtube-split:not(.player-mode) .drive .drive-actions{
+   grid-row:5!important;position:relative!important;display:grid!important;grid-template-columns:1fr 1fr!important;
+   gap:8px!important;width:100%!important;height:48px!important;min-height:48px!important;margin:0!important;z-index:8!important;
+ }
+ .youtube-split:not(.player-mode) .drive .drive-actions .small{
+   display:flex!important;width:100%!important;height:48px!important;min-height:48px!important;
+   align-items:center!important;justify-content:center!important;margin:0!important;padding:0 8px!important;
+   border-radius:12px!important;font-size:12px!important;
+ }
+}
