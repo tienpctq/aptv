@@ -361,3 +361,59 @@ footer .foot{min-height:var(--touch);white-space:nowrap;flex:0 1 auto}
 .limit-wrap{position:relative;z-index:8}.limit-sign{background:#fff;border-color:#ef294b;box-shadow:0 0 14px #ff315a88}.overspeed,.gps-info,.drive-actions{position:relative;z-index:8}
 @media(min-width:1060px){.right .widget.drive{min-height:330px}.right .speedometer{width:210px}.right .drive-row{margin-top:-4px}.right .limit-sign{width:58px;height:58px}.right .limit-sign span{font-size:21px}}
 @media(max-width:720px),(orientation:portrait){.widget.drive{min-height:520px!important}.drive-row{flex-direction:column}.speedometer{width:min(390px,88vw)}.limit-wrap{position:absolute;right:14px;bottom:112px}.speedometer strong{font-size:48px!important}}
+
+/* Responsive automotive touch layout v3 */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{overflow-x:hidden}
+.shell{width:100%;min-width:0}
+.top{min-height:68px;height:auto;flex-wrap:wrap}
+.top nav{flex-wrap:wrap}
+.nav,.small,.tiny,.foot,.chip,#ytSearchBtn,.voice-search,.quick,.yt-section,.drive-actions button{min-height:48px;min-width:48px;font-size:clamp(13px,1.15vw,17px);padding:10px 14px}
+.workspace{grid-template-columns:minmax(0,1fr) clamp(280px,27vw,390px);height:calc(100dvh - 114px);min-height:560px}
+.right{min-width:0}
+.widget.drive{display:flex;flex-direction:column;min-height:0}
+.drive-row{flex:1;min-height:0}
+.speedometer{width:min(100%,clamp(190px,20vw,285px))}
+.drive-actions{gap:9px}.drive-actions button{font-size:14px!important}
+.limit-sign{width:72px;height:72px}.limit-sign span{font-size:26px}
+footer{height:auto;min-height:56px;align-items:center}
+.foot{min-height:48px;font-size:14px}
+.search{grid-template-columns:minmax(0,1fr) 64px 96px!important}.search input{height:54px!important;font-size:17px!important}
+@media (min-width:721px) and (max-width:1180px){
+ .workspace{grid-template-columns:minmax(0,1fr) clamp(265px,31vw,340px);padding:8px}
+ .brand{font-size:17px}.brand-mark{flex-basis:44px!important;width:44px!important;height:40px!important}
+ .nav{padding:9px 11px}.car-youtube-layout{grid-template-columns:90px minmax(0,1fr)}
+ .speedometer{width:min(100%,220px)}
+}
+@media (max-width:820px),(orientation:portrait){
+ body{overflow:auto}
+ .top{padding:8px 10px;gap:8px;position:relative}
+ .dashboard-btn{order:1}.brand{order:2;flex:1}.top-center{display:none!important}.top nav{order:3;width:100%;display:grid;grid-template-columns:repeat(3,1fr)}
+ .top nav .nav{text-align:center;justify-content:center;min-height:50px}
+ .workspace,.swapped .workspace{display:flex!important;flex-direction:column;height:auto!important;min-height:0;padding:8px}
+ .left,.swapped .left{order:1;width:100%;min-height:0}
+ .right,.swapped .right{order:2;width:100%;display:flex!important;flex-direction:column}
+ .right .weather{min-height:180px}
+ .right .drive{min-height:560px!important}
+ .drive-row{min-height:350px;flex-direction:column;justify-content:flex-start;padding-top:8px}
+ .speedometer{width:min(82vw,380px)!important}
+ .limit-wrap{position:absolute!important;right:18px!important;bottom:128px!important}
+ .gps-info{font-size:12px;gap:7px;margin:10px 4px}
+ .drive-actions{display:grid;grid-template-columns:1fr 1fr}
+ .drive-actions button{min-height:58px;font-size:16px!important}
+ footer{position:sticky;bottom:0;z-index:30;display:grid;grid-template-columns:repeat(3,1fr);padding:7px;background:#06131fee;backdrop-filter:blur(10px)}
+ .foot{min-height:56px;font-size:15px}
+ .car-youtube-layout{grid-template-columns:86px minmax(0,1fr)}
+ .car-side .yt-section{min-height:72px!important;font-size:12px}
+ .chips .chip{min-height:52px;font-size:13px}
+ .search{grid-template-columns:minmax(0,1fr) 60px!important}
+ #ytSearchBtn{grid-column:1/-1;min-height:56px;font-size:17px}
+ .voice-search{min-height:54px}
+}
+@media (max-width:480px){
+ .brand>span:last-child{font-size:16px}.dashboard-btn{font-size:12px;padding:8px}
+ .car-youtube-layout{grid-template-columns:78px minmax(0,1fr);gap:7px}
+ .car-side .yt-section{padding:7px 4px}
+ .car-main .results{grid-template-columns:1fr!important}
+ .speedometer{width:min(88vw,350px)!important}
+}
