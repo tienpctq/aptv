@@ -5,7 +5,7 @@
   <a href="tv.html" id="homeTV" class="service-card tv-card focusable" style="text-decoration:none"><span class="service-kicker">TV · IPTV</span><span class="service-open">↗</span><span class="service-icon tv-service">▣</span><span class="service-name">Truyền hình</span><span class="service-arrow">→</span></a></div>
   <div class="smart-strip"><div><small>TRẠNG THÁI</small><b id="driveModeState">Chế độ thường</b></div><div><small>GẦN ĐÂY</small><b id="recentMedia">Chưa có nội dung</b></div><button id="installAppBtn" class="smart-action focusable hidden">＋ Cài ứng dụng</button></div><div class="home-links">Mr.TIẾN Smart Cockpit · CarTube · TV · GPS</div></section>
 </div>
-</div><script>
+</div><div id="miniMediaBar" class="mini-media hidden"><a id="miniMediaOpen" class="mini-media-main focusable" href="youtube.html"><span>▶</span><span><small>VIDEO GẦN ĐÂY</small><b id="miniMediaTitle">Chưa có video</b></span></a><button id="miniMediaClose" class="mini-media-close focusable">×</button></div><script>
 (function(){
   function tick(){var e=document.getElementById("homeClock");if(e)e.textContent=new Date().toLocaleTimeString("vi-VN",{hour:"2-digit",minute:"2-digit"})}
   tick();setInterval(tick,30000);
@@ -17,6 +17,7 @@
   try{
     var h=JSON.parse(localStorage.getItem("aptvHistory")||"[]");
     if(recent&&h[0])recent.textContent=h[0].title||"Video gần đây";
+    var now=JSON.parse(localStorage.getItem("aptvNowPlaying")||"null"),bar=document.getElementById("miniMediaBar"),mt=document.getElementById("miniMediaTitle"),mo=document.getElementById("miniMediaOpen");if(now&&now.id&&bar&&mt){mt.textContent=now.title||"Video YouTube";if(mo)mo.href="youtube.html?video="+encodeURIComponent(now.id);bar.classList.remove("hidden")}
   }catch(e){}
 
   var driveBtn=document.getElementById("driveModeBtn"), state=document.getElementById("driveModeState");
@@ -51,6 +52,8 @@
   var deferredPrompt=null, install=document.getElementById("installAppBtn");
   window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferredPrompt=e;if(install)install.classList.remove("hidden")});
   if(install)install.onclick=async function(){if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;install.classList.add("hidden")};
+
+  var mc=document.getElementById("miniMediaClose");if(mc)mc.onclick=function(){localStorage.removeItem("aptvNowPlaying");var b=document.getElementById("miniMediaBar");if(b)b.classList.add("hidden")};
 
   if("serviceWorker" in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});
 })();
