@@ -131,3 +131,15 @@ var recent=q3('#recentBtn'),saved=q3('#savedBtn');
 if(recent)recent.onclick=function(){try{var a=JSON.parse(localStorage.getItem('aptvRecent')||'[]');render3(a);status3.textContent=a.length?a.length+' video đã mở gần đây':'Chưa có video gần đây'}catch(e){render3([])}};
 if(saved)saved.onclick=function(){try{var a=JSON.parse(localStorage.getItem('aptvSaved')||'[]');render3(a);status3.textContent=a.length?a.length+' bài đã lưu':'Chưa có bài đã lưu'}catch(e){render3([])}};
 })();
+/* Popup fit cycle v18 */
+(function(){
+ var b=document.getElementById('modalFit');if(!b)return;
+ var levels=[.8,.9,1],idx=0;
+ function apply(){
+  var card=document.querySelector('#videoModal .video-modal-card');if(!card)return;
+  var z=levels[idx];card.style.transform='scale('+z+')';card.style.transformOrigin='center center';
+  b.textContent='Fit '+Math.round(z*100)+'%';
+ }
+ b.onclick=function(){idx=(idx+1)%levels.length;apply()};
+ apply();
+})();
