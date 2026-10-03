@@ -15,7 +15,19 @@ function openChannel(id){for(var i=0;i<channels.length;i++)if(channels[i].id===i
 function card(c,quick){var d=document.createElement('div');d.className=quick?'tv-quick-item':'tv-channel-card';var b=document.createElement('button');b.className='focusable tv-channel-open'+(current>=0&&channels[current].id===c.id?' active':'');var logo=c.logo?'<img class="tv-logo-img" src="'+c.logo+'" onerror="this.style.display=\'none\'">':'<span class="tv-logo">'+c.name.substring(0,6)+'</span>';b.innerHTML=logo+'<span><b>'+c.name+'</b><small>'+(c.group||'Việt Nam')+'</small></span>';b.onclick=function(){openChannel(c.id)};d.appendChild(b);if(!quick){var f=document.createElement('button');f.className='tv-fav focusable';f.textContent=isFav(c.id)?'★':'☆';f.onclick=function(){toggleFav(c.id)};d.appendChild(f)}return d}
 function render(){var a=filtered(),box=q('#tvChannels'),quick=q('#tvQuickList');box.innerHTML='';quick.innerHTML='';for(var i=0;i<a.length;i++){box.appendChild(card(a[i],false));quick.appendChild(card(a[i],true))}q('#tvCount').textContent=a.length+' / '+channels.length+' kênh'}
 function step(n){if(!channels.length)return;current=current<0?0:(current+n+channels.length)%channels.length;openChannel(channels[current].id)}
-q('#tvSearch').oninput=render;var gs=qa('[data-group]');for(var i=0;i<gs.length;i++)gs[i].onclick=function(){group=this.getAttribute('data-group');for(var j=0;j<gs.length;j++)gs[j].className='chip focusable';this.className='chip focusable active';render()};
+q('#tvSearch').oninput=function(){syncTvSearch();render()};
+function syncTvSearch(){var i=q('#tvSearch'),w=i&&i.parentNode;if(w)w.className=i.value?'tv-search-wrap has-text':'tv-search-wrap'}
+var clear=q('#tvClearSearch');if(clear)clear.onclick=function(){var i=q('#tvSearch');i.value='';syncTvSearch();render();i.focus()};
+var voice=q('#tvVoiceSearch');if(voice)voice.onclick=function(){
+ var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!SR){q('#tvStatus').textContent='Trình duyệt này chưa hỗ trợ tìm kiếm giọng nói.';return}
+ var r=new SR();r.lang='vi-VN';r.interimResults=false;r.maxAlternatives=1;
+ voice.textContent='●';q('#tvStatus').textContent='Đang nghe tên kênh...';
+ r.onresult=function(e){var t=e.results&&e.results[0]&&e.results[0][0]?e.results[0][0].transcript:'';q('#tvSearch').value=t;syncTvSearch();render();q('#tvStatus').textContent=t?'Đã tìm: '+t:'Không nhận được tên kênh'};
+ r.onerror=function(){q('#tvStatus').textContent='Không nhận được giọng nói. Hãy thử lại.'};
+ r.onend=function(){voice.textContent='🎤'};
+ try{r.start()}catch(e){}
+};syncTvSearch();var gs=qa('[data-group]');for(var i=0;i<gs.length;i++)gs[i].onclick=function(){group=this.getAttribute('data-group');for(var j=0;j<gs.length;j++)gs[j].className='chip focusable';this.className='chip focusable active';render()};
 q('#tvPrev').onclick=function(){step(-1)};q('#tvNext').onclick=function(){step(1)};q('#tvPrevFoot').onclick=function(){step(-1)};q('#tvNextFoot').onclick=function(){step(1)};q('#tvListFoot').onclick=function(){q('#tvChannels').scrollIntoView({behavior:'smooth',block:'start'})};
 q('#tvFullscreen').onclick=function(){var p=q('#tvPlayerWrap'),fn=p.requestFullscreen||p.webkitRequestFullscreen;if(fn)try{fn.call(p)}catch(e){}};
 function updateMini(){var bar=q('#miniMediaBar'),title=q('#miniMediaTitle'),open=q('#miniMediaOpen');if(!bar||!title)return;try{var v=JSON.parse(localStorage.getItem('aptvNowPlaying')||'null');if(v&&v.id){title.textContent=v.title||'Video YouTube';if(open)open.href='youtube.html?video='+encodeURIComponent(v.id);bar.className='mini-media'}else bar.className='mini-media hidden'}catch(e){bar.className='mini-media hidden'}}
