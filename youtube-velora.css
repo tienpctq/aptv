@@ -91,3 +91,30 @@ body.youtube-split{margin:0;background:radial-gradient(ellipse at 0 0,#24444d55,
 .youtube-split:not(.player-mode) .video-card img{width:100%!important;aspect-ratio:16/9!important;max-height:none!important;border-radius:10px!important}
 .youtube-split:not(.player-mode) .browse-foot{height:22px!important;min-height:22px!important;font-size:10px!important;padding:1px 2px!important}
 @media(min-width:1450px){.youtube-split:not(.player-mode) .results{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
+
+/* Playback focus mode v8 — reference: only Change, Fullscreen, Original */
+.youtube-split.player-mode .velora-head{height:48px!important;flex-basis:48px!important;margin:0!important}
+.youtube-split.player-mode .velora-head>b{font-size:20px!important}
+.youtube-split.player-mode #changeVideo,
+.youtube-split.player-mode #videoFullscreen{display:inline-flex!important;height:42px!important;min-height:42px!important;align-items:center!important}
+.youtube-split.player-mode .search,
+.youtube-split.player-mode .velora-chips,
+.youtube-split.player-mode .status,
+.youtube-split.player-mode .results,
+.youtube-split.player-mode .browse-foot{display:none!important}
+.youtube-split.player-mode .media-grid{display:block!important;flex:1 1 auto!important;min-height:0!important;height:auto!important;margin:0!important}
+.youtube-split.player-mode #playerWrap{
+ display:block!important;width:100%!important;max-width:none!important;height:100%!important;min-height:0!important;
+ margin:0!important;border-radius:10px!important;background:#02060b!important;overflow:hidden!important;
+}
+.youtube-split.player-mode #youtubeFrame{display:block!important;width:100%!important;height:100%!important;border:0!important}
+.youtube-split.player-mode #inlineControls{display:none!important}
+.youtube-split.player-mode #nowPlaying{display:none!important}
+.youtube-split.player-mode #playerPlaceholder{display:none!important}
+.youtube-split.player-mode .car-main{height:100%!important}
+.youtube-split.player-mode .yt-original-head{display:none!important}
+.youtube-split.player-mode #youtubeMode:after{
+ content:"YouTube gốc ↗";display:block;position:absolute;right:18px;bottom:10px;
+ color:#6fffe8;font-size:12px;pointer-events:none
+}
+.youtube-split.player-mode #youtubeMode{position:relative!important}
