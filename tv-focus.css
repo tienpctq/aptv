@@ -44,3 +44,28 @@
  .aptv-tv .tv-toolbar{height:38px!important}.aptv-tv #tvSearch,.aptv-tv .tv-groups,.aptv-tv .tv-groups .chip{height:38px!important;min-height:38px!important}
  .aptv-tv .tv-channel-grid{height:56px!important;max-height:56px!important}.aptv-tv .tv-channel-card,.aptv-tv .tv-channel-open{height:50px!important;min-height:50px!important}
 }
+
+/* TV Focus v3 — maximize viewing, compact visual channel browser */
+.aptv-tv #cockpitApp{grid-template-rows:60px minmax(0,1fr)!important;gap:6px!important}
+.aptv-tv .tv-workspace{grid-template-columns:minmax(0,1fr) 190px!important;gap:7px!important;height:100%!important;min-height:0!important}
+.aptv-tv .tv-main{grid-template-rows:42px minmax(0,1fr) 42px!important;gap:5px!important;position:relative!important}
+.aptv-tv .tv-player-wrap{min-height:0!important;height:100%!important}
+.aptv-tv .tv-toolbar{grid-template-columns:minmax(230px,1fr) 76px auto!important;height:42px!important;gap:5px!important}
+.aptv-tv .tv-browse-toggle{height:42px!important;min-height:42px!important;border-radius:10px!important;padding:0 9px!important;font-weight:800!important}
+.aptv-tv .tv-groups .chip{padding:0 8px!important;font-size:11px!important}
+.aptv-tv .tv-channel-grid{
+ display:none!important;position:absolute!important;z-index:30!important;left:6px!important;right:6px!important;bottom:48px!important;
+ height:auto!important;max-height:46vh!important;padding:9px!important;margin:0!important;
+ grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:7px!important;
+ overflow-y:auto!important;overflow-x:hidden!important;background:#071525f5!important;
+ border:1px solid #4c829e!important;border-radius:14px!important;box-shadow:0 16px 40px #000b!important;
+}
+.aptv-tv.channel-browser-open .tv-channel-grid{display:grid!important}
+.aptv-tv .tv-channel-card{height:62px!important;min-height:62px!important;display:grid!important;grid-template-columns:minmax(0,1fr) 34px!important}
+.aptv-tv .tv-channel-open{height:62px!important;min-height:62px!important;padding:6px!important}.aptv-tv .tv-channel-open b{font-size:11px!important;line-height:13px!important}.aptv-tv .tv-channel-open small{font-size:9px!important}
+.aptv-tv .tv-quick{padding:7px!important}.aptv-tv .tv-quick .widget-head{min-height:34px!important}.aptv-tv .tv-quick-list{overflow-y:auto!important}
+.aptv-tv .tv-quick-item{min-height:48px!important}.aptv-tv .tv-quick-item .tv-channel-open{height:48px!important;min-height:48px!important}
+.aptv-tv .tv-source{min-height:38px!important;height:38px!important;font-size:10px!important}
+.aptv-tv .tv-footer-compact{display:none!important}
+@media(max-width:1100px){.aptv-tv .tv-workspace{grid-template-columns:minmax(0,1fr) 170px!important}.aptv-tv .tv-channel-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-height:650px) and (orientation:landscape){.aptv-tv #cockpitApp{grid-template-rows:52px minmax(0,1fr)!important}.aptv-tv .tv-main{grid-template-rows:36px minmax(0,1fr) 38px!important}.aptv-tv .tv-toolbar{height:38px!important}.aptv-tv .tv-browse-toggle{height:38px!important;min-height:38px!important}.aptv-tv .tv-channel-grid{bottom:43px!important;max-height:50vh!important}}
