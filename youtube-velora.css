@@ -458,3 +458,33 @@ body.youtube-split{margin:0;background:radial-gradient(ellipse at 0 0,#24444d55,
  .youtube-split #youtubeMode .results a{grid-template-columns:120px minmax(0,1fr)!important}
  .youtube-split #youtubeMode .results img{width:120px!important;max-width:120px!important;height:68px!important;min-height:68px!important}
 }
+
+/* Mobile v21 — restore full-width search input */
+@media(max-width:560px) and (orientation:portrait){
+ .youtube-split #youtubeMode .search{
+   width:100%!important;display:grid!important;
+   grid-template-columns:minmax(0,1fr) 58px!important;
+   grid-template-rows:50px 46px!important;gap:7px!important;
+ }
+ .youtube-split #youtubeMode .yt-input-wrap{
+   position:relative!important;display:block!important;
+   grid-column:1!important;grid-row:1!important;
+   width:100%!important;max-width:none!important;min-width:0!important;
+   height:50px!important;margin:0!important;padding:0!important;
+ }
+ .youtube-split #youtubeMode #ytSearch{
+   position:relative!important;left:auto!important;right:auto!important;
+   display:block!important;width:100%!important;max-width:none!important;min-width:0!important;
+   height:50px!important;min-height:50px!important;margin:0!important;
+   padding:0 38px 0 14px!important;box-sizing:border-box!important;
+ }
+ .youtube-split #youtubeMode #ytSearchBtn{
+   grid-column:2!important;grid-row:1!important;position:static!important;
+   width:58px!important;min-width:58px!important;height:50px!important;margin:0!important;
+ }
+ .youtube-split #youtubeMode .yt-split-clear{
+   position:absolute!important;right:6px!important;top:50%!important;transform:translateY(-50%)!important;
+   width:30px!important;height:30px!important;min-width:30px!important;z-index:4!important;
+ }
+ .youtube-split #youtubeMode .yt-external-search{grid-column:1/-1!important;grid-row:2!important}
+}
