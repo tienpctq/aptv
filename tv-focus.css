@@ -100,3 +100,36 @@ html,body.aptv-tv{height:100%!important;min-height:0!important;overflow:hidden!i
 .aptv-tv #tvVideo{height:100%!important;max-height:100%!important}
 .aptv-tv .tv-quick-list{height:auto!important;min-height:0!important;max-height:none!important;overflow-y:auto!important}
 @supports not (height:100dvh){.aptv-tv #cockpitApp{height:100vh!important;max-height:100vh!important}}
+
+/* TV Focus v6 — fix collapsed player caused by grid/flex min-height chain */
+.aptv-tv #cockpitApp{
+ display:grid!important;
+ grid-template-rows:58px minmax(0,calc(100dvh - 64px))!important;
+ height:100dvh!important;max-height:100dvh!important;min-height:100dvh!important;
+}
+.aptv-tv .tv-workspace{
+ display:grid!important;grid-template-columns:minmax(0,1fr) 210px!important;
+ height:100%!important;min-height:0!important;max-height:100%!important;overflow:hidden!important;
+}
+.aptv-tv .tv-main{
+ display:grid!important;
+ grid-template-rows:40px 44px minmax(280px,1fr)!important;
+ height:100%!important;min-height:0!important;max-height:100%!important;
+ padding:8px!important;box-sizing:border-box!important;overflow:hidden!important;
+}
+.aptv-tv .tv-player-wrap{
+ position:relative!important;grid-row:3!important;
+ width:100%!important;height:auto!important;min-height:280px!important;max-height:none!important;
+ align-self:stretch!important;overflow:hidden!important;background:#000!important;
+}
+.aptv-tv #tvVideo{
+ position:absolute!important;inset:0!important;
+ width:100%!important;height:100%!important;min-height:100%!important;
+ object-fit:contain!important;background:#000!important;
+}
+.aptv-tv .tv-quick{height:100%!important;min-height:0!important;max-height:100%!important;overflow:hidden!important}
+@media(max-height:650px) and (orientation:landscape){
+ .aptv-tv #cockpitApp{grid-template-rows:50px minmax(0,calc(100dvh - 56px))!important}
+ .aptv-tv .tv-main{grid-template-rows:36px 38px minmax(220px,1fr)!important;padding:5px!important}
+ .aptv-tv .tv-player-wrap{min-height:220px!important}
+}
