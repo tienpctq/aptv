@@ -1,0 +1,17 @@
+/* TV focus layout */
+.aptv-tv .tv-workspace{grid-template-columns:minmax(0,1fr) 250px!important;gap:10px!important}
+.aptv-tv .tv-main{min-width:0!important;display:flex!important;flex-direction:column!important}
+.aptv-tv .tv-head{min-height:54px!important}
+.aptv-tv .tv-player-wrap{flex:1 1 auto!important;min-height:300px!important;max-height:none!important;background:#000!important}
+.aptv-tv #tvVideo{width:100%!important;height:100%!important;object-fit:contain!important;background:#000!important}
+.aptv-tv .tv-toolbar{display:grid!important;grid-template-columns:minmax(260px,1fr) auto!important;gap:8px!important;margin-top:8px!important}
+.aptv-tv .tv-search-wrap{position:relative!important;min-width:0!important}
+.aptv-tv #tvSearch{width:100%!important;height:46px!important;padding:0 82px 0 14px!important;box-sizing:border-box!important;font-size:15px!important}
+.aptv-tv .tv-voice,.aptv-tv .tv-clear{position:absolute!important;top:6px!important;width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important;padding:0!important;border-radius:10px!important}
+.aptv-tv .tv-voice{right:42px!important}.aptv-tv .tv-clear{right:5px!important;display:none!important;font-size:20px!important}
+.aptv-tv .tv-search-wrap.has-text .tv-clear{display:block!important}
+.aptv-tv .tv-groups{display:flex!important;gap:6px!important;flex-wrap:nowrap!important}.aptv-tv .tv-groups .chip{height:46px!important;min-height:46px!important;padding:0 12px!important}
+.aptv-tv .tv-channel-grid{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(180px,1fr))!important;gap:7px!important;max-height:118px!important;overflow-y:auto!important;margin-top:7px!important}
+.aptv-tv .tv-channel-card{min-height:52px!important}.aptv-tv .tv-channel-open{min-height:52px!important}
+.aptv-tv .tv-quick{width:auto!important;min-width:0!important}.aptv-tv .tv-quick-list{overflow-y:auto!important}.aptv-tv .tv-quick-item{min-height:58px!important}
+@media(max-height:650px) and (orientation:landscape){.aptv-tv .tv-workspace{grid-template-columns:minmax(0,1fr) 230px!important}.aptv-tv .tv-head{min-height:46px!important}.aptv-tv .tv-player-wrap{min-height:250px!important}.aptv-tv .tv-channel-grid{max-height:100px!important}.aptv-tv .tv-toolbar{margin-top:5px!important}}
