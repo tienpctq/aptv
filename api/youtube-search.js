@@ -23,8 +23,8 @@ export default async function handler(req,res){
     var r=await fetch(url),data=await r.json();
     if(r.ok){var src=data&&data.items?data.items:[],items=[];for(var i=0;i<src.length;i++){var x=src[i],id=x&&x.id&&x.id.videoId,s=x&&x.snippet;if(id)items.push({id:id,title:s&&s.title?s.title:"",channel:s&&s.channelTitle?s.channelTitle:"",thumbnail:"https://images.weserv.nl/?url="+encodeURIComponent("https://i.ytimg.com/vi/"+id+"/hqdefault.jpg")})}if(items.length){cache[ck]={time:now,items:items,source:"youtube"};cache[ck]={time:now,items:items,source:"youtube"};return res.status(200).json({items:items,query:q,cached:false,source:"youtube"})}}
   }catch(e){}}
-  var alt=await Promise.race([fallback(q),new Promise(function(resolve){setTimeout(function(){resolve([])},4500)})]);
+  var alt=await fallback(q);
   if(alt.length){cache[ck]={time:now,items:alt,source:"fallback"};return res.status(200).json({items:alt,query:q,cached:false,source:"fallback"})}
   if(hit)return res.status(200).json({items:hit.items,query:q,cached:true,stale:true,source:hit.source||"cache"});
-  return res.status(503).json({error:"search_unavailable",message:"Cả YouTube API và nguồn tìm kiếm dự phòng hiện không khả dụng."});
+  return res.status(200).json({items:[],query:q,cached:false,source:"unavailable",warning:"search_unavailable"});
 }
