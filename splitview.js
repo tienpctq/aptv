@@ -48,8 +48,8 @@ function stop(){
 var b=el('gpsButton');if(b)b.onclick=function(){wid===null?start():stop()};
 var lb=el('speedLimitOnlineButton');if(lb)lb.onclick=function(){if(lat!==null){lastLimit=0;getLimit(lat,lon)}else txt('speedLimitSource','Bật GPS trước')};
 var r=el('weatherRefresh');if(r)r.onclick=function(){
- if(lat!==null){getWeather(lat,lon);return}
- if(navigator.geolocation)navigator.geolocation.getCurrentPosition(function(p){lat=p.coords.latitude;lon=p.coords.longitude;getWeather(lat,lon)},onErr,{enableHighAccuracy:true,timeout:10000});
+ if(lat!==null){getWeather(lat,lon);getPlace(lat,lon);return}
+ if(navigator.geolocation)navigator.geolocation.getCurrentPosition(function(p){lat=p.coords.latitude;lon=p.coords.longitude;getWeather(lat,lon);getPlace(lat,lon)},onErr,{enableHighAccuracy:true,timeout:10000});
 };
 function clock(){txt('clock',new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'}))}
 clock();setInterval(clock,30000);
