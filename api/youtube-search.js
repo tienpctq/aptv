@@ -1,5 +1,5 @@
-var CACHE_TTL=21600000;
-var cache=globalThis.__aptvYoutubeCacheV3||(globalThis.__aptvYoutubeCacheV2={});
+var CACHE_TTL=43200000;
+var cache=globalThis.__aptvYoutubeCacheV4||(globalThis.__aptvYoutubeCacheV4={});
 function normalize(items){var out=[];for(var i=0;i<(items||[]).length;i++){var x=items[i]||{},id=x.videoId||x.id;if(typeof id==="object")id=id.videoId;var t=x.title||"",ch=x.author||x.channel||x.channelTitle||"",thumb=id?("https://i.ytimg.com/vi/"+encodeURIComponent(id)+"/mqdefault.jpg"):(x.videoThumbnails&&x.videoThumbnails.length?x.videoThumbnails[0].url:(x.thumbnail||""));if(id)out.push({id:id,title:t,channel:ch,thumbnail:"https://images.weserv.nl/?url="+encodeURIComponent("https://i.ytimg.com/vi/"+id+"/hqdefault.jpg")})}return out}
 async function fallback(q){
   var bases=["https://pipedapi.kavin.rocks","https://pipedapi.tokhmi.xyz","https://pipedapi.moomoo.me","https://pipedapi.syncpundit.io","https://api-piped.mha.fi","https://piped-api.garudalinux.org"];
@@ -21,11 +21,10 @@ export default async function handler(req,res){
   if(key){try{
     var url="https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=18&safeSearch=moderate&regionCode=VN&relevanceLanguage=vi&q="+encodeURIComponent(q)+"&key="+encodeURIComponent(key);
     var r=await fetch(url),data=await r.json();
-    if(r.ok){var src=data&&data.items?data.items:[],items=[];for(var i=0;i<src.length;i++){var x=src[i],id=x&&x.id&&x.id.videoId,s=x&&x.snippet;if(id)items.push({id:id,title:s&&s.title?s.title:"",channel:s&&s.channelTitle?s.channelTitle:"",thumbnail:"https://images.weserv.nl/?url="+encodeURIComponent("https://i.ytimg.com/vi/"+id+"/hqdefault.jpg")})}if(items.length){cache[ck]={time:now,items:items,source:"youtube"};for(var ti=0;ti<items.length;ti++){try{var tr=await fetch("https://i.ytimg.com/vi/"+encodeURIComponent(items[ti].id)+"/mqdefault.jpg");if(tr.ok){var tb=Buffer.from(await tr.arrayBuffer());items[ti].thumbnailData="data:"+(tr.headers.get("content-type")||"image/jpeg")+";base64,"+tb.toString("base64")}}catch(e){}}
-cache[ck]={time:now,items:items,source:"youtube"};return res.status(200).json({items:items,query:q,cached:false,source:"youtube"})}}
+    if(r.ok){var src=data&&data.items?data.items:[],items=[];for(var i=0;i<src.length;i++){var x=src[i],id=x&&x.id&&x.id.videoId,s=x&&x.snippet;if(id)items.push({id:id,title:s&&s.title?s.title:"",channel:s&&s.channelTitle?s.channelTitle:"",thumbnail:"https://images.weserv.nl/?url="+encodeURIComponent("https://i.ytimg.com/vi/"+id+"/hqdefault.jpg")})}if(items.length){cache[ck]={time:now,items:items,source:"youtube"};cache[ck]={time:now,items:items,source:"youtube"};return res.status(200).json({items:items,query:q,cached:false,source:"youtube"})}}
   }catch(e){}}
-  var alt=await fallback(q);
-  if(alt.length){for(var ai=0;ai<alt.length;ai++){try{var ar=await fetch("https://i.ytimg.com/vi/"+encodeURIComponent(alt[ai].id)+"/mqdefault.jpg");if(ar.ok){var ab=Buffer.from(await ar.arrayBuffer());alt[ai].thumbnailData="data:"+(ar.headers.get("content-type")||"image/jpeg")+";base64,"+ab.toString("base64")}}catch(e){}}cache[ck]={time:now,items:alt,source:"fallback"};return res.status(200).json({items:alt,query:q,cached:false,source:"fallback"})}
+  var alt=await Promise.race([fallback(q),new Promise(function(resolve){setTimeout(function(){resolve([])},4500)})]);
+  if(alt.length){cache[ck]={time:now,items:alt,source:"fallback"};return res.status(200).json({items:alt,query:q,cached:false,source:"fallback"})}
   if(hit)return res.status(200).json({items:hit.items,query:q,cached:true,stale:true,source:hit.source||"cache"});
   return res.status(503).json({error:"search_unavailable",message:"Cả YouTube API và nguồn tìm kiếm dự phòng hiện không khả dụng."});
 }
