@@ -351,3 +351,6 @@ body.cartube-page{--topY:10px;--topH:48px}
  opacity:1!important;visibility:visible!important;pointer-events:auto!important;
 }
 .cartube-page .ct-search-input #ytSearch{padding-right:48px!important}
+
+/* CarTube clear control final fallback v24 */
+.cartube-page #ytSearch:not(:placeholder-shown)+#ytClearSearch{display:flex!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important}
