@@ -26,3 +26,6 @@ html,body{height:100%;margin:0;overflow:hidden}
 
 /* Welcome audio stop control v2 */
 .welcome-audio{height:100%;min-width:0;display:grid;grid-template-columns:minmax(0,1fr) 48px;gap:7px}.welcome-audio .welcome-btn{width:100%;min-width:0}.welcome-stop{height:100%;min-height:0;border:1px solid #49667b;border-radius:15px;background:#102334;color:#ff8d94;font-size:16px;font-weight:900}.welcome-stop:active{transform:scale(.96);background:#3b1820}
+
+/* Integrated speaker control v4 */
+.welcome-audio{grid-template-columns:minmax(0,1fr)!important}.welcome-stop{display:none!important}.welcome-icon{cursor:pointer!important;user-select:none!important;transition:transform .12s ease,background .12s ease}.welcome-icon:active{transform:scale(.9)!important;background:#1b566e!important}
