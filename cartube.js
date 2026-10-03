@@ -52,7 +52,7 @@ function buildEmbed(videoId){
   fr.setAttribute('allowfullscreen','');
   fr.setAttribute('playsinline','');
   fr.style.width='100%';fr.style.height='100%';fr.style.border='0';
-  fr.src='https://www.youtube.com/embed/'+encodeURIComponent(videoId)+'?autoplay=1&playsinline=1&rel=0&modestbranding=1&cb='+Date.now();
+  fr.src='https://www.youtube.com/embed/'+encodeURIComponent(videoId)+'?autoplay=1&playsinline=1&controls=1&rel=0&modestbranding=1&fs=1&enablejsapi=1&cb='+Date.now();
   return fr;
 }
 
