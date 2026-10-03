@@ -254,3 +254,9 @@ body.cartube-page header.top>a.ct-brand-contact{
  #videoModal .modal-player{width:min(700px,76vw)!important}
  #videoModal .modal-bottom{min-height:68px!important;padding:5px 10px!important}
 }
+
+/* Search quick-clear v19 */
+.cartube-page .ct-search-input{position:relative!important;min-width:0!important;height:100%!important}
+.cartube-page .ct-search-input #ytSearch{width:100%!important;height:100%!important;box-sizing:border-box!important;padding-right:44px!important}
+.cartube-page .ct-clear-search{display:none!important;position:absolute!important;right:7px!important;top:50%!important;transform:translateY(-50%)!important;width:32px!important;height:32px!important;min-width:32px!important;padding:0!important;border:0!important;border-radius:50%!important;background:#24344a!important;color:#dce8f5!important;font-size:22px!important;line-height:30px!important;z-index:3!important}
+.cartube-page .ct-search-input.has-text .ct-clear-search{display:block!important}
