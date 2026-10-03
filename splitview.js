@@ -3,9 +3,24 @@ function el(id){return document.getElementById(id)}
 var wid=null,lat=null,lon=null,lastGeo=0,lastLimit=0;
 function txt(id,v){var x=el(id);if(x)x.textContent=v}
 function getPlace(a,b){
- var n=new XMLHttpRequest();n.open('GET','https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat='+encodeURIComponent(a)+'&lon='+encodeURIComponent(b)+'&accept-language=vi&zoom=14',true);
- n.onreadystatechange=function(){if(n.readyState!==4)return;if(n.status>=200&&n.status<300)try{var d=JSON.parse(n.responseText),z=d.address||{},parts=[],v=z.suburb||z.quarter||z.village||z.town||z.city_district||z.city;if(v)parts.push(v);var p=z.city||z.town||z.county;if(p&&parts.indexOf(p)<0)parts.push(p);var pr=z.state;if(pr)parts.push(pr);txt('weatherPlace',parts.join(', ')||d.display_name||'Vị trí GPS')}catch(e){}};
- n.send();
+ txt('weatherPlace','Đang xác định địa danh...');
+ var urls=[
+  'https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat='+encodeURIComponent(a)+'&lon='+encodeURIComponent(b)+'&accept-language=vi&zoom=14',
+  'https://api.bigdatacloud.net/data/reverse-geocode-client?latitude='+encodeURIComponent(a)+'&longitude='+encodeURIComponent(b)+'&localityLanguage=vi'
+ ],idx=0;
+ function done(d){
+  var z=d.address||{},parts=[],v=z.suburb||z.quarter||z.village||z.town||z.city_district||z.city||d.locality||d.city||d.principalSubdivision,
+      p=z.city||z.town||z.county||d.city||d.localityInfo&&d.localityInfo.administrative&&d.localityInfo.administrative[2]&&d.localityInfo.administrative[2].name,
+      pr=z.state||d.principalSubdivision;
+  if(v)parts.push(v);if(p&&parts.indexOf(p)<0)parts.push(p);if(pr&&parts.indexOf(pr)<0)parts.push(pr);
+  txt('weatherPlace',parts.join(', ')||d.display_name||d.locality||('GPS '+Number(a).toFixed(3)+', '+Number(b).toFixed(3)));
+ }
+ function next(){
+  if(idx>=urls.length){txt('weatherPlace','GPS '+Number(a).toFixed(3)+', '+Number(b).toFixed(3));return}
+  var n=new XMLHttpRequest();n.open('GET',urls[idx++],true);n.timeout=7000;
+  n.onreadystatechange=function(){if(n.readyState!==4)return;if(n.status>=200&&n.status<300){try{done(JSON.parse(n.responseText));return}catch(e){}}next()};
+  n.onerror=next;n.ontimeout=next;n.send();
+ } next();
 }
 function getLimit(a,b){
  var api=window.APTV_CONFIG&&window.APTV_CONFIG.speedLimitApiUrl;
