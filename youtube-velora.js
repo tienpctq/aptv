@@ -27,3 +27,5 @@ var swap=e('swapBtn');if(swap)swap.onclick=function(){document.body.classList.to
 var util=e('utilityBtn');if(util)util.onclick=function(){var m=e('settingsModal');if(m)m.classList.remove('hidden')};
 var i=e('ytSearch'),b=e('ytSplitClear');if(i&&b){function sync(){i.parentNode.className=i.value?'yt-input-wrap has-text':'yt-input-wrap'}i.oninput=sync;i.onkeyup=sync;b.onclick=function(ev){if(ev){ev.preventDefault();ev.stopPropagation()}i.value='';sync();i.focus()};sync()}
 })();
+/* External YouTube search follows current query v5 */
+(function(){var a=document.getElementById('ytExternalSearch'),i=document.getElementById('ytSearch');if(!a||!i)return;function s(){var q=(i.value||'').replace(/^\s+|\s+$/g,'');a.href=q?'https://www.youtube.com/results?search_query='+encodeURIComponent(q):'https://www.youtube.com/'}i.addEventListener('input',s);i.addEventListener('keyup',s);s()})();
