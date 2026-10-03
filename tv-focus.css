@@ -69,3 +69,20 @@
 .aptv-tv .tv-footer-compact{display:none!important}
 @media(max-width:1100px){.aptv-tv .tv-workspace{grid-template-columns:minmax(0,1fr) 170px!important}.aptv-tv .tv-channel-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
 @media(max-height:650px) and (orientation:landscape){.aptv-tv #cockpitApp{grid-template-rows:52px minmax(0,1fr)!important}.aptv-tv .tv-main{grid-template-rows:36px minmax(0,1fr) 38px!important}.aptv-tv .tv-toolbar{height:38px!important}.aptv-tv .tv-browse-toggle{height:38px!important;min-height:38px!important}.aptv-tv .tv-channel-grid{bottom:43px!important;max-height:50vh!important}}
+
+/* TV Focus v4 — search always visible under title, player remains dominant */
+.aptv-tv .tv-main{grid-template-rows:42px 44px minmax(0,1fr)!important;gap:5px!important}
+.aptv-tv .tv-toolbar{grid-row:2!important;display:grid!important;grid-template-columns:minmax(260px,1fr) 76px auto!important;height:44px!important;min-height:44px!important;margin:0!important;overflow:visible!important}
+.aptv-tv .tv-search-wrap{display:block!important;height:44px!important;min-height:44px!important}
+.aptv-tv #tvSearch{display:block!important;height:44px!important;min-height:44px!important;font-size:14px!important;background:#09192b!important}
+.aptv-tv .tv-voice,.aptv-tv .tv-clear{top:5px!important}
+.aptv-tv .tv-browse-toggle{display:block!important;height:44px!important;min-height:44px!important}
+.aptv-tv .tv-groups{display:flex!important;height:44px!important;min-height:44px!important}
+.aptv-tv .tv-player-wrap{grid-row:3!important;height:100%!important;min-height:0!important}
+.aptv-tv .tv-channel-grid{bottom:5px!important;top:96px!important;max-height:none!important}
+@media(max-height:650px) and (orientation:landscape){
+ .aptv-tv .tv-main{grid-template-rows:36px 38px minmax(0,1fr)!important}
+ .aptv-tv .tv-toolbar,.aptv-tv .tv-search-wrap,.aptv-tv #tvSearch,.aptv-tv .tv-browse-toggle,.aptv-tv .tv-groups{height:38px!important;min-height:38px!important}
+ .aptv-tv .tv-voice,.aptv-tv .tv-clear{top:2px!important}
+ .aptv-tv .tv-channel-grid{top:82px!important}
+}
