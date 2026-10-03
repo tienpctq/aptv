@@ -122,7 +122,7 @@ document.addEventListener('click',function(e){
 updateMini();
 try{var qp=new URLSearchParams(location.search),vid=qp.get('video');if(vid){setTimeout(function(){if(window.aptvPlayVideo)window.aptvPlayVideo({id:vid,title:'YouTube',channel:'YouTube'})},120)}}catch(e){}
 window.addEventListener('pagehide',function(){try{hardStopPlayback()}catch(e){}});document.addEventListener('visibilitychange',function(){if(document.hidden){try{hardStopPlayback()}catch(e){}}});
-status.textContent='CarTube sẵn sàng · chọn danh mục hoặc tìm kiếm YouTube.';
+if(input&&!input.value){input.value='Nhạc Việt Nam mới';search(input.value)}else if(input&&input.value){search(input.value)}else{status.textContent='CarTube sẵn sàng · chọn danh mục hoặc tìm kiếm YouTube.';}
 })();
 (function(){
 function q2(s){return document.querySelector(s)}var results2=q2('#ytResults');
