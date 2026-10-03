@@ -1,4 +1,4 @@
-const CACHE="mr-tien-cockpit-v2";
+const CACHE="mr-tien-cockpit-v3";
 const STATIC=[
   "./",
   "./index.html",
