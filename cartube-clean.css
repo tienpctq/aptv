@@ -169,3 +169,42 @@ body.cartube-page header.top>a.ct-brand-contact{
 @media(min-width:821px){
  body.cartube-page #youtubeMode .search{width:560px!important;max-width:42vw!important}
 }
+
+/* Compact landscape video popup matching supplied reference v15 */
+#videoModal{padding:8px!important;background:rgba(0,0,0,.84)!important;backdrop-filter:blur(5px)!important}
+#videoModal .video-modal-card{
+ width:min(1100px,94vw)!important;max-width:none!important;height:auto!important;max-height:94vh!important;
+ margin:auto!important;padding:0!important;overflow:hidden!important;border-radius:18px!important;
+ background:#0d1726!important;border:1px solid #34445c!important;box-shadow:0 24px 70px rgba(0,0,0,.72)!important;
+}
+#videoModal .settings-head{
+ position:relative!important;top:auto!important;min-height:58px!important;padding:8px 12px!important;
+ background:#0d1726!important;border-bottom:1px solid #34445c!important;
+}
+#videoModal .settings-head>span{min-width:0!important;display:block!important}
+#videoModal #modalTitle{display:block!important;max-width:720px!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;font-size:16px!important;line-height:20px!important}
+#videoModal #modalChannel{font-size:11px!important;margin-top:2px!important}
+#videoModal .yt-original{min-height:38px!important;padding:0 12px!important;display:inline-flex!important;align-items:center!important;font-size:12px!important;font-weight:800!important;background:#21334e!important}
+#videoModal #modalClose{width:38px!important;height:38px!important;border-radius:50%!important;background:#4b202b!important;font-size:25px!important;line-height:34px!important}
+#videoModal .modal-player{
+ width:min(745px,100%)!important;aspect-ratio:16/9!important;min-height:0!important;max-height:none!important;
+ margin:0 auto!important;border-radius:0!important;background:#000!important;
+}
+#videoModal .modal-player iframe,#videoModal #modalPlayer{width:100%!important;height:100%!important}
+#videoModal .modal-bottom{border-top:1px solid #34445c!important;background:#0d1726!important;padding:8px 12px!important}
+#videoModal .modal-help{min-height:22px!important;padding:2px 0 7px!important;font-size:12px!important;color:#c2cedd!important}
+#videoModal .player-actions{
+ position:static!important;display:flex!important;justify-content:flex-end!important;align-items:center!important;
+ gap:8px!important;padding:0!important;margin:0!important;background:transparent!important;
+}
+#videoModal .player-actions .small{flex:0 0 auto!important;min-width:0!important;min-height:38px!important;padding:0 13px!important;border-radius:12px!important;font-size:12px!important;font-weight:800!important;background:#21334e!important}
+#videoModal #saveCurrentVideo{display:none!important}
+@media(max-width:760px),(orientation:portrait){
+ #videoModal{padding:4px!important}
+ #videoModal .video-modal-card{width:98vw!important;max-height:96vh!important;border-radius:13px!important}
+ #videoModal .settings-head{min-height:50px!important;padding:6px 8px!important}
+ #videoModal #modalTitle{max-width:52vw!important;font-size:13px!important}
+ #videoModal .modal-player{width:100%!important}
+ #videoModal .modal-bottom{padding:6px 8px!important}
+ #videoModal .player-actions .small{min-height:36px!important;padding:0 9px!important}
+}
