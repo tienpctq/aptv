@@ -59,3 +59,17 @@ body.youtube-split{margin:0;background:radial-gradient(ellipse at 0 0,#24444d55,
 .youtube-split footer{height:58px!important;min-height:58px!important}
 .youtube-split footer .foot{min-width:150px!important;font-size:18px!important}
 @media(max-height:650px) and (orientation:landscape){.youtube-split #cockpitApp{grid-template-rows:50px minmax(0,1fr) 50px!important}.youtube-split .velora-split-top{height:50px!important;min-height:50px!important}.youtube-split .search{height:46px!important}.youtube-split #ytSearch,.youtube-split #ytSearchBtn,.youtube-split .yt-external-search{height:46px!important;min-height:46px!important}.youtube-split .velora-chips{height:44px!important}.youtube-split .velora-chips .quick{height:44px!important;min-height:44px!important}.youtube-split .right{grid-template-rows:150px minmax(0,1fr)!important}.youtube-split footer{height:50px!important;min-height:50px!important}}
+
+/* Browse results must replace empty player area v6 */
+.youtube-split:not(.player-mode) .media-grid{display:none!important}
+.youtube-split:not(.player-mode) .velora-chips{display:flex!important}
+.youtube-split:not(.player-mode) .results{
+ display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;
+ gap:14px!important;padding:6px 4px 10px!important;align-content:start!important;
+}
+.youtube-split:not(.player-mode) .video-card img{display:block!important;width:100%!important;aspect-ratio:16/9!important;object-fit:cover!important}
+.youtube-split.player-mode .media-grid{display:block!important;flex:1 1 auto!important}
+.youtube-split.player-mode .results{display:none!important}
+.youtube-split.player-mode .browse-foot{display:none!important}
+.youtube-split.player-mode .velora-chips{display:none!important}
