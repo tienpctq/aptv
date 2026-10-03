@@ -208,3 +208,20 @@ body.cartube-page header.top>a.ct-brand-contact{
  #videoModal .modal-bottom{padding:6px 8px!important}
  #videoModal .player-actions .small{min-height:36px!important;padding:0 9px!important}
 }
+
+/* Popup-only player + true top-left brand v17 */
+#miniMediaBar,.mini-media{display:none!important}
+#ctBrandInline,#ctFixedBrand{display:none!important}
+#ctCornerBrand{
+ display:block!important;visibility:visible!important;opacity:1!important;
+ position:fixed!important;z-index:10001!important;left:12px!important;top:9px!important;
+ width:176px!important;height:56px!important;line-height:56px!important;
+ margin:0!important;padding:0 6px!important;box-sizing:border-box!important;
+ color:#fff!important;background:#07111d!important;border:0!important;
+ font:800 12px/56px Arial,sans-serif!important;white-space:nowrap!important;
+ text-align:left!important;pointer-events:none!important;
+}
+@media(min-width:821px){
+ body.cartube-page #youtubeMode .search{left:50%!important;width:560px!important;max-width:42vw!important}
+}
+@media(max-width:700px){#ctCornerBrand{font-size:10px!important;width:150px!important}}
