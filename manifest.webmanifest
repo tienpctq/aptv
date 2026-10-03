@@ -1,0 +1,18 @@
+{
+  "name": "Mr.TIẾN Smart Cockpit",
+  "short_name": "Mr.TIẾN",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#071126",
+  "theme_color": "#071126",
+  "description": "Smart cockpit for CarTube, TV, GPS and driving utilities.",
+  "icons": [
+    {
+      "src": "assets/evn-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
