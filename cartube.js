@@ -155,3 +155,18 @@ if(saved)saved.onclick=function(){try{var a=JSON.parse(localStorage.getItem('apt
  btn.onclick=function(e){if(e){e.preventDefault();e.stopPropagation()}inp.value='';sync();inp.focus()};
  sync();
 })();
+
+/* CarTube clear button capture fix v25 */
+(function(){
+ document.addEventListener('click',function(ev){
+  var n=ev.target;
+  if(!n)return;
+  if(n.id==='ytClearSearch'||(n.closest&&n.closest('#ytClearSearch'))){
+   if(ev.preventDefault)ev.preventDefault();if(ev.stopPropagation)ev.stopPropagation();
+   var i=document.getElementById('ytSearch');if(!i)return;
+   i.value='';
+   var p=i.parentNode;if(p)p.className='ct-search-input';
+   try{i.focus()}catch(x){}
+  }
+ },true);
+})();
