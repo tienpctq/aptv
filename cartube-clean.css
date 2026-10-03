@@ -423,3 +423,47 @@ body.cartube-page{--topY:10px;--topH:48px}
  }
  body.cartube-page #youtubeMode #ytSearchBtn{width:58px!important;min-width:58px!important}
 }
+
+/* CarTube mobile v26 — brand + search + Fit on one clean row */
+@media(max-width:820px){
+ body.cartube-page{--ctMobileBarH:54px!important}
+ body.cartube-page #cockpitApp{padding-top:68px!important}
+ body.cartube-page #ctCornerBrand{
+   position:absolute!important;left:8px!important;top:10px!important;
+   width:118px!important;height:46px!important;padding:3px 6px!important;z-index:100!important;
+ }
+ body.cartube-page #ctCornerBrand img{width:28px!important;height:28px!important;flex:0 0 28px!important}
+ body.cartube-page #ctCornerBrand b{font-size:10px!important;line-height:12px!important}
+ body.cartube-page #ctCornerBrand small{font-size:7px!important;line-height:9px!important}
+ body.cartube-page #youtubeMode .search{
+   position:absolute!important;z-index:99!important;
+   top:-58px!important;left:126px!important;right:102px!important;
+   width:auto!important;height:46px!important;max-width:none!important;
+   display:grid!important;grid-template-columns:minmax(0,1fr) 54px!important;
+   grid-template-rows:46px!important;gap:5px!important;transform:none!important;margin:0!important;padding:0!important;
+ }
+ body.cartube-page #youtubeMode .ct-search-input,
+ body.cartube-page #youtubeMode #ytSearch{height:46px!important;min-height:46px!important}
+ body.cartube-page #youtubeMode #ytSearch{font-size:11px!important;padding:0 36px 0 10px!important;border-radius:12px!important}
+ body.cartube-page #youtubeMode #ytSearchBtn{
+   width:54px!important;min-width:54px!important;height:46px!important;min-height:46px!important;
+   font-size:11px!important;border-radius:12px!important;padding:0!important;white-space:nowrap!important;
+ }
+ body.cartube-page footer.cartube-full-footer{
+   position:absolute!important;top:10px!important;right:8px!important;width:88px!important;height:46px!important;z-index:100!important;
+ }
+ body.cartube-page footer #fitButton{width:88px!important;height:46px!important;min-height:46px!important;font-size:10px!important;padding:0 4px!important}
+ body.cartube-page .car-youtube-layout{grid-template-columns:68px minmax(0,1fr)!important}
+ body.cartube-page .car-side{width:68px!important;min-height:calc(100dvh - 68px)!important}
+}
+@media(max-width:430px){
+ body.cartube-page #cockpitApp{padding-top:68px!important}
+ body.cartube-page #ctCornerBrand{left:6px!important;width:106px!important}
+ body.cartube-page #ctCornerBrand img{width:26px!important;height:26px!important;flex-basis:26px!important}
+ body.cartube-page #ctCornerBrand small{display:none!important}
+ body.cartube-page #youtubeMode .search{top:-58px!important;left:118px!important;right:86px!important;grid-template-columns:minmax(0,1fr) 46px!important;gap:4px!important}
+ body.cartube-page #youtubeMode #ytSearch{font-size:10px!important;padding-left:9px!important;padding-right:32px!important}
+ body.cartube-page #youtubeMode #ytSearchBtn{width:46px!important;min-width:46px!important;font-size:10px!important}
+ body.cartube-page footer.cartube-full-footer{right:6px!important;width:76px!important}
+ body.cartube-page footer #fitButton{width:76px!important;font-size:9px!important}
+}
