@@ -93,3 +93,16 @@ body.cartube-page{margin:0;background:var(--ct-bg)!important;color:var(--ct-text
  body.cartube-page .car-side{position:static!important;top:auto!important;bottom:auto!important;transform:none!important;max-height:none!important;height:100%!important;margin:0!important;padding-top:0!important}
  body.cartube-page .car-side .yt-sections{margin:0!important;padding-top:0!important}
 }
+
+/* Sidebar begins at the same top edge as main content v10 */
+@media(min-width:821px){
+ body.cartube-page .car-youtube-layout{position:relative!important}
+ body.cartube-page .car-side{
+   position:absolute!important;left:0!important;top:0!important;bottom:0!important;
+   width:84px!important;height:auto!important;max-height:none!important;
+   margin:0!important;padding:0 5px!important;transform:none!important;
+ }
+ body.cartube-page .car-main{margin-left:84px!important;width:calc(100% - 84px)!important}
+ body.cartube-page .car-side .yt-sections{margin:0!important;padding:0!important;transform:none!important}
+ body.cartube-page .dashboard-link{margin-top:0!important}
+}
