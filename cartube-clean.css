@@ -302,3 +302,35 @@ body:has(#videoModal:not(.hidden)) #ctCornerBrand{opacity:0!important;visibility
  background:#1b2a3d!important;color:#dce8f5!important;font:700 20px/28px Arial,sans-serif!important;
 }
 .cartube-page .ct-search-input.has-text .ct-clear-search{opacity:1!important;visibility:visible!important;pointer-events:auto!important}
+
+/* Final top-bar normalization v22: one row, no clipping/scrollbars */
+html,body.cartube-page{overflow:hidden!important}
+body.cartube-page{--topY:10px;--topH:48px}
+#ctCornerBrand{top:var(--topY)!important;left:10px!important;height:var(--topH)!important;width:168px!important}
+@media(min-width:821px){
+ body.cartube-page #youtubeMode .search{
+   top:var(--topY)!important;left:50%!important;right:auto!important;height:var(--topH)!important;
+   width:560px!important;max-width:calc(100vw - 500px)!important;transform:translateX(-50%)!important;
+   overflow:visible!important;box-sizing:border-box!important;
+ }
+ body.cartube-page #youtubeMode .ct-search-input,
+ body.cartube-page #youtubeMode #ytSearch,
+ body.cartube-page #youtubeMode #ytSearchBtn{height:var(--topH)!important;min-height:var(--topH)!important;box-sizing:border-box!important}
+ body.cartube-page footer.cartube-full-footer{
+   position:fixed!important;z-index:80!important;top:var(--topY)!important;right:10px!important;
+   width:98px!important;height:var(--topH)!important;min-height:var(--topH)!important;
+   padding:0!important;margin:0!important;overflow:visible!important;box-sizing:border-box!important;
+ }
+ body.cartube-page footer #fitButton{
+   display:flex!important;align-items:center!important;justify-content:center!important;
+   width:98px!important;height:var(--topH)!important;min-height:var(--topH)!important;
+   margin:0!important;padding:0 8px!important;box-sizing:border-box!important;white-space:nowrap!important;overflow:hidden!important;
+ }
+}
+.cartube-page .ct-clear-search{
+ display:flex!important;opacity:0!important;visibility:hidden!important;pointer-events:none!important;
+ position:absolute!important;right:9px!important;top:50%!important;transform:translateY(-50%)!important;
+ z-index:999!important;width:30px!important;height:30px!important;min-width:30px!important;
+ align-items:center!important;justify-content:center!important;padding:0!important;margin:0!important;
+}
+.cartube-page .ct-search-input.has-text>.ct-clear-search{opacity:1!important;visibility:visible!important;pointer-events:auto!important}
