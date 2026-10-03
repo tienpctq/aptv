@@ -199,3 +199,16 @@ body.youtube-split{margin:0;background:radial-gradient(ellipse at 0 0,#24444d55,
  .youtube-split .velora-split-top{grid-template-columns:100px minmax(0,1fr)!important}.youtube-split .velora-wordmark{font-size:19px!important}
  .youtube-split .velora-split-top .nav{font-size:10px!important}.youtube-split:not(.player-mode) .results{grid-template-columns:1fr!important}
 }
+
+/* Unified APTV mobile cockpit v13 */
+@media(max-width:820px),(orientation:portrait){
+ .youtube-split #cockpitApp{padding:0!important;gap:0!important;background:#07121f!important}
+ .youtube-split .velora-split-top{position:sticky!important;top:0!important;z-index:2000!important;height:64px!important;min-height:64px!important;border-radius:0 0 14px 14px!important;border-width:0 0 1px!important;background:#0b1b2cF2!important;grid-template-columns:minmax(110px,.85fr) minmax(0,1.5fr)!important;padding:0 8px 0 14px!important}
+ .youtube-split .velora-wordmark{font-size:23px!important;font-style:italic!important;font-weight:900!important}
+ .youtube-split .velora-split-top nav{height:50px!important}.youtube-split .velora-split-top .nav{height:50px!important;min-height:50px!important}
+ .youtube-split .workspace{padding:9px!important;gap:9px!important}
+ .youtube-split #youtubeMode{border:1px solid #31546c!important;border-radius:18px!important;background:#091827!important;padding:10px!important}
+ .youtube-split .right{gap:9px!important}.youtube-split .widget{border-radius:18px!important;border:1px solid #31546c!important}
+ .youtube-split footer{position:sticky!important;bottom:0!important;z-index:1900!important;background:#07121ff2!important;padding:6px 8px!important;height:66px!important;min-height:66px!important;grid-template-columns:repeat(3,1fr)!important}
+ .youtube-split footer .foot{height:52px!important;min-height:52px!important;border-radius:14px!important}
+}
